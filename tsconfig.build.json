@@ -1,0 +1,18 @@
+// used to build the package (not for editor linting).
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "outDir": "dist",
+    "types": ["node"],
+    "strict": true,
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "files": ["lib/index.ts"]
+}

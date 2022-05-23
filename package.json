@@ -1,0 +1,34 @@
+{
+  "name": "magic-ts",
+  "version": "0.0.0",
+  "description": "Typescript types so good they're magic!",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --fix --ext .ts .",
+    "build": "rm -rf ./dist && tsc -p tsconfig.build.json",
+    "format": "prettier -w ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Liam-Scott-Russell/magic-ts.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Liam-Scott-Russell/magic-ts/issues"
+  },
+  "homepage": "https://github.com/Liam-Scott-Russell/magic-ts#readme",
+  "devDependencies": {
+    "@types/jest": "^27.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "eslint": "^8.16.0",
+    "eslint-config-canonical": "^35.0.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^28.1.0",
+    "prettier": "^2.6.2",
+    "ts-jest": "^28.0.2",
+    "typescript": "^4.6.4"
+  }
+}

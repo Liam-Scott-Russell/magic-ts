@@ -1,0 +1,9 @@
+node_modules/
+lib/
+tests/
+*.log
+*.json
+*.ts
+*ignore
+*.md
+jest.config.ts
