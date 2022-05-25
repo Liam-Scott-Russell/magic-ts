@@ -2,7 +2,7 @@
   "name": "magic-ts",
   "version": "0.0.0",
   "description": "Typescript types so good they're magic!",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint --ext .ts .",
