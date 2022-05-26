@@ -1,0 +1,15 @@
+{
+    "eslint.format.enable": true,                                   // Enables Eslint formatting (--fix)
+    "eslint.lintTask.enable": true,                                 // Enables Eslint linting
+    "eslint.codeActionsOnSave.mode": "all",                         // Fix warnings and errors on save
+    "eslint.run": "onType",                                         // Eslint will lint after typing
+    "eslint.onIgnoredFiles": "warn",                                // Warn on ignored files
+    "eslint.packageManager": "npm",                                 // Specify package manager to Eslint
+    "eslint.codeAction.showDocumentation": {                        // Show documentation for code actions
+        "enable": true
+    },
+
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",        // Use ESLint formatter for TypeScript
+    }
+}

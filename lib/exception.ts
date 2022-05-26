@@ -1,4 +1,7 @@
-import { type Boolean } from '.';
+import {
+  type Inspect,
+  type Boolean,
+} from '.';
 
 /**
  * An error of some kind.
@@ -6,13 +9,11 @@ import { type Boolean } from '.';
  * @template Message - A string explaining the exception.
  * @template Context - An optional type that provides additional context about the exception.
  */
-export type Exception<Message extends string, Context = unknown> =
-  | `Exception!`
-  | {
-      __message: Message;
-      // eslint-disable-next-line typescript-sort-keys/interface
-      __context: Context;
-    };
+export type Exception<Message extends string, Context = unknown> = {
+  __message: `Exception: ${Message}`,
+  // eslint-disable-next-line typescript-sort-keys/interface
+  __context: Context,
+};
 
 /**
  * Type alias for {@link Exception}.
@@ -20,3 +21,5 @@ export type Exception<Message extends string, Context = unknown> =
 export type New<Message extends string, Context = unknown> = Exception<Message, Context>;
 
 export type IsException<T> = T extends Exception<infer _Message, infer _Context> ? Boolean.True : Boolean.False;
+
+type _t2 = Inspect<Exception<'should throw'>>;
