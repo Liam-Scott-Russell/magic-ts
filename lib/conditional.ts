@@ -1,4 +1,4 @@
-import { type Boolean } from '..';
+import { type Boolean } from '.';
 
 /**
  * Returns {@link Then} if {@link Condition} extends {@link Boolean.True}, otherwise returns {@link Else}.
