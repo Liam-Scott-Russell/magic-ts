@@ -1,6 +1,6 @@
 import {
   type Exception,
-} from '.';
+} from './exception';
 
 /**
  * Uniquely marks a type {@link T} using {@link Name} so that is distinct from other types {@link T}.
@@ -31,12 +31,7 @@ export type Brand<T, Name extends string, Key extends string = '__brand'> = T & 
   [K in Key]: Name;
 };
 
-/**
- * Alias for {@link Brand}.
- */
-export type New<T, Name extends string, Key extends string = '__brand'> = Brand<T, Name, Key>;
-
 export type Unbrand<T, Key extends string = '__brand'> = T extends Brand<infer U, infer _Name, Key> ? U : T;
 export type UnBrand$<T, Key extends string = '__brand'> = T extends Brand<infer U, infer _Name, Key>
   ? U
-  : Exception.New<`Type was not branded with Key ${Key}`, T>;
+  : Exception<`Type was not branded with Key ${Key}`, T>;

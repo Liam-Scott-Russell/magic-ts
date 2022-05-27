@@ -1,7 +1,7 @@
 import {
-  type Inspect,
-  type Boolean,
-} from '.';
+  type False,
+  type True,
+} from './boolean';
 
 /**
  * An error of some kind.
@@ -15,11 +15,4 @@ export type Exception<Message extends string, Context = unknown> = {
   __context: Context,
 };
 
-/**
- * Type alias for {@link Exception}.
- */
-export type New<Message extends string, Context = unknown> = Exception<Message, Context>;
-
-export type IsException<T> = T extends Exception<infer _Message, infer _Context> ? Boolean.True : Boolean.False;
-
-type _t2 = Inspect<Exception<'should throw'>>;
+export type IsException<T> = T extends Exception<infer _Message, infer _Context> ? True : False;
