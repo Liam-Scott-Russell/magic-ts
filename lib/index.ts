@@ -6,3 +6,4 @@ export * as Conditional from './conditional';
 export * as Brand from './brand';
 export * as Exception from './exception';
 export * as Inheritance from './inheritance';
+export * as Object from './object';

@@ -16,3 +16,7 @@ export type Exception<Message extends string, Context = unknown> = {
 };
 
 export type IsException<T> = T extends Exception<infer _Message, infer _Context> ? True : False;
+
+export type TryCatch<Operation, OnException> = Operation extends Exception<infer _Message, infer _Context>
+  ? OnException
+  : Operation;
