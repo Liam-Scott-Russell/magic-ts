@@ -2,8 +2,6 @@ import {
   type Brand,
 } from './brand';
 import {
-  type Inspect,
-
   type Object,
 } from '.';
 

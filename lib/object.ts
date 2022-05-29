@@ -38,6 +38,8 @@ export type PropertyKeys = number | string | symbol;
  * | Populated Object | `{ foo: 'bar' }` | Yes | Yes | No | Yes |
  * | Empty Object | `{}` | Yes | Yes | Yes | Yes |
  *
+ * These inconsistencies are why Typescript will warn you when you use `{}` or `object`.
+ *
  * @example Generating the table above. Will throw a compiler error when the types cannot be assigned.
  *
  * type TargetType = Any;

@@ -1,6 +1,10 @@
 import {
   type Exception,
 } from './exception';
+import {
+
+  type Object,
+} from '.';
 
 /**
  * Uniquely marks a type {@link T} using {@link Name} so that is distinct from other types {@link T}.
@@ -13,7 +17,7 @@ import {
  * @example
  * type MyType = { a: string; b: number };
  *
- * // type BrandedType = {
+ * // type SimpleBrandedType = {
  * //     a: string;
  * //     b: number;
  * //     __brand: "MyBrandedType";
@@ -27,11 +31,11 @@ import {
  * // }
  * type CustomBrandedType = Inspect<Brand<MyType, `CustomBrandedType`, `__CustomKey`>>;
  */
-export type Brand<T, Name extends string, Key extends string = '__brand'> = T & {
+export type Brand<T extends Object.Any, Name extends string, Key extends string = '__brand'> = T & {
   [K in Key]: Name;
 };
 
-export type Unbrand<T, Key extends string = '__brand'> = T extends Brand<infer U, infer _Name, Key> ? U : T;
-export type UnBrand$<T, Key extends string = '__brand'> = T extends Brand<infer U, infer _Name, Key>
+export type Unbrand<T extends Object.Any, Key extends string = '__brand'> = T extends Brand<infer U, infer _Name, Key> ? U : T;
+export type UnBrand$<T extends Object.Any, Key extends string = '__brand'> = T extends Brand<infer U, infer _Name, Key>
   ? U
   : Exception<`Type was not branded with Key ${Key}`, T>;
