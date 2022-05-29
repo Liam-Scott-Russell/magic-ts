@@ -1,11 +1,5 @@
-import {
-  type False,
-  type True,
-} from './boolean';
-import {
-  type And,
-  type Not,
-} from './conditional';
+import { type False, type True } from "./boolean";
+import { type And, type Not } from "./conditional";
 
 /**
  * Returns {@link True} if {@link T} extends {@link U}, otherwise returns {@link False}.
@@ -27,27 +21,29 @@ export type IsExtensionOf<T, U> = T extends U ? True : False;
  * @template U - Maybe the "Child" type.
  * @returns - {@link True} or {@link False}
  */
-export type IsParentOf<T, U> = And<IsExtensionOf<U, T>, Not<IsExtensionOf<T, U>>>;
+export type IsParentOf<T, U> = And<
+  IsExtensionOf<U, T>,
+  Not<IsExtensionOf<T, U>>
+>;
 
-// type Child = {
-//   a: string,
-//   b: boolean,
-//   c: number,
-// };
-
-// type Sibling = {
-//   a: string,
-//   b: boolean,
-//   c: number,
-// };
-
-// type Parent = {
-//   a: string,
-//   b: boolean,
-// };
-
-// type t1 = Assert<Not<IsParentOf<Child, Parent>>>;
-// type t2 = Assert<Not<IsParentOf<Sibling, Parent>>>;
-// type t3 = Assert<Not<IsParentOf<Sibling, Child>>>;
-// type t4 = Assert<Not<IsParentOf<Child, Sibling>>>;
-// type t5 = Assert<IsParentOf<Parent, Child>>;
+/**
+ * Returns {@link OnYes} if {@link T} exactly matches {@link U}, otherwise returns {@link OnNo}.
+ *
+ * {@link OnYes} and {@link OnNo} are optional, and can be omitted if not needed.
+ *
+ * Specifying {@link OnYes} and {@link OnNo} is useful for mapping between types, and can replace the following common snippet:
+ *
+ * @example <caption>You don't need `If` and `Equals` if you're mapping between types:</caption>
+ *
+ * type TypeGuard = If<Equals<T, U>, T, Exception<'T and U do not match'>>
+ * type SimpleTypeGuard = Equals<T, U, T, Exception<'T and U do not match'>>
+ * @template T The type to check.
+ * @template U The type to check against.
+ * @template OnYes The type to return if {@link T} exactly matches {@link U}. Defaults to {@link True}.
+ * @template OnNo The type to return if {@link T} does not exactly match {@link U}. Defaults to {@link False}.
+ */
+export type Equals<T, U, OnYes = True, OnNo = False> = (<G>() => G extends T
+  ? 1
+  : 2) extends <G>() => G extends U ? 1 : 2
+  ? OnYes
+  : OnNo;

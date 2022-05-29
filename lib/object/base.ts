@@ -1,3 +1,8 @@
+import { type False, type True } from "../boolean";
+import { type If } from "../conditional";
+import { type Equals } from "../inheritance";
+import { type KeysAllowed } from "./key";
+
 /**
  * Represents a strictly empty object.
  *
@@ -5,14 +10,7 @@
  *
  * Note that you cannot reliably extend this type (except with `{}`).
  */
-export type Empty = Record<PropertyKeys, never>;
-
-/**
- * The possible types that are allowed to index an Object.
- *
- * Equivalent to `keyof any`.
- */
-export type PropertyKeys = number | string | symbol;
+export type Empty = Record<KeysAllowed, never>;
 
 /**
  * Represents any unknown object.
@@ -37,6 +35,7 @@ export type PropertyKeys = number | string | symbol;
  * | Empty Array | `[]` | Yes | Yes | No | No |
  * | Populated Object | `{ foo: 'bar' }` | Yes | Yes | No | Yes |
  * | Empty Object | `{}` | Yes | Yes | Yes | Yes |
+ * | Never | `never` | Yes | Yes | Yes | Yes |
  *
  * These inconsistencies are why Typescript will warn you when you use `{}` or `object`.
  *
@@ -59,6 +58,12 @@ export type PropertyKeys = number | string | symbol;
  * type testPopulatedArray = Tester<[1, 2, 3]>;
  * type testEmptyArray = Tester<[]>;
  * type testPopulatedObject = Tester<{ foo: 'bar', }>;
- * type testEmptyObject = Tester<{}>;
+ * const empty = {};
+ * type testEmptyObject = Tester<typeof empty>;
+ * type testNever = Tester<never>;
  */
-export type Any = Record<PropertyKeys, unknown>;
+export type Any = Record<KeysAllowed, unknown>;
+
+export type IsEmpty<T> = If<Equals<T, Empty>, True, False>;
+
+export type IsObject<T> = Equals<T, Any>;
