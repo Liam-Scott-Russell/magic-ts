@@ -1,5 +1,4 @@
-import { type Exception } from "./exception";
-import { type Object } from ".";
+import { type Exception, type Object } from "@magic-ts";
 
 /**
  * Uniquely marks a type {@link T} using {@link Name} so that is distinct from other types {@link T}.
@@ -43,4 +42,4 @@ export type UnBrand$<
   Key extends string = "__brand"
 > = T extends Brand<infer U, infer _Name, Key>
   ? U
-  : Exception<`Type was not branded with Key ${Key}`, T>;
+  : Exception.Exception<`Type was not branded with Key ${Key}`, T>;

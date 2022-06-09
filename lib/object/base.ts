@@ -1,7 +1,4 @@
-import { type False, type True } from "../boolean";
-import { type If } from "../conditional";
-import { type Equals } from "../inheritance";
-import { type KeysAllowed } from "./key";
+import { type Inheritance, type Object } from "@magic-ts";
 
 /**
  * Represents a strictly empty object.
@@ -10,7 +7,7 @@ import { type KeysAllowed } from "./key";
  *
  * Note that you cannot reliably extend this type (except with `{}`).
  */
-export type Empty = Record<KeysAllowed, never>;
+export type Empty = Record<Object.KeysAllowed, never>;
 
 /**
  * Represents any unknown object.
@@ -62,8 +59,8 @@ export type Empty = Record<KeysAllowed, never>;
  * type testEmptyObject = Tester<typeof empty>;
  * type testNever = Tester<never>;
  */
-export type Any = Record<KeysAllowed, unknown>;
+export type Any = Record<Object.KeysAllowed, unknown>;
 
-export type IsEmpty<T> = If<Equals<T, Empty>, True, False>;
+export type IsEmpty<T> = Inheritance.Equals<T, Empty>;
 
-export type IsObject<T> = Equals<T, Any>;
+export type IsObject<T> = Inheritance.Equals<T, Any>;

@@ -16,7 +16,12 @@
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["lib/*"],
+      "@magic-ts": ["lib"]
+    }
   },
   "files": ["lib/index.ts"]
 }

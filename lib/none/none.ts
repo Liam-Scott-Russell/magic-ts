@@ -1,12 +1,14 @@
-import { type Brand } from "./brand";
-import { type Exception } from "./exception";
-import { type Equals } from "./inheritance";
-import { type Object } from ".";
+import {
+  type Brand,
+  type Exception,
+  type Inheritance,
+  type Object,
+} from "@magic-ts";
 
 /**
  * A different "nullable" object, as an alternative to `null`, `unknown`, `undefined`, or `never`.
  */
-export type None = Brand<Object.Any, "None">;
+export type None = Brand.Brand<Object.Any, "None">;
 
 /**
  * The nil types from raw JavaScript/Typescript. All replaced with {@link None}.
@@ -16,53 +18,58 @@ export type None = Brand<Object.Any, "None">;
 export type NilTypes = never | null | undefined;
 
 /**
- * Transforms {@link T} into {@link None} if {@link T} == `null`, otherwise @throws {@link Exception}.
+ * Transforms {@link T} into {@link None} if {@link T} == `null`, otherwise @throws {@link Exception.Exception}.
  */
-export type FromNull$<T> = Equals<
+export type FromNull$<T> = Inheritance.Equals<
   T,
   null,
   None,
-  Exception<"T does not equal `null`", T>
+  Exception.Exception<"T does not equal `null`", T>
 >;
 
 /**
- * Transforms {@link T} into {@link None} if {@link T} == `undefined`, otherwise @throws {@link Exception}.
+ * Transforms {@link T} into {@link None} if {@link T} == `undefined`, otherwise @throws {@link Exception.Exception}.
  */
-export type FromUndefined$<T> = Equals<
+export type FromUndefined$<T> = Inheritance.Equals<
   T,
   undefined,
   None,
-  Exception<"T does not equal `undefined`", T>
+  Exception.Exception<"T does not equal `undefined`", T>
 >;
 
 /**
- * Transforms {@link T} into {@link None} if {@link T} == `never`, otherwise @throws {@link Exception}.
+ * Transforms {@link T} into {@link None} if {@link T} == `never`, otherwise @throws {@link Exception.Exception}.
  */
-export type FromNever$<T> = Equals<
+export type FromNever$<T> = Inheritance.Equals<
   T,
   never,
   None,
-  Exception<"T does not equal `never`", T>
+  Exception.Exception<"T does not equal `never`", T>
 >;
 
-export type FromNever<T> = Equals<T, never, None, T>;
+export type FromNever<T> = Inheritance.Equals<T, never, None, T>;
 
-export type FromNilType<T extends NilTypes> = Equals<
+export type FromNilType<T extends NilTypes> = Inheritance.Equals<
   T,
   null,
   None,
-  Equals<
+  Inheritance.Equals<
     T,
     undefined,
     None,
-    Equals<
+    Inheritance.Equals<
       T,
       never,
       None,
-      Exception<"T does not equal `null`, `undefined`, or `never`", T>
+      Exception.Exception<"T does not equal `null`, `undefined`, or `never`", T>
     >
   >
 >;
 
-export type GetOrDefault<T, Default extends T> = Equals<T, None, Default, T>;
-export type GetOrDefaultW<T, Default> = Equals<T, None, Default, T>;
+export type GetOrDefault<T, Default extends T> = Inheritance.Equals<
+  T,
+  None,
+  Default,
+  T
+>;
+export type GetOrDefaultW<T, Default> = Inheritance.Equals<T, None, Default, T>;

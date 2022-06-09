@@ -1,6 +1,4 @@
-import { type Not, type If, type And } from "../conditional";
-import { type Equals, type IsExtensionOf } from "../inheritance";
-import { type Any } from "./base";
+import { type Object, type Conditional, type Inheritance } from "@magic-ts";
 
 /**
  * The possible types that are allowed to index an Object.
@@ -15,16 +13,16 @@ export type KeysAllowed = keyof any;
 /**
  * The keys of an object.
  *
- * Essentially an alias for `keyof T`, but with a type guard to {@link Any}.
+ * Essentially an alias for `keyof T`, but with a type guard to {@link Object.Any}.
  *
  * @param T - The object to get the keys of.
  */
-export type KeysOf<T extends Any> = keyof T;
+export type KeysOf<T extends Object.Any> = keyof T;
 
-export type KeyExists<T extends Any, K extends KeysAllowed> = IsExtensionOf<
-  K,
-  KeysOf<T>
->;
+export type KeyExists<
+  T extends Object.Any,
+  K extends KeysAllowed
+> = Inheritance.IsExtensionOf<K, KeysOf<T>>;
 
 /**
  * Return the keys of {@link T} that map to a value of type {@link U}.
@@ -32,8 +30,8 @@ export type KeyExists<T extends Any, K extends KeysAllowed> = IsExtensionOf<
  * @template T - The object to get the keys of.
  * @template U - The type to filter the keys by.
  */
-export type KeysThatMapToField<T extends Any, U> = {
-  [K in KeysOf<T>]: Equals<T[K], U, K, never>;
+export type KeysThatMapToField<T extends Object.Any, U> = {
+  [K in KeysOf<T>]: Inheritance.Equals<T[K], U, K, never>;
 }[KeysOf<T>];
 
 /**
@@ -49,16 +47,20 @@ export type KeysThatMapToField<T extends Any, U> = {
  * @template Keys - The keys to filter.
  */
 export type KeysFilterToSameType<
-  T extends Any,
-  U extends Any,
+  T extends Object.Any,
+  U extends Object.Any,
   Keys extends KeysAllowed
-  > = {
-    [K in Keys]: If<
-      KeyExists<T, K>,
-      If<KeyExists<U, K>, Equals<T[K], U[K], K, never>, never>,
+> = {
+  [K in Keys]: Conditional.If<
+    KeyExists<T, K>,
+    Conditional.If<
+      KeyExists<U, K>,
+      Inheritance.Equals<T[K], U[K], K, never>,
       never
-    >;
-  }[Keys];
+    >,
+    never
+  >;
+}[Keys];
 
 /**
  * The keys that are present either in {@link T} or {@link U}.
@@ -68,7 +70,9 @@ export type KeysFilterToSameType<
  * @template T - The first object to get the keys of.
  * @template U - The second object to get the keys of.
  */
-export type KeysUnion<T extends Any, U extends Any> = KeysOf<T> | KeysOf<U>;
+export type KeysUnion<T extends Object.Any, U extends Object.Any> =
+  | KeysOf<T>
+  | KeysOf<U>;
 
 /**
  * The keys that are present in both {@link T} and {@link U}, where the types are the same.
@@ -79,9 +83,9 @@ export type KeysUnion<T extends Any, U extends Any> = KeysOf<T> | KeysOf<U>;
  * @template U - The second object to get the keys of.
  */
 export type KeysUnionStrict<
-  T extends Any,
-  U extends Any
-  > = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
+  T extends Object.Any,
+  U extends Object.Any
+> = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
 
 /**
  * The keys that are present in both {@link T} and {@link U}.
@@ -91,8 +95,12 @@ export type KeysUnionStrict<
  * @template T - The first object to get the keys of.
  * @template U - The second object to get the keys of.
  */
-export type KeysIntersection<T extends Any, U extends Any> = {
-  [K in KeysUnion<T, U>]: If<And<KeyExists<T, K>, KeyExists<U, K>>, K, never>;
+export type KeysIntersection<T extends Object.Any, U extends Object.Any> = {
+  [K in KeysUnion<T, U>]: Conditional.If<
+    Conditional.And<KeyExists<T, K>, KeyExists<U, K>>,
+    K,
+    never
+  >;
 }[KeysUnion<T, U>];
 
 /**
@@ -104,9 +112,9 @@ export type KeysIntersection<T extends Any, U extends Any> = {
  * @template U - The second object to get the keys of.
  */
 export type KeysIntersectionStrict<
-  T extends Any,
-  U extends Any
-  > = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
+  T extends Object.Any,
+  U extends Object.Any
+> = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
 
 /**
  * The keys that are present in {@link T} but not in {@link U}.
@@ -116,9 +124,9 @@ export type KeysIntersectionStrict<
  * @template T - The first object to get the keys of.
  * @template U - The second object to get the keys of.
  */
-export type KeysDifference<T extends Any, U extends Any> = {
-  [K in KeysUnion<T, U>]: If<
-    And<KeyExists<T, K>, Not<KeyExists<U, K>>>,
+export type KeysDifference<T extends Object.Any, U extends Object.Any> = {
+  [K in KeysUnion<T, U>]: Conditional.If<
+    Conditional.And<KeyExists<T, K>, Conditional.Not<KeyExists<U, K>>>,
     K,
     never
   >;

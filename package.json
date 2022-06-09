@@ -9,7 +9,7 @@
     "lint:fix": "prettier --write '**/*.{ts, md, json}' && eslint --fix --ext .ts .",
     "build": "rm -rf ./dist && npm run barrel && tsc -p tsconfig.build.json && echo 'Built magic-ts!'",
     "check-deps": "madge --circular --warning --extensions ts --ts-config ./tsconfig.build.json .",
-    "barrel": "barrelsby --delete --directory=./lib"
+    "barrel": "barrelsby --delete --directory=./lib --location=below && cp lib/index.ts.bak lib/index.ts && echo 'Barreled magic-ts!'"
   },
   "repository": {
     "type": "git",

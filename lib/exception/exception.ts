@@ -1,4 +1,4 @@
-import { type False, type True } from "./boolean";
+import { type Boolean } from "@magic-ts";
 
 /**
  * An error of some kind.
@@ -13,8 +13,8 @@ export type Exception<Message extends string, Context = unknown> = {
 };
 
 export type IsException<T> = T extends Exception<infer _Message, infer _Context>
-  ? True
-  : False;
+  ? Boolean.True
+  : Boolean.False;
 
 export type TryCatch<Operation, OnException> = Operation extends Exception<
   infer _Message,

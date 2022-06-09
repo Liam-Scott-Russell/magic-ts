@@ -1,8 +1,7 @@
-import { type True } from "./boolean";
-import { type Exception } from "./exception";
+import { type Exception, type Boolean } from "@magic-ts";
 
-export type Assert<T extends True> = T;
+export type Assert<T extends Boolean.True> = T;
 
-export type Assert$<T> = T extends True
+export type Assert$<T> = T extends Boolean.True
   ? T
-  : Exception<"Truth assertion failed", T>;
+  : Exception.Exception<"Truth assertion failed", T>;
