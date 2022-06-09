@@ -52,13 +52,13 @@ export type KeysFilterToSameType<
   T extends Any,
   U extends Any,
   Keys extends KeysAllowed
-> = {
-  [K in Keys]: If<
-    KeyExists<T, K>,
-    If<KeyExists<U, K>, Equals<T[K], U[K], K, never>, never>,
-    never
-  >;
-}[Keys];
+  > = {
+    [K in Keys]: If<
+      KeyExists<T, K>,
+      If<KeyExists<U, K>, Equals<T[K], U[K], K, never>, never>,
+      never
+    >;
+  }[Keys];
 
 /**
  * The keys that are present either in {@link T} or {@link U}.
@@ -81,7 +81,7 @@ export type KeysUnion<T extends Any, U extends Any> = KeysOf<T> | KeysOf<U>;
 export type KeysUnionStrict<
   T extends Any,
   U extends Any
-> = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
+  > = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
 
 /**
  * The keys that are present in both {@link T} and {@link U}.
@@ -106,7 +106,7 @@ export type KeysIntersection<T extends Any, U extends Any> = {
 export type KeysIntersectionStrict<
   T extends Any,
   U extends Any
-> = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
+  > = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
 
 /**
  * The keys that are present in {@link T} but not in {@link U}.
@@ -132,7 +132,3 @@ export type KeysDifference<T extends Any, U extends Any> = {
  * @template T - The first object to get the keys of.
  * @template U - The second object to get the keys of.
  */
-export type KeysDifferenceStrict<
-  T extends Any,
-  U extends Any
-> = KeysFilterToSameType<T, U, KeysDifference<T, U>>;
