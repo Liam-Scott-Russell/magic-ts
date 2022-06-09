@@ -2,13 +2,12 @@ import {
   type Brand,
   type Exception,
   type Inheritance,
-  type Object,
 } from "@magic-ts";
 
 /**
  * A different "nullable" object, as an alternative to `null`, `unknown`, `undefined`, or `never`.
  */
-export type None = Brand.Brand<Object.Any, "None">;
+export type None = Brand.Brand<{}, "None">;
 
 /**
  * The nil types from raw JavaScript/Typescript. All replaced with {@link None}.

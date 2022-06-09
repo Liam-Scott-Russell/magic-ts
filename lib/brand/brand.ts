@@ -1,4 +1,4 @@
-import { type Exception, type Object } from "@magic-ts";
+import { type Exception, type Record } from "@magic-ts";
 
 /**
  * Uniquely marks a type {@link T} using {@link Name} so that is distinct from other types {@link T}.
@@ -26,7 +26,7 @@ import { type Exception, type Object } from "@magic-ts";
  * type CustomBrandedType = Inspect<Brand<MyType, `CustomBrandedType`, `__CustomKey`>>;
  */
 export type Brand<
-  T extends Object.Any,
+  T extends Record.Any,
   Name extends string,
   Key extends string = "__brand"
 > = T & {
@@ -34,11 +34,11 @@ export type Brand<
 };
 
 export type Unbrand<
-  T extends Object.Any,
+  T extends Record.Any,
   Key extends string = "__brand"
 > = T extends Brand<infer U, infer _Name, Key> ? U : T;
 export type UnBrand$<
-  T extends Object.Any,
+  T extends Record.Any,
   Key extends string = "__brand"
 > = T extends Brand<infer U, infer _Name, Key>
   ? U

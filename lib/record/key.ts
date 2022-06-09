@@ -1,7 +1,7 @@
-import { type Object, type Conditional, type Inheritance } from "@magic-ts";
+import { type Record, type Conditional, type Inheritance } from "@magic-ts";
 
 /**
- * The possible types that are allowed to index an Object.
+ * The possible types that are allowed to index a Record.
  *
  * Useful instead of naively assuming a `string`.
  *
@@ -11,26 +11,26 @@ import { type Object, type Conditional, type Inheritance } from "@magic-ts";
 export type KeysAllowed = keyof any;
 
 /**
- * The keys of an object.
+ * The keys of a record.
  *
- * Essentially an alias for `keyof T`, but with a type guard to {@link Object.Any}.
+ * Essentially a alias for `keyof T`, but with a type guard to {@link Record.Any}.
  *
- * @param T - The object to get the keys of.
+ * @param T - The record to get the keys of.
  */
-export type KeysOf<T extends Object.Any> = keyof T;
+export type KeysOf<T extends Record.Any> = keyof T;
 
 export type KeyExists<
-  T extends Object.Any,
+  T extends Record.Any,
   K extends KeysAllowed
 > = Inheritance.IsExtensionOf<K, KeysOf<T>>;
 
 /**
  * Return the keys of {@link T} that map to a value of type {@link U}.
  *
- * @template T - The object to get the keys of.
+ * @template T - The record to get the keys of.
  * @template U - The type to filter the keys by.
  */
-export type KeysThatMapToField<T extends Object.Any, U> = {
+export type KeysThatMapToField<T extends Record.Any, U> = {
   [K in KeysOf<T>]: Inheritance.Equals<T[K], U, K, never>;
 }[KeysOf<T>];
 
@@ -42,13 +42,13 @@ export type KeysThatMapToField<T extends Object.Any, U> = {
  *
  * Used to make "strict" versions of various key selectors.
  *
- * @template T - The first object to get the keys of.
- * @template U - The second object to get the keys of.
+ * @template T - The first record to get the keys of.
+ * @template U - The second record to get the keys of.
  * @template Keys - The keys to filter.
  */
 export type KeysFilterToSameType<
-  T extends Object.Any,
-  U extends Object.Any,
+  T extends Record.Any,
+  U extends Record.Any,
   Keys extends KeysAllowed
 > = {
   [K in Keys]: Conditional.If<
@@ -67,10 +67,10 @@ export type KeysFilterToSameType<
  *
  * Does not check that the types are the same, see {@link KeysUnionStrict} for that.
  *
- * @template T - The first object to get the keys of.
- * @template U - The second object to get the keys of.
+ * @template T - The first record to get the keys of.
+ * @template U - The second record to get the keys of.
  */
-export type KeysUnion<T extends Object.Any, U extends Object.Any> =
+export type KeysUnion<T extends Record.Any, U extends Record.Any> =
   | KeysOf<T>
   | KeysOf<U>;
 
@@ -79,12 +79,12 @@ export type KeysUnion<T extends Object.Any, U extends Object.Any> =
  *
  * The strict version of {@link KeysUnion}.
  *
- * @template T - The first object to get the keys of.
- * @template U - The second object to get the keys of.
+ * @template T - The first record to get the keys of.
+ * @template U - The second record to get the keys of.
  */
 export type KeysUnionStrict<
-  T extends Object.Any,
-  U extends Object.Any
+  T extends Record.Any,
+  U extends Record.Any
 > = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
 
 /**
@@ -92,10 +92,10 @@ export type KeysUnionStrict<
  *
  * Does not check that the types are the same, see {@link KeysIntersectionStrict} for that.
  *
- * @template T - The first object to get the keys of.
- * @template U - The second object to get the keys of.
+ * @template T - The first record to get the keys of.
+ * @template U - The second record to get the keys of.
  */
-export type KeysIntersection<T extends Object.Any, U extends Object.Any> = {
+export type KeysIntersection<T extends Record.Any, U extends Record.Any> = {
   [K in KeysUnion<T, U>]: Conditional.If<
     Conditional.And<KeyExists<T, K>, KeyExists<U, K>>,
     K,
@@ -108,12 +108,12 @@ export type KeysIntersection<T extends Object.Any, U extends Object.Any> = {
  *
  * The strict version of {@link KeysIntersection}.
  *
- * @template T - The first object to get the keys of.
- * @template U - The second object to get the keys of.
+ * @template T - The first record to get the keys of.
+ * @template U - The second record to get the keys of.
  */
 export type KeysIntersectionStrict<
-  T extends Object.Any,
-  U extends Object.Any
+  T extends Record.Any,
+  U extends Record.Any
 > = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
 
 /**
@@ -121,10 +121,10 @@ export type KeysIntersectionStrict<
  *
  * Does not check that the types are the same, see {@link KeysDifferenceStrict} for that.
  *
- * @template T - The first object to get the keys of.
- * @template U - The second object to get the keys of.
+ * @template T - The first record to get the keys of.
+ * @template U - The second record to get the keys of.
  */
-export type KeysDifference<T extends Object.Any, U extends Object.Any> = {
+export type KeysDifference<T extends Record.Any, U extends Record.Any> = {
   [K in KeysUnion<T, U>]: Conditional.If<
     Conditional.And<KeyExists<T, K>, Conditional.Not<KeyExists<U, K>>>,
     K,
@@ -137,6 +137,6 @@ export type KeysDifference<T extends Object.Any, U extends Object.Any> = {
  *
  * The strict version of {@link KeysDifference}.
  *
- * @template T - The first object to get the keys of.
- * @template U - The second object to get the keys of.
+ * @template T - The first record to get the keys of.
+ * @template U - The second record to get the keys of.
  */

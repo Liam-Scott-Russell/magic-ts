@@ -1,20 +1,20 @@
-import { type Inheritance, type Object } from "@magic-ts";
+import { type Inheritance, type Record } from "@magic-ts";
 
 /**
- * Represents a strictly empty object.
+ * Represents a strictly empty record.
  *
  * See the assignment table on {@link Any} for the list of types that are considered empty.
  *
  * Note that you cannot reliably extend this type (except with `{}`).
  */
-export type Empty = Record<Object.KeysAllowed, never>;
+export type Empty = Record<Record.KeysAllowed, never>;
 
 /**
- * Represents any unknown object.
+ * Represents any unknown record.
  *
  * Use this type instead of `{}` or `object` to avoid edge cases.
  *
- * This table outlines which types can be assigned to the different ways of expressing objects.
+ * This table outlines which types can be assigned to the different ways of expressing objects/records.
  *
  * | Type | Example | `{}` | `object` | {@link Empty} | {@link Any} |
  * | ---- | ---- | ---- | ---- | ---- | ---- |
@@ -59,8 +59,8 @@ export type Empty = Record<Object.KeysAllowed, never>;
  * type testEmptyObject = Tester<typeof empty>;
  * type testNever = Tester<never>;
  */
-export type Any = Record<Object.KeysAllowed, unknown>;
+export type Any = Record<Record.KeysAllowed, unknown>;
 
 export type IsEmpty<T> = Inheritance.Equals<T, Empty>;
 
-export type IsObject<T> = Inheritance.Equals<T, Any>;
+export type IsRecord<T> = Inheritance.Equals<T, Any>;
