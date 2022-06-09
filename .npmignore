@@ -1,6 +1,7 @@
 node_modules/
 lib/
 tests/
+.tool-versions
 *.log
 *.json
 *.ts
