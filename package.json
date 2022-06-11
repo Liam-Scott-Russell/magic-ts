@@ -4,7 +4,11 @@
   "description": "Typescript types so good they're magic!",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "npm run doctest:generate && jest",
+    "doctest:generate": "tsdoc-testify --fileMatch 'lib/**/*.ts' && echo 'DocTests generated!'",
+    "doctest:cleanup": "rm -rf lib/**/*.doctest.ts && echo 'DocTests cleaned up!'",
+    "doctest:names": "find lib/**/*.doctest.ts",
+    "doctest:count": "find lib/**/*.doctest.ts | wc -l",
     "lint": "prettier --check . && eslint --ext .ts .",
     "lint:fix": "prettier --write '**/*.{ts, md, json}' && eslint --fix --ext .ts .",
     "build": "rm -rf ./dist && npm run barrel && tsc -p tsconfig.build.json && echo 'Built magic-ts!'",
