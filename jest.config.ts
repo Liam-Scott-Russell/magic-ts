@@ -1,22 +1,21 @@
-
-import type { Config } from '@jest/types';
+import { type Config } from "@jest/types";
 
 export default async (): Promise<Config.InitialOptions> => {
-    return {
-        maxWorkers: `80%`,
-        rootDir: `.`,
-        runner: `jest-runner`,
-        verbose: true,
-        preset: `ts-jest`,
-        globals: {
-            'ts-jest': {
-                tsconfig: `tsconfig.jest.json`,
-            },
-        },
-        collectCoverage: false,
-        testMatch: [`**/__tests__/**/*.+(ts)`, "**/*.doctest.ts"],
-        collectCoverageFrom: [`./src/**/*.ts`],
-        coveragePathIgnorePatterns: [`node_modules`],
-        moduleDirectories: [`node_modules`],
-    };
+  return {
+    collectCoverage: false,
+    collectCoverageFrom: [`./src/**/*.ts`],
+    coveragePathIgnorePatterns: [`node_modules`],
+    globals: {
+      "ts-jest": {
+        tsconfig: `tsconfig.jest.json`,
+      },
+    },
+    maxWorkers: `80%`,
+    moduleDirectories: [`node_modules`],
+    preset: `ts-jest`,
+    rootDir: `.`,
+    runner: `jest-runner`,
+    testMatch: [`**/__tests__/**/*.+(ts)`, "**/*.doctest.ts"],
+    verbose: true,
+  };
 };

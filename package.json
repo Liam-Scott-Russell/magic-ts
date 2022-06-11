@@ -10,7 +10,7 @@
     "doctest:names": "find lib/**/*.doctest.ts",
     "doctest:count": "find lib/**/*.doctest.ts | wc -l",
     "lint": "prettier --check . && eslint --ext .ts .",
-    "lint:fix": "prettier --write '**/*.{ts, md, json}' && eslint --fix --ext .ts .",
+    "format": "prettier --write '**/*.{ts, md, json}' && eslint --fix --ext .ts .",
     "build": "rm -rf ./dist && npm run barrel && tsc -p tsconfig.build.json && echo 'Built magic-ts!'",
     "check-deps": "madge --circular --warning --extensions ts --ts-config ./tsconfig.build.json .",
     "barrel": "barrelsby --delete --directory=./lib --location=below && cp lib/index.ts.bak lib/index.ts && echo 'Barreled magic-ts!'"
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Liam-Scott-Russell/magic-ts#readme",
   "devDependencies": {
+    "@jest/types": "^28.1.1",
     "@types/jest": "^27.5.1",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "barrelsby": "^2.3.4",
