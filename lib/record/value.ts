@@ -1,9 +1,4 @@
-import {
-  type Conditional,
-  type Inheritance,
-  type None,
-  type Record,
-} from "@magic-ts";
+import { type Conditional, type Inheritance, type None, type Record } from "..";
 
 /**
  * Return a union of the types of the values of {@link T}.

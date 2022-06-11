@@ -1,4 +1,4 @@
-import { type Inheritance, type Record } from "@magic-ts";
+import { type Inheritance, type Record } from "..";
 
 /**
  * Represents a strictly empty record.

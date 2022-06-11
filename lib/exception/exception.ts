@@ -1,4 +1,4 @@
-import { type Boolean } from "@magic-ts";
+import { type Boolean } from "..";
 
 /**
  * An error of some kind.

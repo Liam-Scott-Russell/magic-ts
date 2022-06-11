@@ -1,4 +1,4 @@
-import { type Boolean, type Conditional } from "@magic-ts";
+import { type Boolean, type Conditional } from "..";
 
 /**
  * Returns {@link Boolean.True} if {@link T} extends {@link U}, otherwise returns {@link Boolean.False}.

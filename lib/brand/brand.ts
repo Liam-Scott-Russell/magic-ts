@@ -1,4 +1,4 @@
-import { type Exception, type Record } from "@magic-ts";
+import { type Exception, type Record } from "..";
 
 /**
  * Uniquely marks a type {@link T} using {@link Name} so that is distinct from other types {@link T}.

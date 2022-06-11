@@ -1,4 +1,4 @@
-import { type Exception, type Boolean } from "@magic-ts";
+import { type Exception, type Boolean } from "..";
 
 export type Assert<T extends Boolean.True> = T;
 

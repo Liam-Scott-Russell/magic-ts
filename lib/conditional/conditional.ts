@@ -1,4 +1,4 @@
-import { type Boolean, type Inheritance } from "@magic-ts";
+import { type Boolean, type Inheritance } from "..";
 
 /**
  * Returns {@link Then} if {@link Condition} is {@link Boolean.True}, otherwise returns {@link Else}.

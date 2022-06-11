@@ -1,4 +1,4 @@
-import { type Brand, type Exception, type Inheritance } from "@magic-ts";
+import { type Brand, type Exception, type Inheritance } from "..";
 
 /**
  * A different "nullable" object, as an alternative to `null`, `unknown`, `undefined`, or `never`.

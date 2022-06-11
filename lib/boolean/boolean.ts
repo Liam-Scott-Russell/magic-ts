@@ -1,4 +1,4 @@
-import { type Brand } from "@magic-ts";
+import { type Brand } from "..";
 
 /**
  * The key to use to brand a type's truthhood.

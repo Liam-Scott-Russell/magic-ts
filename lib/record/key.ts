@@ -1,4 +1,4 @@
-import { type Record, type Conditional, type Inheritance } from "@magic-ts";
+import { type Record, type Conditional, type Inheritance } from "..";
 
 /**
  * The possible types that are allowed to index a Record.

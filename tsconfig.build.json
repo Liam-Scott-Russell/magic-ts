@@ -7,6 +7,7 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "declaration": true,
+    "emitDeclarationOnly": true,
     "outDir": "dist",
     "types": ["node"],
     "strict": true,
@@ -16,12 +17,7 @@
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["lib/*"],
-      "@magic-ts": ["lib"]
-    }
+    "forceConsistentCasingInFileNames": true
   },
   "files": ["lib/index.ts"]
 }
