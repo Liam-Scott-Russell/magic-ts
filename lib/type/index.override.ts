@@ -1,3 +1,7 @@
+/**
+ * @file Overrides default barrelsby generation.
+ */
+
 // Inspect is a top level export
 export { Inspect } from './inspect/inspect';
 
