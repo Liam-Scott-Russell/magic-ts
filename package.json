@@ -4,17 +4,39 @@
   "description": "Typescript types so good they're magic!",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "npm run doctest:generate && jest",
-    "doctest:generate": "tsdoc-testify --fileMatch 'lib/**/*.ts' && echo 'DocTests generated!'",
-    "doctest:cleanup": "rm -rf lib/**/*.doctest.ts && echo 'DocTests cleaned up!'",
-    "doctest:names": "find lib/**/*.doctest.ts",
-    "doctest:count": "find lib/**/*.doctest.ts | wc -l",
+    "pretest": "npm run doctest:generate",
+    "test": "jest",
+    "posttest": "npm run doctest:clean",
+
+    "doctest:generate": "tsdoc-testify --fileMatch 'lib/**/*.ts'",
+    "postdoctest:generate": "./scripts/doctest-names.sh && echo 'Generated doctests for magic-ts!'",
+
+    "predoctest:cleanup": "echo 'About to delete the following doctests:' && ./scripts/doctest-names.sh",
+    "doctest:cleanup": "./scripts/doctest-cleanup.sh",
+    "postdoctest:cleanup": "./scripts/doctest-count.sh && echo 'Cleaned up doctests for magic-ts!'",
+
+    "doctest:names": "./scripts/doctest-names.sh",
+
+    "doctest:count": "./scripts/doctest-count.sh",
+
     "lint": "prettier --check . && eslint --ext .ts .",
+    "postlint": "echo 'Linted magic-ts!'",
+
     "format": "prettier --write '**/*.{ts, md, json}' && eslint --fix --ext .ts .",
-    "build": "rm -rf ./dist && npm run barrel  && npm run format && npm run lint && tsc -p tsconfig.build.json && echo 'Built magic-ts!'",
-    "check-deps": "madge --circular --warning --extensions ts --ts-config ./tsconfig.build.json .",
+    "postformat": "echo 'Formatted magic-ts!'",
+
+    "prebuild": "rm -rf ./dist npm run doctest:cleanup && npm run barrel && npm run format",
+    "build": "tsc -p tsconfig.build.json",
+    "postbuild": "echo 'Built magic-ts!'",
+
+    "predependency:check": "npm run prebuild",
+    "dependency:check": "madge --circular --warning --extensions ts --ts-config ./tsconfig.build.json .",
+    "postdependency:check": "echo 'Checked the dependencies of magic-ts!'",
+
     "barrel": "barrelsby --config=./barrelsby.config.json",
-    "postbarrel": "cp ./lib/type/index.override.ts ./lib/type/index.ts && echo 'Barreled magic-ts!'"
+    "postbarrel": "cp ./lib/type/index.override.ts ./lib/type/index.ts && echo 'Barreled magic-ts!'",
+
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
