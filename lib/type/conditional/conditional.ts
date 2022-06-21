@@ -1,32 +1,35 @@
 import { type Boolean, type Inheritance } from "..";
 
 /**
- * Returns {@link Then} if {@link Condition} is {@link Boolean.True}, otherwise returns {@link Else}.
+ * Returns {@link OnTrue} if {@link Condition} is {@link Boolean.True}, otherwise returns {@link OnFalse}.
  *
  * Functions similar to a ternary statement:
- * - `condition ? then : else`
+ * - `Condition ? OnTrue : OnFalse`
  *
  * @template Condition - The condition to check.
- * @template Then - The type to return if {@link Condition} is {@link Boolean.True}.
- * @template Else - The type to return if {@link Condition} is {@link Boolean.False}
+ * @template OnTrue - The type to return if {@link Condition} is {@link Boolean.True}.
+ * @template OnFalse - The type to return if {@link Condition} is {@link Boolean.False}
  */
-export type If<Condition extends Boolean.Any, Then, Else> = Inheritance.Equals<
+export type If<Condition extends Boolean.Any, OnTrue, OnFalse> = Inheritance.IsEqual<
   Condition,
   Boolean.True,
-  Then,
-  Else
+  OnTrue,
+  OnFalse
 >;
+
 export type Or<A extends Boolean.Any, B extends Boolean.Any> = If<
   A,
   Boolean.True,
   If<B, Boolean.True, Boolean.False>
 >;
-export type And<A extends Boolean.Any, B extends Boolean.Any> = If<
+
+export type And<A extends Boolean.Any, B extends Boolean.Any, OnTrue = Boolean.True, OnFalse = Boolean.False> = If<
   A,
-  If<B, Boolean.True, Boolean.False>,
-  Boolean.False
+  If<B, OnTrue, OnFalse>,
+  OnFalse
 >;
-export type Not<A extends Boolean.Any> = Inheritance.Equals<
+
+export type Not<A extends Boolean.Any> = Inheritance.IsEqual<
   A,
   Boolean.True,
   Boolean.False,

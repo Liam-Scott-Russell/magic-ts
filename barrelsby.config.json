@@ -1,5 +1,6 @@
 {
   "directory": "./lib/",
   "delete": true,
-  "location": "all"
+  "location": "all",
+  "exclude": "/\\.\\/\\w+.doctest/"
 }

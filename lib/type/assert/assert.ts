@@ -1,6 +1,8 @@
 import { type Exception, type Boolean } from "..";
 
-export type Assert<T extends Boolean.True> = T;
+export type True<T extends Boolean.True> = T;
+
+export type False<T extends Boolean.False> = T;
 
 export type Assert$<T> = T extends Boolean.True
   ? T

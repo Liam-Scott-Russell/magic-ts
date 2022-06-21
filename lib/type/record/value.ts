@@ -36,7 +36,7 @@ export type ValuesUnion<T extends Record.Any, U extends Record.Any> =
 export type ValuesIntersection<
   T extends Record.Any,
   U extends Record.Any
-> = T[Record.KeysIntersectionStrict<T, U>];
+  > = T[Record.KeysIntersectionStrict<T, U>];
 
 /**
  * Returns {@link True} if {@link T} is a "leaf value", otherwise return {@link False}.
@@ -47,5 +47,5 @@ export type ValuesIntersection<
  */
 export type IsLeafValue<T> = Conditional.And<
   Inheritance.IsExtensionOf<T, Record.Any>,
-  Conditional.Not<Inheritance.Equals<T, Record.Empty>>
+  Conditional.Not<Inheritance.IsEqual<T, Record.Empty>>
 >;

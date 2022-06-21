@@ -61,6 +61,6 @@ export type Empty = Record<Record.KeysAllowed, never>;
  */
 export type Any = Record<Record.KeysAllowed, unknown>;
 
-export type IsEmpty<T> = Inheritance.Equals<T, Empty>;
+export type IsEmpty<T> = Inheritance.IsEqual<T, Empty>;
 
-export type IsRecord<T> = Inheritance.Equals<T, Any>;
+export type IsRecord<T> = Inheritance.IsEqual<T, Any>;

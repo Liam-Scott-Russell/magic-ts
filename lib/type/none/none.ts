@@ -15,7 +15,7 @@ export type NilTypes = never | null | undefined;
 /**
  * Transforms {@link T} into {@link None} if {@link T} == `null`, otherwise @throws {@link Exception.Exception}.
  */
-export type FromNull$<T> = Inheritance.Equals<
+export type FromNull$<T> = Inheritance.IsEqual<
   T,
   null,
   None,
@@ -25,7 +25,7 @@ export type FromNull$<T> = Inheritance.Equals<
 /**
  * Transforms {@link T} into {@link None} if {@link T} == `undefined`, otherwise @throws {@link Exception.Exception}.
  */
-export type FromUndefined$<T> = Inheritance.Equals<
+export type FromUndefined$<T> = Inheritance.IsEqual<
   T,
   undefined,
   None,
@@ -35,24 +35,24 @@ export type FromUndefined$<T> = Inheritance.Equals<
 /**
  * Transforms {@link T} into {@link None} if {@link T} == `never`, otherwise @throws {@link Exception.Exception}.
  */
-export type FromNever$<T> = Inheritance.Equals<
+export type FromNever$<T> = Inheritance.IsEqual<
   T,
   never,
   None,
   Exception.Exception<"T does not equal `never`", T>
 >;
 
-export type FromNever<T> = Inheritance.Equals<T, never, None, T>;
+export type FromNever<T> = Inheritance.IsEqual<T, never, None, T>;
 
-export type FromNilType<T extends NilTypes> = Inheritance.Equals<
+export type FromNilType<T extends NilTypes> = Inheritance.IsEqual<
   T,
   null,
   None,
-  Inheritance.Equals<
+  Inheritance.IsEqual<
     T,
     undefined,
     None,
-    Inheritance.Equals<
+    Inheritance.IsEqual<
       T,
       never,
       None,
@@ -61,10 +61,10 @@ export type FromNilType<T extends NilTypes> = Inheritance.Equals<
   >
 >;
 
-export type GetOrDefault<T, Default extends T> = Inheritance.Equals<
+export type GetOrDefault<T, Default extends T> = Inheritance.IsEqual<
   T,
   None,
   Default,
   T
 >;
-export type GetOrDefaultW<T, Default> = Inheritance.Equals<T, None, Default, T>;
+export type GetOrDefaultW<T, Default> = Inheritance.IsEqual<T, None, Default, T>;
