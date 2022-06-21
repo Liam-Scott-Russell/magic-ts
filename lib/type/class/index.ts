@@ -3,4 +3,4 @@
  */
 
 export * from "./class";
-export * from "./constructible";
+export * from "./constructable";
