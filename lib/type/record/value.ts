@@ -36,7 +36,7 @@ export type ValuesUnion<T extends Record.Any, U extends Record.Any> =
 export type ValuesIntersection<
   T extends Record.Any,
   U extends Record.Any
-  > = T[Record.KeysIntersectionStrict<T, U>];
+> = T[Record.KeysIntersectionStrict<T, U>];
 
 /**
  * Returns {@link True} if {@link T} is a "leaf value", otherwise return {@link False}.

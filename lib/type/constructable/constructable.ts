@@ -1,4 +1,9 @@
-import { type Boolean, type Exception, type Record, type Class, Assert, Inheritance, Inspect } from "..";
+import {
+  type Inspect,
+  type Exception,
+  type Record,
+  type Class
+} from "..";
 
 /**
  * Any {@link Constructor}'s parameters must extend this.
@@ -22,10 +27,10 @@ export type ConstructorParametersBase = any[];
  * @template ConstructorParameters The parameter array for this constructible's {@link Constructor} function.
  */
 export type Constructable<
-    StaticRecord extends Record.Any,
-    ConstructorParameters extends ConstructorParametersBase,
-    InstanceRecord extends Record.Any,
-    > = Constructor<ConstructorParameters, InstanceRecord> & StaticRecord;
+  StaticRecord extends Record.Any,
+  ConstructorParameters extends ConstructorParametersBase,
+  InstanceRecord extends Record.Any
+> = Constructor<ConstructorParameters, InstanceRecord> & StaticRecord;
 
 /**
  * A {@link Constructable} with default parameters, meaning it represents all possible constructables.
@@ -36,7 +41,7 @@ export type Constructable<
  *
  * Can't use {@link Record.Any} because it yields type errors.
  */
-export type Any = Constructable<{}, ConstructorParametersBase, {}>
+export type Any = Constructable<{}, ConstructorParametersBase, {}>;
 
 /**
  * A {@link Constructable} with an empty static record, no constructor parameters, and an empty instance type.
@@ -56,9 +61,9 @@ export type Base = Constructable<{ prototype: {} }, [], {}>;
  * @template ConstructorParameters The parameters used to create the {@link InstanceRecord}.
  */
 export type Constructor<
-    ConstructorParameters extends ConstructorParametersBase,
-    InstanceRecord extends Record.Any
-    > = new (...parameters: ConstructorParameters) => InstanceRecord;
+  ConstructorParameters extends ConstructorParametersBase,
+  InstanceRecord extends Record.Any
+> = new (...parameters: ConstructorParameters) => InstanceRecord;
 
 /**
  * The constructor parameters of a {@link Constructable} type.
@@ -66,16 +71,16 @@ export type Constructor<
  * Very similar to the {@link ConstructorParameters} builtin.
  */
 export type ConstructorParametersOf$<TConstructable extends Any> =
-    TConstructable extends Constructable<
-        infer _StaticRecord,
-        infer ConstructorParameters,
-        infer _InstanceRecord
-    >
+  TConstructable extends Constructable<
+    infer _StaticRecord,
+    infer ConstructorParameters,
+    infer _InstanceRecord
+  >
     ? ConstructorParameters
     : Exception.Exception<
         "ConstructorParametersOf: Could not determine the constructor parameters.",
         TConstructable
-    >;
+      >;
 
 /**
  * The instance type of a {@link Constructable} type.
@@ -83,25 +88,24 @@ export type ConstructorParametersOf$<TConstructable extends Any> =
  * Very similar to the {@link InstanceType} builtin.
  */
 export type InstanceRecordOf$<TConstructable extends Any> =
-    TConstructable extends Constructable<
-        infer _StaticRecord,
-        infer _ConstructorParameters,
-        infer InstanceRecord
-    >
+  TConstructable extends Constructable<
+    infer _StaticRecord,
+    infer _ConstructorParameters,
+    infer InstanceRecord
+  >
     ? InstanceRecord
     : Exception.Exception<
         "InstanceRecordOf$: Could not determine the constructor parameters.",
         TConstructable
-    >;
+      >;
 
 /**
  * The {@link Class.Constructor} function of a {@link Constructable} type.
  */
 export type ConstructorOf<TConstructor extends Any> = Constructor<
-    ConstructorParametersOf$<TConstructor>,
-    InstanceRecordOf$<TConstructor>
+  ConstructorParametersOf$<TConstructor>,
+  InstanceRecordOf$<TConstructor>
 >;
-
 
 /**
  * All of the static properties of a {@link Constructable} type.
@@ -109,24 +113,24 @@ export type ConstructorOf<TConstructor extends Any> = Constructor<
  * This includes the ones from {@link Class.StaticBase}.
  */
 export type StaticRecordOf$<TConstructable extends Any> =
-    TConstructable extends Constructable<
-        infer StaticRecord,
-        infer _ConstructorParameters,
-        infer _InstanceRecord
-    >
-    // HACK: Using Inspect here will strip off the constructor object
-    ? Inspect<StaticRecord>
+  TConstructable extends Constructable<
+    infer StaticRecord,
+    infer _ConstructorParameters,
+    infer _InstanceRecord
+  >
+    ? // HACK: Using Inspect here will strip off the constructor object
+      Inspect<StaticRecord>
     : Exception.Exception<
         "StaticRecordOf$: Could not determine the static record.",
         TConstructable
-    >;
+      >;
 
 /**
  * The static properties of a {@link Constructable} type, excluding the ones from {@link Class.StaticBase}.
  */
 export type StaticRecordOfStrict<TConstructable extends Any> = Omit<
-    StaticRecordOf$<TConstructable>,
-    Class.StaticBaseKeys
+  StaticRecordOf$<TConstructable>,
+  Class.StaticBaseKeys
 >;
 
 // TODO: EXAMPLE

@@ -10,12 +10,11 @@ import { type Boolean, type Inheritance } from "..";
  * @template OnTrue - The type to return if {@link Condition} is {@link Boolean.True}.
  * @template OnFalse - The type to return if {@link Condition} is {@link Boolean.False}
  */
-export type If<Condition extends Boolean.Any, OnTrue, OnFalse> = Inheritance.IsEqual<
-  Condition,
-  Boolean.True,
+export type If<
+  Condition extends Boolean.Any,
   OnTrue,
   OnFalse
->;
+> = Inheritance.IsEqual<Condition, Boolean.True, OnTrue, OnFalse>;
 
 export type Or<A extends Boolean.Any, B extends Boolean.Any> = If<
   A,
@@ -23,11 +22,12 @@ export type Or<A extends Boolean.Any, B extends Boolean.Any> = If<
   If<B, Boolean.True, Boolean.False>
 >;
 
-export type And<A extends Boolean.Any, B extends Boolean.Any, OnTrue = Boolean.True, OnFalse = Boolean.False> = If<
-  A,
-  If<B, OnTrue, OnFalse>,
-  OnFalse
->;
+export type And<
+  A extends Boolean.Any,
+  B extends Boolean.Any,
+  OnTrue = Boolean.True,
+  OnFalse = Boolean.False
+> = If<A, If<B, OnTrue, OnFalse>, OnFalse>;
 
 export type Not<A extends Boolean.Any> = Inheritance.IsEqual<
   A,

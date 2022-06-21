@@ -11,7 +11,7 @@ import { type Inspect, type Record } from "..";
  * ```
  */
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export abstract class Empty { }
+export abstract class Empty {}
 
 /**
  *

@@ -67,4 +67,9 @@ export type GetOrDefault<T, Default extends T> = Inheritance.IsEqual<
   Default,
   T
 >;
-export type GetOrDefaultW<T, Default> = Inheritance.IsEqual<T, None, Default, T>;
+export type GetOrDefaultW<T, Default> = Inheritance.IsEqual<
+  T,
+  None,
+  Default,
+  T
+>;

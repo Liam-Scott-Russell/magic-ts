@@ -22,7 +22,7 @@ export type KeysOf<T extends Record.Any> = keyof T;
 export type KeyExists<
   T extends Record.Any,
   K extends KeysAllowed
-  > = Inheritance.IsExtensionOf<K, KeysOf<T>>;
+> = Inheritance.IsExtensionOf<K, KeysOf<T>>;
 
 /**
  * Return the keys of {@link T} that map to a value of type {@link U}.
@@ -50,17 +50,17 @@ export type KeysFilterToSameType<
   T extends Record.Any,
   U extends Record.Any,
   Keys extends KeysAllowed
-  > = {
-    [K in Keys]: Conditional.If<
-      KeyExists<T, K>,
-      Conditional.If<
-        KeyExists<U, K>,
-        Inheritance.IsEqual<T[K], U[K], K, never>,
-        never
-      >,
+> = {
+  [K in Keys]: Conditional.If<
+    KeyExists<T, K>,
+    Conditional.If<
+      KeyExists<U, K>,
+      Inheritance.IsEqual<T[K], U[K], K, never>,
       never
-    >;
-  }[Keys];
+    >,
+    never
+  >;
+}[Keys];
 
 /**
  * The keys that are present either in {@link T} or {@link U}.
@@ -85,7 +85,7 @@ export type KeysUnion<T extends Record.Any, U extends Record.Any> =
 export type KeysUnionStrict<
   T extends Record.Any,
   U extends Record.Any
-  > = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
+> = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
 
 /**
  * The keys that are present in both {@link T} and {@link U}.
@@ -114,7 +114,7 @@ export type KeysIntersection<T extends Record.Any, U extends Record.Any> = {
 export type KeysIntersectionStrict<
   T extends Record.Any,
   U extends Record.Any
-  > = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
+> = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
 
 /**
  * The keys that are present in {@link T} but not in {@link U}.

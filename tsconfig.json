@@ -4,5 +4,5 @@
     "types": ["node", "jest"],
     "emitDeclarationOnly": false
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.doctest.ts", "tests/**/*.ts"]
 }

@@ -1,5 +1,4 @@
-import { Assert, type Inheritance, type Record } from "..";
-import { KeysAllowed } from "./key";
+import { type Record } from "..";
 
 /**
  * Represents a strictly empty record.
@@ -46,7 +45,6 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * type Null_Extends_EmptyRecord              = Assert.False<Inheritance.IsExtensionOf<null                 , EmptyRecord>>;
  * type Undefined_Extends_EmptyRecord         = Assert.False<Inheritance.IsExtensionOf<undefined            , EmptyRecord>>;
  * ```
- *
  * @example Types that do not extend `{}`
  * ```typescript
  * type EmptyRecord = typeof {};
@@ -67,7 +65,6 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * type Never_Extends_EmptyRecord             = Assert.True<Inheritance.IsExtensionOf<never                 , EmptyRecord>>;
  * type EmptyClass_Extends_EmptyRecord        = Assert.True<Inheritance.IsExtensionOf<EmptyClass            , EmptyRecord>>;
  * ```
- *
  * @example Types that extend `object`
  * ```typescript
  * const symbol = Symbol("foo");
@@ -81,7 +78,6 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * type Null_Extends_Object                   = Assert.False<Inheritance.IsExtensionOf<null                 , object>>;
  * type Undefined_Extends_Object              = Assert.False<Inheritance.IsExtensionOf<undefined            , object>>;
  * ```
- *
  * @example Types that do not extend `object`
  * ```typescript
  * type EmptyRecord = typeof {};
@@ -95,7 +91,6 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * type Never_Extends_Object                  = Assert.True<Inheritance.IsExtensionOf<never                 , object>>;
  * type EmptyClass_Extends_Object             = Assert.True<Inheritance.IsExtensionOf<EmptyClass            , object>>;
  * ```
- *
  * @example Types that extend {@link Empty}.
  * ```typescript
  * type String_Extends_Empty                  = Assert.False<Inheritance.IsExtensionOf<'foo'                , Empty>>;
@@ -113,13 +108,11 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * type PopulatedObject_Extends_Empty         = Assert.False<Inheritance.IsExtensionOf<{ foo: 'bar' }       , Empty>>;
  * type EmptyClass_Extends_Empty              = Assert.False<Inheritance.IsExtensionOf<EmptyClass           , Empty>>;
  * ```
- *
  * @example Types that do not extend {@link Empty}.
  * ```typescript
  * type EmptyRecord_Extends_Empty             = Assert.True<Inheritance.IsExtensionOf<EmptyRecord           , Empty>>;
  * type Never_Extends_Empty                   = Assert.True<Inheritance.IsExtensionOf<never                 , Empty>>;
  * ```
- *
  * @example Types that extend {@link Any}.
  * ```typescript
  * type String_Extends_Any                    = Assert.False<Inheritance.IsExtensionOf<'foo'                , Any>>;
@@ -136,7 +129,6 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * type EmptyArray_Extends_Any                = Assert.False<Inheritance.IsExtensionOf<[]                   , Any>>;
  * type EmptyClass_Extends_Any                = Assert.False<Inheritance.IsExtensionOf<EmptyClass           , Any>>;
  * ```
- *
  * @example Types that do not extend {@link Any}.
  * ```typescript
  * type PopulatedObject_Extends_Any           = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar' }        , Any>>;
