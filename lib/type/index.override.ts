@@ -10,6 +10,7 @@ export * as Boolean from "./boolean";
 export * as Brand from "./brand";
 export * as Class from "./class";
 export * as Conditional from "./conditional";
+export * as Constructable from "./constructable";
 export * as Exception from "./exception";
 export * as Inheritance from "./inheritance";
 export * as None from "./none";

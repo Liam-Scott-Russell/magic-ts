@@ -1,4 +1,9 @@
-import { type Record, type Conditional, type Inheritance } from "..";
+import {
+  type Record,
+  type Boolean,
+  type Conditional,
+  type Inheritance,
+} from "..";
 
 /**
  * The possible types that are allowed to index a Record.
@@ -21,8 +26,10 @@ export type KeysOf<T extends Record.Any> = keyof T;
 
 export type KeyExists<
   T extends Record.Any,
-  K extends KeysAllowed
-> = Inheritance.IsExtensionOf<K, KeysOf<T>>;
+  K extends KeysAllowed,
+  OnTrue = Boolean.True,
+  OnFalse = Boolean.False
+> = K extends KeysOf<T> ? OnTrue : OnFalse;
 
 /**
  * Return the keys of {@link T} that map to a value of type {@link U}.
@@ -49,17 +56,13 @@ export type KeysThatMapToField<T extends Record.Any, U> = {
 export type KeysFilterToSameType<
   T extends Record.Any,
   U extends Record.Any,
-  Keys extends KeysAllowed
+  Keys extends KeysOf<T> | KeysOf<U>
 > = {
-  [K in Keys]: Conditional.If<
-    KeyExists<T, K>,
-    Conditional.If<
-      KeyExists<U, K>,
-      Inheritance.IsEqual<T[K], U[K], K, never>,
-      never
-    >,
-    never
-  >;
+  [K in Keys]: K extends keyof T
+    ? K extends keyof U
+      ? Inheritance.IsEqual<T[K], U[K], K, never>
+      : never
+    : never;
 }[Keys];
 
 /**
@@ -96,11 +99,11 @@ export type KeysUnionStrict<
  * @template U - The second record to get the keys of.
  */
 export type KeysIntersection<T extends Record.Any, U extends Record.Any> = {
-  [K in KeysUnion<T, U>]: Conditional.If<
-    Conditional.And<KeyExists<T, K>, KeyExists<U, K>>,
-    K,
-    never
-  >;
+  [K in KeysUnion<T, U>]: K extends keyof T
+    ? K extends keyof U
+      ? K
+      : never
+    : never;
 }[KeysUnion<T, U>];
 
 /**

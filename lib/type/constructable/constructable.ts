@@ -1,9 +1,4 @@
-import {
-  type Inspect,
-  type Exception,
-  type Record,
-  type Class
-} from "..";
+import { type Inspect, type Exception, type Record, type Class } from "..";
 
 /**
  * Any {@link Constructor}'s parameters must extend this.
@@ -111,6 +106,8 @@ export type ConstructorOf<TConstructor extends Any> = Constructor<
  * All of the static properties of a {@link Constructable} type.
  *
  * This includes the ones from {@link Class.StaticBase}.
+ *
+ * HACK: Using Inspect here will strip off the constructor object
  */
 export type StaticRecordOf$<TConstructable extends Any> =
   TConstructable extends Constructable<
@@ -118,8 +115,7 @@ export type StaticRecordOf$<TConstructable extends Any> =
     infer _ConstructorParameters,
     infer _InstanceRecord
   >
-    ? // HACK: Using Inspect here will strip off the constructor object
-      Inspect<StaticRecord>
+    ? Inspect<StaticRecord>
     : Exception.Exception<
         "StaticRecordOf$: Could not determine the static record.",
         TConstructable
