@@ -9,9 +9,7 @@ import { type Conditional, type Inheritance, type None, type Record } from "..";
  *
  * @template T - The record to get the properties of.
  */
-export type ValuesOf<T extends Record.Any> = None.FromNever<
-  T[Record.KeysOf<T>]
->;
+export type ValuesOf<T extends Record.Any> = T[Record.KeysOf<T>];
 
 /**
  * Return a union of the types of the values of {@link T} and {@link U}.
@@ -36,7 +34,7 @@ export type ValuesUnion<T extends Record.Any, U extends Record.Any> =
 export type ValuesIntersection<
   T extends Record.Any,
   U extends Record.Any
-> = T[Record.KeysIntersectionStrict<T, U>];
+  > = T[Record.KeysIntersectionStrict<T, U>];
 
 /**
  * Returns {@link True} if {@link T} is a "leaf value", otherwise return {@link False}.
