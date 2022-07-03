@@ -16,10 +16,20 @@
     "sourceType": "module",
     "project": "tsconfig.eslint.json"
   },
-  "plugins": ["canonical", "unused-imports", "eslint-plugin-tsdoc"],
+  "plugins": [
+    "canonical",
+    "unused-imports",
+    "eslint-plugin-tsdoc"
+  ],
   "rules": {
     "tsdoc/syntax": "warn",
-
+    "func-style": [
+      "error",
+      "declaration",
+      {
+        "allowArrowFunctions": true
+      }
+    ],
     "no-unused-vars": "off",
     "canonical/import-specifier-newline": "off",
     "@typescript-eslint/no-unused-vars": "off",
