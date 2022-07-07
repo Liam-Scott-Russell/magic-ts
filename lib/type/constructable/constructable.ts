@@ -11,21 +11,154 @@ import { type Inspect, type Exception, type Record, type Class } from "..";
 export type ConstructorParametersBase = any[];
 
 /**
- * A constructible is a {@link StaticRecord} that has a {@link Constructor} which returns an {@link InstanceRecord}.
+ * A constructible is a static record {@link S} that has a {@link Constructor} which returns an instance record {@link I}.
  *
  * The most common constructible is a `class`'s constructible. To get the constructible type from a class do `type ClassConstructable = typeof ClassName`.
  *
- * The values of the {@link StaticRecord} are accessable via `ConstructableObject.keyName`.
+ * The values of the static record {@link S} are accessable via `ConstructableObject.keyName`.
  *
- * @template StaticRecord The static type of this constructible.
- * @template InstanceType The instace type returned by this constructible's {@link Constructor} function.
- * @template ConstructorParameters The parameter array for this constructible's {@link Constructor} function.
+ * @template S The static type of this constructible.
+ * @template C The parameter array for this constructible's {@link Constructor} function.
+ * @template I The instance type returned by this constructible's {@link Constructor} function.
+ * @example
+ * ```typescript
+ * type StaticRecord = {
+ *   staticMethod: () => string;
+ *   readonly staticProperty: string;
+ * };
+ *
+ * type InstanceRecord = {
+ *   hello: (otherPerson: string) => string;
+ *   name: string;
+ * };
+ *
+ * type ConstructorParameters = [name: string, _unusedField: number];
+ *
+ * class MyTestClass {
+ *   public readonly name: string;
+ *
+ *   public hello(otherPerson: string) {
+ *     return `hello ${otherPerson}`;
+ *   }
+ *
+ *   public static readonly staticProperty: string = "staticProperty";
+ *
+ *   public static staticMethod(): string {
+ *     return "staticMethod";
+ *   }
+ *
+ *   public constructor(name: string, _unusedField: number) {
+ *     this.name = name;
+ *   }
+ * }
+ *
+ * // A constructable is instantiated just like a class
+ * const parameters: ConstructorParameters = ["someName", 123]
+ * const instanceOfMyTestClass: InstanceRecord = new MyTestClass(...parameters)
+ *
+ * //The `MyTestClass` does extends a `Constructable`
+ * type MatchingConstructable = Constructable.Constructable<
+ *   StaticRecord,
+ *   ConstructorParameters,
+ *   InstanceRecord
+ * >;
+ * type ExtendsConstructable = Assert.True<
+ *   Inheritance.IsExtensionOf<typeof MyTestClass, MatchingConstructable>
+ * >;
+ *
+ * // The static type must be extended by the constructable instance
+ * type ConstructableWithDifferentStaticType = Constructable.Constructable<
+ *   { not: "defined" },
+ *   ConstructorParameters,
+ *   InstanceRecord
+ * >;
+ * type StaticTypeMismatch = Assert.False<
+ *   Inheritance.IsExtensionOf<
+ *     typeof MyTestClass,
+ *     ConstructableWithDifferentStaticType
+ *   >
+ * >;
+ *
+ * // A constructable can extend the static type
+ * type SubTypeOfStaticRecord = { staticMethod: () => string }
+ * type IsSubTypeOfStaticRecord = Assert.True<
+ *   Inheritance.IsExtensionOf<StaticRecord, SubTypeOfStaticRecord>
+ * >;
+ * type ConstructableWithStaticSubType = Constructable.Constructable<
+ *   SubTypeOfStaticRecord,
+ *   ConstructorParameters,
+ *   InstanceRecord
+ * >;
+ * type ExtendsStaticSubTypeConstructable = Assert.True<
+ *   Inheritance.IsExtensionOf<
+ *     typeof MyTestClass,
+ *     ConstructableWithStaticSubType
+ *   >
+ * >;
+ *
+ * // A constructable can extend the instance type
+ * type SubTypeOfInstanceRecord = Omit<InstanceRecord, "name">;
+ * type IsSubtypeOfInstanceRecord = Assert.True<
+ *   Inheritance.IsExtensionOf<InstanceRecord, SubTypeOfInstanceRecord>
+ * >;
+ * type ConstructableWithInstanceSubType = Constructable.Constructable<
+ *   StaticRecord,
+ *   ConstructorParameters,
+ *   SubTypeOfInstanceRecord
+ * >;
+ * type ExtendsInstanceSubTypeConstructable = Assert.True<
+ *   Inheritance.IsExtensionOf<typeof MyTestClass, ConstructableWithInstanceSubType>
+ * >
+ *
+ * type ConstructableWithDifferentInstanceType = Constructable.Constructable<
+ *   StaticRecord,
+ *   ConstructorParameters,
+ *   { not: "defined" }
+ * >;
+ * type InstanceTypeMismatch = Assert.False<
+ *   Inheritance.IsExtensionOf<
+ *     typeof MyTestClass,
+ *     ConstructableWithDifferentInstanceType
+ *   >
+ * >;
+ *
+ *
+ * // A constructable can use arbitrary names for the constructor parameters
+ * type RenamedConstructorParameters = [renamedName: string, stillAnUnusedFiled: number]
+ * type _isParentOfConstructorParameters = Assert.True<
+ *   Inheritance.IsExtensionOf<ConstructorParameters, RenamedConstructorParameters>
+ * >
+ * type ConstructableWithRenamedConstructorParameters = Constructable.Constructable<
+ *   StaticRecord,
+ *   RenamedConstructorParameters,
+ *   InstanceRecord
+ * >
+ * type ExtendsConstructableWithRenamedConstructorParameters = Assert.True<
+ *   Inheritance.IsExtensionOf<
+ *     typeof MyTestClass,
+ *     ConstructableWithRenamedConstructorParameters
+ *   >
+ * >
+ *
+ * // A  constructable must have the same number, and type of constructor parameters
+ * type ConstructableWithDifferentConstructorParametersType = Constructable.Constructable<
+ *   StaticRecord,
+ *   ["not", "defined"],
+ *   InstanceRecord
+ * >;
+ * type ConstructorParametersTypeMismatch = Assert.False<
+ *   Inheritance.IsExtensionOf<
+ *     typeof MyTestClass,
+ *     ConstructableWithDifferentConstructorParametersType
+ *   >
+ * >;
+ * ```
  */
 export type Constructable<
-  StaticRecord extends Record.Any,
-  ConstructorParameters extends ConstructorParametersBase,
-  InstanceRecord extends Record.Any
-> = Constructor<ConstructorParameters, InstanceRecord> & StaticRecord;
+  S extends Record.Any,
+  C extends ConstructorParametersBase,
+  I extends Record.Any
+> = Constructor<C, I> & S;
 
 /**
  * A {@link Constructable} with default parameters, meaning it represents all possible constructables.
@@ -50,28 +183,80 @@ export type Empty = Constructable<Record.Empty, [], Record.Empty>;
 export type Base = Constructable<{ prototype: {} }, [], {}>;
 
 /**
- * A constructor is a function that takes a parameter array {@link ConstructorParameters} and returns an {@link InstanceRecord}.
+ * A constructor is a function that takes a parameter array {@link C} and returns an instance type {@link I}.
  *
- * @template InstanceRecord The type returned by this constructor.
- * @template ConstructorParameters The parameters used to create the {@link InstanceRecord}.
+ * @template C The parameters used to create the instance type {@link I}.
+ * @template I The type returned by this constructor.
  */
 export type Constructor<
-  ConstructorParameters extends ConstructorParametersBase,
-  InstanceRecord extends Record.Any
-> = new (...parameters: ConstructorParameters) => InstanceRecord;
+  C extends ConstructorParametersBase,
+  I extends Record.Any
+> = abstract new (...parameters: C) => I;
 
 /**
  * The constructor parameters of a {@link Constructable} type.
  *
  * Very similar to the {@link ConstructorParameters} builtin.
+ *
+ * @example
+ * ```typescript
+ * class MyTestClass {
+ *   public readonly name: string;
+ *
+ *   public hello(otherPerson: string) {
+ *     return `hello ${otherPerson}`;
+ *   }
+ *
+ *   public static readonly staticProperty: string = "staticProperty";
+ *
+ *   public static staticMethod(): string {
+ *     return "staticMethod";
+ *   }
+ *
+ *   public constructor(name: string, _unusedField: number) {
+ *     this.name = name;
+ *   }
+ * }
+ *
+ * type CanGetMultipleConstructorParameters = Assert.True<
+ *   Inheritance.IsEqual<
+ *     [name: string, _unusedField: number],
+ *     ConstructorParametersOf$<typeof MyTestClass>
+ *   >
+ * >
+ * ```
+ * @example
+ * ```typescript
+ * class EmptyClass { }
+ *
+ * type CanGetNoConstructorParameters = Assert.True<
+ *   Inheritance.IsEqual<
+ *     [],
+ *     ConstructorParametersOf$<typeof EmptyClass>
+ *   >
+ * >
+ * ```
+ * @example
+ * ```typescript
+ * class WithInferredProperties {
+ *   constructor(
+ *     public readonly name: string,
+ *     public readonly age: number,
+ *     private readonly birthday: Date,
+ *   ) { }
+ * }
+ *
+ * type CanGetInferredPropertyConstructorParameters = Assert.True<
+ *   Inheritance.IsEqual<
+ *     [name: string, age: number, birthday: Date],
+ *     ConstructorParametersOf$<typeof WithInferredProperties>
+ *   >
+ * >
+ * ```
  */
 export type ConstructorParametersOf$<TConstructable extends Any> =
-  TConstructable extends Constructable<
-    infer _StaticRecord,
-    infer ConstructorParameters,
-    infer _InstanceRecord
-  >
-    ? ConstructorParameters
+  TConstructable extends Constructable<infer _S, infer C, infer _I>
+    ? C
     : Exception.Exception<
         "ConstructorParametersOf: Could not determine the constructor parameters.",
         TConstructable
@@ -83,12 +268,8 @@ export type ConstructorParametersOf$<TConstructable extends Any> =
  * Very similar to the {@link InstanceType} builtin.
  */
 export type InstanceRecordOf$<TConstructable extends Any> =
-  TConstructable extends Constructable<
-    infer _StaticRecord,
-    infer _ConstructorParameters,
-    infer InstanceRecord
-  >
-    ? InstanceRecord
+  TConstructable extends Constructable<infer _S, infer _C, infer I>
+    ? I
     : Exception.Exception<
         "InstanceRecordOf$: Could not determine the constructor parameters.",
         TConstructable
@@ -130,120 +311,66 @@ export type StaticRecordOfStrict<TConstructable extends Any> = Omit<
 >;
 
 // TODO: EXAMPLE
-// type StaticRecord = {
-//     staticMethod: () => string;
-//     readonly staticProperty: string;
-// };
+// class MyTestClass {
+//   public readonly name: string;
 
-// type InstanceRecord = {
-//     hello: (otherPerson: string) => string;
-//     name: string;
-// };
+//   public hello(otherPerson: string) {
+//     return `hello ${otherPerson}`;
+//   }
 
-// type ConstructorParameters = [name: string, _unusedField: number];
+//   public static readonly staticProperty: string = "staticProperty";
 
-// const MyTestClassConstructable: Constructable<StaticRecord, ConstructorParameters, InstanceRecord> = class {
-//     public readonly name: string;
+//   public static staticMethod(): string {
+//     return "staticMethod";
+//   }
 
-//     public hello(otherPerson: string) {
-//         return `hello ${otherPerson}`;
-//     }
-
-//     public static readonly staticProperty: string = "staticProperty";
-
-//     public static staticMethod(): string {
-//         return "staticMethod";
-//     }
-
-//     public constructor(name: string, _unusedField: number) {
-//         this.name = name;
-//     }
+//   public constructor(name: string, _unusedField: number) {
+//     this.name = name;
+//   }
 // }
 
-// //we can instantiate a constructable just like a class
-// const parameters: ConstructorParameters = ["someName", 123]
-// const _instanceOfMyTestClass: InstanceRecord = new MyTestClassConstructable(...parameters)
+// type MultipleMemberInstanceRecord = {
+//   hello: (otherPerson: string) => string;
+//   readonly name: string;
+// };
 
-// //The `MyTestClassConstructable` does extends a `Constructable`
-// type MatchingConstructable = Constructable<
-//     StaticRecord,
-//     ConstructorParameters,
-//     InstanceRecord
-// >;
-// type _ShouldMatch = Assert.True<
-//     Inheritance.IsExtensionOf<typeof MyTestClassConstructable, MatchingConstructable>
+// type CanGetInstanceRecordWithMultipleMembers = Assert.True<
+//   Inheritance.IsEqual<
+//     MultipleMemberInstanceRecord,
+//     InstanceRecordOf$<typeof MyTestClass>
+//   >
 // >;
 
-// //The static type must be extended by the constructable instance
+// class EmptyClass {}
 
-// type ConstructableWithDifferentStaticType = Constructable<
-//     { not: "defined" },
-//     ConstructorParameters,
-//     InstanceRecord
-// >;
-// type _StaticTypeMismatch = Assert.False<
-//     Inheritance.IsExtensionOf<
-//         typeof MyTestClassConstructable,
-//         ConstructableWithDifferentStaticType
-//     >
+// type CanGetNoInstanceRecord = Assert.True<
+//   Inheritance.IsEqual<{}, InstanceRecordOf$<typeof EmptyClass>>
 // >;
 
-// type SubTypeOfStaticRecord = { staticMethod: () => string }
-// type _isSubTypeOfStaticRecord = Assert.True<
-//     Inheritance.IsExtensionOf<StaticRecord, SubTypeOfStaticRecord>
-// >;
-// type ConstructableWithStaticSubType = Constructable<
-//     SubTypeOfStaticRecord,
-//     ConstructorParameters,
-//     InstanceRecord
-// >;
-// type _StaticSubTypeMatches = Assert.True<
-//     Inheritance.IsExtensionOf<
-//         typeof MyTestClassConstructable,
-//         ConstructableWithStaticSubType
-//     >
-// >;
+// class WithInferredProperties {
+//   constructor(
+//     public readonly name: string,
+//     public readonly age: number,
+//     private readonly birthday: Date
+//   ) {}
+// }
 
-// type ParentOfInstanceRecord = Omit<InstanceRecord, "name">;
-// type _isParentOfInstanceRecord = Assert.True<
-//     Inheritance.IsExtensionOf<InstanceRecord, ParentOfInstanceRecord>
-// >;
-// type ConstructableWithParentInstanceType = Constructable<
-//     StaticRecord,
-//     ConstructorParameters,
-//     ParentOfInstanceRecord,
-//     >;
+// type t1 = InstanceRecordOf$<typeof WithInferredProperties>;
+// type t2 = Inspect<WithInferredProperties>;
 
-// type ConstructableWithDifferentInstanceType = Constructable<
-//     StaticRecord,
-//     ConstructorParameters,
-//     { not: "defined" }
-// >;
-// type _InstanceTypeMismatch = Assert.False<
-//     Inheritance.IsExtensionOf<
-//         typeof MyTestClassConstructable,
-//         ConstructableWithDifferentInstanceType
-//     >
-// >;
+// type InferredPropertyInstanceRecord = {
+//   readonly age: number;
+//   readonly name: string;
+// };
 
-// type RenamedConstructorParameters = [renamedName: string, stillAnUnusedFiled: number]
-// type _isParentOfConstructorParameters = Assert.True<
-//     Inheritance.IsExtensionOf<ConstructorParameters, RenamedConstructorParameters>
-// >
-// type ConstructableWithRenamedConstructorParameters = Constructable<
-//     StaticRecord,
-//     RenamedConstructorParameters,
-//     InstanceRecord
-// >
+// type t1_eq_t2 = Inheritance.IsEqual<t1, t2>;
 
-// type ConstructableWithDifferentConstructorParametersType = Constructable<
-//     StaticRecord,
-//     ["not", "defined"],
-//     InstanceRecord
-// >;
-// type _ConstructorParametersTypeMismatch = Assert.False<
-//     Inheritance.IsExtensionOf<
-//         typeof MyTestClassConstructable,
-//         ConstructableWithDifferentConstructorParametersType
-//     >
+// type t1_eq_inferred = Inheritance.IsEqual<t1, InferredPropertyInstanceRecord>;
+// type t2_eqt_inferred = Inheritance.IsEqual<t2, InferredPropertyInstanceRecord>;
+
+// type CanGetInferredPropertyInstanceRecord = Assert.True<
+//   Inheritance.IsEqual<
+//     InferredPropertyInstanceRecord,
+//     InstanceRecordOf$<typeof WithInferredProperties>
+//   >
 // >;
