@@ -4,4 +4,5 @@
 
 export * from "./base";
 export * from "./key";
+export * from "./key.d";
 export * from "./value";
