@@ -8,7 +8,8 @@
     "canonical",
     "canonical/jest",
     "canonical/typescript",
-    "canonical/prettier"
+    "canonical/prettier",
+    "plugin:jsdoc/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,10 +20,9 @@
   "plugins": [
     "canonical",
     "unused-imports",
-    "eslint-plugin-tsdoc"
+    "eslint-plugin-jsdoc"
   ],
   "rules": {
-    "tsdoc/syntax": "warn",
     "func-style": [
       "error",
       "declaration",
@@ -42,6 +42,11 @@
         "varsIgnorePattern": "^_\\w*",
         "argsIgnorePattern": "^_\\w*"
       }
-    ]
+    ],
+    "jsdoc/no-types": "error",
+    "jsdoc/require-param-type": "off",
+    "jsdoc/require-return-type": "off",
+    "jsdoc/require-property-type": "off",
+    "jsdoc/require-description-complete-sentence": "warn"
   }
 }

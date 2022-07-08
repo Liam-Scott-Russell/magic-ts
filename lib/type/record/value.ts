@@ -39,7 +39,7 @@ export type ValuesIntersection<
 /**
  * Returns {@link True} if {@link T} is a "leaf value", otherwise return {@link False}.
  *
- * A leaf value is a value that is not a record (e.g. string, number, boolean, function etc.)
+ * A leaf value is a value that is not a record (e.g. String, number, boolean, function etc.).
  *
  * Additionally, a leaf value is defined as not being a {@link Empty} record.
  */

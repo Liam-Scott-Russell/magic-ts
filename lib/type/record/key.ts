@@ -45,7 +45,7 @@ export type KeysThatMapToField<T extends Record.Any, U> = {
  * Given a {@link T}, a {@link U}, and a union of {@link KeysAllowed} {@link Keys}, return the keys that
  * are present in {@link T} and are present in {@link U}, and that have the same type.
  *
- * i.e. where T[K] === U[K] (for valid `K`).
+ * I.e. Where T[K] === U[K] (for valid `K`).
  *
  * Used to make "strict" versions of various key selectors.
  *

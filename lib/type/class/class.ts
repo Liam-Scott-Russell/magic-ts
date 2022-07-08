@@ -8,7 +8,7 @@ import { type Inspect, type Record } from "..";
  * Equivalent to the constructable:
  * ```typescript
  * type EmptyConstructable = Constructable.Constructable<{"prototype": {}}, [], {}>
- * ```
+ * ```.
  */
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export abstract class Empty {}

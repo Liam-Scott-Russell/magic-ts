@@ -1,13 +1,14 @@
 import { type Boolean, type Conditional } from "..";
 
 /**
+ * .
  * Returns {@link Boolean.True} if {@link ExtendedType} extends {@link BaseType}, otherwise returns {@link Boolean.False}.
  *
- * This is a wrapper around Typescript's `ExtendedType extends BaseType ? true : false` statement.
+ * This is a wrapper around Typescript's `ExtendedType extends BaseType ? True : false` statement.
  *
  * @template ExtendedType - Maybe the "child" type.
  * @template BaseType - Maybe the "base" type.
- * @returns - {@link Boolean.True} or {@link Boolean.False}
+ * @returns - {@link Boolean.True} Or {@link Boolean.False}.
  * @example
  *
  * ```typescript
@@ -114,7 +115,7 @@ export type IsExtensionOfStrict<ExtendedType, BaseType> = IsEqual<
  * @template MaybeSuperType - Maybe the "super" type.
  * @template OnTrue - Type to return if the expression is true. Defaults to {@link Boolean.True}.
  * @template OnFalse - Type to return if the expression is false. Defaults to {@link Boolean.False}.
- * @returns - {@link Boolean.True} or {@link Boolean.False} by default, overridden by {@link OnTrue} or {@link OnFalse}.
+ * @returns - Returns {@link Boolean.True} or {@link Boolean.False} by default, overridden by {@link OnTrue} or {@link OnFalse}.
  * @example
  * ```typescript
  * import { Inheritance, Assert } from "magic-ts";
@@ -190,7 +191,7 @@ export type IsSubTypeOf<
  * @template MaybeSubType - Maybe the "sub" type.
  * @template OnTrue - Type to return if the expression is true. Defaults to {@link Boolean.True}.
  * @template OnFalse - Type to return if the expression is false. Defaults to {@link Boolean.False}.
- * @returns - {@link Boolean.True} or {@link Boolean.False}
+ * @returns - {@link Boolean.True} Or {@link Boolean.False}.
  */
 export type IsSuperTypeOf<
   MaybeSuperType,
@@ -207,14 +208,15 @@ export type IsSuperTypeOf<
 /**
  * Returns {@link OnTrue} if {@link T} exactly matches {@link U}, otherwise returns {@link OnFalse}.
  *
- * {@link OnTrue} and {@link OnFalse} are optional, and can be omitted if not needed.
+ * The type parameters {@link OnTrue} and {@link OnFalse} are optional, and can be omitted if not needed.
  *
- * Specifying {@link OnTrue} and {@link OnFalse} is useful for mapping between types, and can replace the following common snippet:
+ * Specifying {@link OnTrue} and {@link OnFalse} is useful for mapping between types, and can replace the following common snippet.
  *
- * @example <caption>You don't need `If` and `Equals` if you're mapping between types:</caption>
- *
+ * @example You don't need `If` and `Equals` if you're mapping between types:
+ * ```typescript
  * type TypeGuard = If<Equals<T, U>, T, Exception<'T and U do not match'>>
  * type SimpleTypeGuard = Equals<T, U, T, Exception<'T and U do not match'>>
+ * ```
  * @template T The type to check.
  * @template U The type to check against.
  * @template OnTrue The type to return if {@link T} exactly matches {@link U}. Defaults to {@link Boolean.True}.

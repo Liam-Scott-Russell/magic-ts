@@ -3,12 +3,11 @@ import { type Boolean, type Inheritance } from "..";
 /**
  * Returns {@link OnTrue} if {@link Condition} is {@link Boolean.True}, otherwise returns {@link OnFalse}.
  *
- * Functions similar to a ternary statement:
- * - `Condition ? OnTrue : OnFalse`
+ * Functions similar to a ternary statement: `Condition ? OnTrue : OnFalse`.
  *
  * @template Condition - The condition to check.
  * @template OnTrue - The type to return if {@link Condition} is {@link Boolean.True}.
- * @template OnFalse - The type to return if {@link Condition} is {@link Boolean.False}
+ * @template OnFalse - The type to return if {@link Condition} is {@link Boolean.False}.
  */
 export type If<
   Condition extends Boolean.Any,
