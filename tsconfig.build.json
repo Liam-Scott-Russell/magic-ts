@@ -1,11 +1,21 @@
 {
   "extends": "@tsconfig/node18-strictest-esm/tsconfig.json",
   "compilerOptions": {
+    "importsNotUsedAsValues": "remove",
     "baseUrl": ".",
     "paths": {
-      "magic-ts": ["./lib"]
+      "magic-ts": [
+        "./lib"
+      ]
     },
     "outDir": "./dist"
   },
-  "files": ["lib/index.ts"]
+  "files": [
+    "lib/index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib/index.override.ts",
+    "lib/**/*.doctest.ts"
+  ]
 }
