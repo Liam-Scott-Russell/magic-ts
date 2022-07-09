@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Typescript types so good they're magic!",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "pretest": "npm run doctest:generate",
     "test": "jest",
@@ -25,7 +26,7 @@
     "dependency:check": "madge --circular --warning --extensions ts --ts-config ./tsconfig.build.json .",
     "postdependency:check": "echo 'Checked the dependencies of magic-ts!'",
     "barrel": "barrelsby --config=./barrelsby.config.json",
-    "postbarrel": "cp ./lib/type/index.override.ts ./lib/type/index.ts && echo 'Barreled magic-ts!'",
+    "postbarrel": "cp ./lib/index.override.ts ./lib/index.ts && echo 'Barreled magic-ts!'",
     "prepublishOnly": "npm run build"
   },
   "repository": {

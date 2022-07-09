@@ -4,5 +4,5 @@
 
 export * from "./base";
 export * from "./key";
-export * from "./key.d";
+export * from "./key.runtime";
 export * from "./value";
