@@ -47,6 +47,13 @@
     "jsdoc/require-param-type": "off",
     "jsdoc/require-return-type": "off",
     "jsdoc/require-property-type": "off",
-    "jsdoc/require-description-complete-sentence": "warn"
+    "jsdoc/require-description-complete-sentence": "warn",
+    "import/extensions": [
+      "error",
+      {
+        "runtime": "always",
+        "d": "never"
+      }
+    ]
   }
 }

@@ -2,3 +2,4 @@ node_modules
 dist
 .vscode
 **/*.doctest.ts
+jest.config.ts
