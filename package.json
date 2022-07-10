@@ -4,6 +4,16 @@
   "description": "Typescript types so good they're magic!",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Liam-Scott-Russell/magic-ts.git"
+  },
+  "author": "Liam Scott-Russell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Liam-Scott-Russell/magic-ts/issues"
+  },
+  "homepage": "https://github.com/Liam-Scott-Russell/magic-ts#readme",
   "scripts": {
     "pretest": "npm run doctest:generate",
     "test": "jest",
@@ -31,16 +41,6 @@
     "postbarrel": "cp ./lib/index.override.ts ./lib/index.ts && echo 'Barreled magic-ts!'",
     "prepublishOnly": "npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Liam-Scott-Russell/magic-ts.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Liam-Scott-Russell/magic-ts/issues"
-  },
-  "homepage": "https://github.com/Liam-Scott-Russell/magic-ts#readme",
   "devDependencies": {
     "@jest/types": "^28.1.1",
     "@tsconfig/node18-strictest-esm": "^1.0.0",
