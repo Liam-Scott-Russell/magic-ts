@@ -1,12 +1,12 @@
 import {
-  type Record,
+  type Struct,
   type Boolean,
   type Conditional,
   type Inheritance,
 } from "..";
 
 /**
- * The possible types that are allowed to index a Record.
+ * The possible types that are allowed to index a struct.
  *
  * Useful instead of naively assuming a `string`.
  *
@@ -16,16 +16,16 @@ import {
 export type KeysAllowed = keyof any;
 
 /**
- * The keys of a record.
+ * The keys of a struct.
  *
- * Essentially a alias for `keyof T`, but with a type guard to {@link Record.Any}.
+ * Essentially a alias for `keyof T`, but with a type guard to {@link Struct.Any}.
  *
- * @param T - The record to get the keys of.
+ * @param T - The struct to get the keys of.
  */
-export type KeysOf<T extends Record.Any> = keyof T;
+export type KeysOf<T extends Struct.Any> = keyof T;
 
 export type KeyExists<
-  T extends Record.Any,
+  T extends Struct.Any,
   K extends KeysAllowed,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
@@ -34,10 +34,10 @@ export type KeyExists<
 /**
  * Return the keys of {@link T} that map to a value of type {@link U}.
  *
- * @template T - The record to get the keys of.
+ * @template T - The struct to get the keys of.
  * @template U - The type to filter the keys by.
  */
-export type KeysThatMapToField<T extends Record.Any, U> = {
+export type KeysThatMapToField<T extends Struct.Any, U> = {
   [K in KeysOf<T>]: Inheritance.IsEqual<T[K], U, K, never>;
 }[KeysOf<T>];
 
@@ -49,13 +49,13 @@ export type KeysThatMapToField<T extends Record.Any, U> = {
  *
  * Used to make "strict" versions of various key selectors.
  *
- * @template T - The first record to get the keys of.
- * @template U - The second record to get the keys of.
+ * @template T - The first struct to get the keys of.
+ * @template U - The second struct to get the keys of.
  * @template Keys - The keys to filter.
  */
 export type KeysFilterToSameType<
-  T extends Record.Any,
-  U extends Record.Any,
+  T extends Struct.Any,
+  U extends Struct.Any,
   Keys extends KeysOf<T> | KeysOf<U>
 > = {
   [K in Keys]: K extends keyof T
@@ -70,10 +70,10 @@ export type KeysFilterToSameType<
  *
  * Does not check that the types are the same, see {@link KeysUnionStrict} for that.
  *
- * @template T - The first record to get the keys of.
- * @template U - The second record to get the keys of.
+ * @template T - The first struct to get the keys of.
+ * @template U - The second struct to get the keys of.
  */
-export type KeysUnion<T extends Record.Any, U extends Record.Any> =
+export type KeysUnion<T extends Struct.Any, U extends Struct.Any> =
   | KeysOf<T>
   | KeysOf<U>;
 
@@ -82,12 +82,12 @@ export type KeysUnion<T extends Record.Any, U extends Record.Any> =
  *
  * The strict version of {@link KeysUnion}.
  *
- * @template T - The first record to get the keys of.
- * @template U - The second record to get the keys of.
+ * @template T - The first struct to get the keys of.
+ * @template U - The second struct to get the keys of.
  */
 export type KeysUnionStrict<
-  T extends Record.Any,
-  U extends Record.Any
+  T extends Struct.Any,
+  U extends Struct.Any
 > = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
 
 /**
@@ -95,10 +95,10 @@ export type KeysUnionStrict<
  *
  * Does not check that the types are the same, see {@link KeysIntersectionStrict} for that.
  *
- * @template T - The first record to get the keys of.
- * @template U - The second record to get the keys of.
+ * @template T - The first struct to get the keys of.
+ * @template U - The second struct to get the keys of.
  */
-export type KeysIntersection<T extends Record.Any, U extends Record.Any> = {
+export type KeysIntersection<T extends Struct.Any, U extends Struct.Any> = {
   [K in KeysUnion<T, U>]: K extends keyof T
     ? K extends keyof U
       ? K
@@ -111,12 +111,12 @@ export type KeysIntersection<T extends Record.Any, U extends Record.Any> = {
  *
  * The strict version of {@link KeysIntersection}.
  *
- * @template T - The first record to get the keys of.
- * @template U - The second record to get the keys of.
+ * @template T - The first struct to get the keys of.
+ * @template U - The second struct to get the keys of.
  */
 export type KeysIntersectionStrict<
-  T extends Record.Any,
-  U extends Record.Any
+  T extends Struct.Any,
+  U extends Struct.Any
 > = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
 
 /**
@@ -124,10 +124,10 @@ export type KeysIntersectionStrict<
  *
  * Does not check that the types are the same, see {@link KeysDifferenceStrict} for that.
  *
- * @template T - The first record to get the keys of.
- * @template U - The second record to get the keys of.
+ * @template T - The first struct to get the keys of.
+ * @template U - The second struct to get the keys of.
  */
-export type KeysDifference<T extends Record.Any, U extends Record.Any> = {
+export type KeysDifference<T extends Struct.Any, U extends Struct.Any> = {
   [K in KeysUnion<T, U>]: Conditional.If<
     Conditional.And<KeyExists<T, K>, Conditional.Not<KeyExists<U, K>>>,
     K,
@@ -140,6 +140,6 @@ export type KeysDifference<T extends Record.Any, U extends Record.Any> = {
  *
  * The strict version of {@link KeysDifference}.
  *
- * @template T - The first record to get the keys of.
- * @template U - The second record to get the keys of.
+ * @template T - The first struct to get the keys of.
+ * @template U - The second struct to get the keys of.
  */

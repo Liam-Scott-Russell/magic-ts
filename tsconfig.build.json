@@ -2,6 +2,7 @@
   "extends": "@tsconfig/node18-strictest-esm/tsconfig.json",
   "compilerOptions": {
     "importsNotUsedAsValues": "remove",
+    "declaration": true,
     "baseUrl": ".",
     "paths": {
       "magic-ts": [
@@ -13,9 +14,9 @@
   "files": [
     "lib/index.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "lib/index.override.ts",
-    "lib/**/*.doctest.ts"
+  "plugins": [
+    {
+      "name": "typescript-eslint-language-service"
+    }
   ]
 }

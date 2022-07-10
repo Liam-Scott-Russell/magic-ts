@@ -1,20 +1,20 @@
-import { type Record } from "..";
+import { type Struct } from "..";
 
 /**
- * Represents a strictly empty record.
+ * Represents a strictly empty struct.
  *
  * See the assignment table on {@link Any} for the list of types that are considered empty.
  *
  * Note that you cannot reliably extend this type (except with `{}`).
  */
-export type Empty = Record<Record.KeysAllowed, never>;
+export type Empty = Record<Struct.KeysAllowed, never>;
 
 /**
- * Represents any unknown record.
+ * Represents any unknown struct.
  *
  * Use this type instead of `{}` or `object` to avoid edge cases.
  *
- * This table outlines which types can be assigned to the different ways of expressing objects/records.
+ * This table outlines which types can be assigned to the different ways of expressing objects.
  *
  * Whether a particular type passes a `T extends U` check, where `U` is one of `{}`, `object`, {@link Empty}, {@link Any}
  * | Type               | Example                | `{}` | `object` | {@link Empty} | {@link Any} |
@@ -40,30 +40,30 @@ export type Empty = Record<Record.KeysAllowed, never>;
  *
  * @example Types that extend `{}`
  * ```typescript
- * type EmptyRecord = typeof {};
+ * type EmptyStruct = typeof {};
  *
- * type Null_Extends_EmptyRecord              = Assert.False<Inheritance.IsExtensionOf<null                 , EmptyRecord>>;
- * type Undefined_Extends_EmptyRecord         = Assert.False<Inheritance.IsExtensionOf<undefined            , EmptyRecord>>;
+ * type Null_Extends_EmptyStruct              = Assert.False<Inheritance.IsExtensionOf<null                 , EmptyStruct>>;
+ * type Undefined_Extends_EmptyStruct         = Assert.False<Inheritance.IsExtensionOf<undefined            , EmptyStruct>>;
  * ```
  * @example Types that do not extend `{}`
  * ```typescript
- * type EmptyRecord = typeof {};
+ * type EmptyStruct = typeof {};
  * const symbol = Symbol("foo");
  *
- * type String_Extends_EmptyRecord            = Assert.True<Inheritance.IsExtensionOf<'foo'                 , EmptyRecord>>;
- * type True_Extends_EmptyRecord              = Assert.True<Inheritance.IsExtensionOf<true                  , EmptyRecord>>;
- * type False_Extends_EmptyRecord             = Assert.True<Inheritance.IsExtensionOf<false                 , EmptyRecord>>;
- * type Number_Extends_EmptyRecord            = Assert.True<Inheritance.IsExtensionOf<42                    , EmptyRecord>>;
- * type BigInt_Extends_EmptyRecord            = Assert.True<Inheritance.IsExtensionOf<42n                   , EmptyRecord>>;
- * type Symbol_Extends_EmptyRecord            = Assert.True<Inheritance.IsExtensionOf<typeof symbol         , EmptyRecord>>;
- * type EmptyFunction_Extends_EmptyRecord     = Assert.True<Inheritance.IsExtensionOf<()  => {}             , EmptyRecord>>;
- * type PopulatedFunction_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<()  => { foo: 'bar' } , EmptyRecord>>;
- * type PopulatedArray_Extends_EmptyRecord    = Assert.True<Inheritance.IsExtensionOf<[1, 2, 3]             , EmptyRecord>>;
- * type EmptyArray_Extends_EmptyRecord        = Assert.True<Inheritance.IsExtensionOf<[]                    , EmptyRecord>>;
- * type PopulatedObject_Extends_EmptyRecord   = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar' }        , EmptyRecord>>;
- * type EmptyRecord_Extends_EmptyRecord       = Assert.True<Inheritance.IsExtensionOf<EmptyRecord           , EmptyRecord>>;
- * type Never_Extends_EmptyRecord             = Assert.True<Inheritance.IsExtensionOf<never                 , EmptyRecord>>;
- * type EmptyClass_Extends_EmptyRecord        = Assert.True<Inheritance.IsExtensionOf<EmptyClass            , EmptyRecord>>;
+ * type String_Extends_EmptyStruct            = Assert.True<Inheritance.IsExtensionOf<'foo'                 , EmptyStruct>>;
+ * type True_Extends_EmptyStruct              = Assert.True<Inheritance.IsExtensionOf<true                  , EmptyStruct>>;
+ * type False_Extends_EmptyStruct             = Assert.True<Inheritance.IsExtensionOf<false                 , EmptyStruct>>;
+ * type Number_Extends_EmptyStruct            = Assert.True<Inheritance.IsExtensionOf<42                    , EmptyStruct>>;
+ * type BigInt_Extends_EmptyStruct            = Assert.True<Inheritance.IsExtensionOf<42n                   , EmptyStruct>>;
+ * type Symbol_Extends_EmptyStruct            = Assert.True<Inheritance.IsExtensionOf<typeof symbol         , EmptyStruct>>;
+ * type EmptyFunction_Extends_EmptyStruct     = Assert.True<Inheritance.IsExtensionOf<()  => {}             , EmptyStruct>>;
+ * type PopulatedFunction_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<()  => { foo: 'bar' } , EmptyStruct>>;
+ * type PopulatedArray_Extends_EmptyStruct    = Assert.True<Inheritance.IsExtensionOf<[1, 2, 3]             , EmptyStruct>>;
+ * type EmptyArray_Extends_EmptyStruct        = Assert.True<Inheritance.IsExtensionOf<[]                    , EmptyStruct>>;
+ * type PopulatedObject_Extends_EmptyStruct   = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar' }        , EmptyStruct>>;
+ * type EmptyStruct_Extends_EmptyStruct       = Assert.True<Inheritance.IsExtensionOf<EmptyStruct           , EmptyStruct>>;
+ * type Never_Extends_EmptyStruct             = Assert.True<Inheritance.IsExtensionOf<never                 , EmptyStruct>>;
+ * type EmptyClass_Extends_EmptyStruct        = Assert.True<Inheritance.IsExtensionOf<EmptyClass            , EmptyStruct>>;
  * ```
  * @example Types that extend `object`
  * ```typescript
@@ -80,14 +80,14 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * ```
  * @example Types that do not extend `object`
  * ```typescript
- * type EmptyRecord = typeof {};
+ * type EmptyStruct = typeof {};
  *
  * type EmptyFunction_Extends_Object          = Assert.True<Inheritance.IsExtensionOf<()  => {}             , object>>;
  * type PopulatedFunction_Extends_Object      = Assert.True<Inheritance.IsExtensionOf<()  => { foo: 'bar' } , object>>;
  * type PopulatedArray_Extends_Object         = Assert.True<Inheritance.IsExtensionOf<[1, 2, 3]             , object>>;
  * type EmptyArray_Extends_Object             = Assert.True<Inheritance.IsExtensionOf<[]                    , object>>;
  * type PopulatedObject_Extends_Object        = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar' }        , object>>;
- * type EmptyRecord_Extends_Object            = Assert.True<Inheritance.IsExtensionOf<EmptyRecord           , object>>;
+ * type EmptyStruct_Extends_Object            = Assert.True<Inheritance.IsExtensionOf<EmptyStruct           , object>>;
  * type Never_Extends_Object                  = Assert.True<Inheritance.IsExtensionOf<never                 , object>>;
  * type EmptyClass_Extends_Object             = Assert.True<Inheritance.IsExtensionOf<EmptyClass            , object>>;
  * ```
@@ -110,7 +110,7 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * ```
  * @example Types that do not extend {@link Empty}.
  * ```typescript
- * type EmptyRecord_Extends_Empty             = Assert.True<Inheritance.IsExtensionOf<EmptyRecord           , Empty>>;
+ * type EmptyStruct_Extends_Empty             = Assert.True<Inheritance.IsExtensionOf<EmptyStruct           , Empty>>;
  * type Never_Extends_Empty                   = Assert.True<Inheritance.IsExtensionOf<never                 , Empty>>;
  * ```
  * @example Types that extend {@link Any}.
@@ -132,12 +132,13 @@ export type Empty = Record<Record.KeysAllowed, never>;
  * @example Types that do not extend {@link Any}.
  * ```typescript
  * type PopulatedObject_Extends_Any           = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar' }        , Any>>;
- * type EmptyRecord_Extends_Any               = Assert.True<Inheritance.IsExtensionOf<EmptyRecord           , Any>>;
+ * type EmptyStruct_Extends_Any               = Assert.True<Inheritance.IsExtensionOf<EmptyStruct           , Any>>;
  * type Never_Extends_Any                     = Assert.True<Inheritance.IsExtensionOf<never                 , Any>>;
  * ```
  */
 export type Any = {};
-// export type Any = Record<string, unknown>;
+
+// export type Any = Struct<string, unknown>;
 
 // /**
 //  * @example
@@ -147,30 +148,30 @@ export type Any = {};
 //  * ```
 //  */
 // const symbol = Symbol('foo');
-// const emptyRecord = {};
-// type EmptyRecord = typeof emptyRecord;
+// const emptyStruct = {};
+// type EmptyStruct = typeof emptyStruct;
 // const emptyClass = class { }
 // type EmptyClass = typeof emptyClass;
 
 // // Does not extend {}
-// type Null_Extends_EmptyRecord = Assert.False<Inheritance.IsExtensionOf<null, EmptyRecord>>;
-// type Undefined_Extends_EmptyRecord = Assert.False<Inheritance.IsExtensionOf<undefined, EmptyRecord>>;
+// type Null_Extends_EmptyStruct = Assert.False<Inheritance.IsExtensionOf<null, EmptyStruct>>;
+// type Undefined_Extends_EmptyStruct = Assert.False<Inheritance.IsExtensionOf<undefined, EmptyStruct>>;
 
 // // Does extend {}
-// type String_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<'foo', EmptyRecord>>;
-// type True_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<true, EmptyRecord>>;
-// type False_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<false, EmptyRecord>>;
-// type Number_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<42, EmptyRecord>>;
-// type BigInt_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<42n, EmptyRecord>>;
-// type Symbol_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<typeof symbol, EmptyRecord>>;
-// type EmptyFunction_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<() => {}, EmptyRecord>>;
-// type PopulatedFunction_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<() => { foo: 'bar', }, EmptyRecord>>;
-// type PopulatedArray_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<[1, 2, 3], EmptyRecord>>;
-// type EmptyArray_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<[], EmptyRecord>>;
-// type PopulatedObject_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar', }, EmptyRecord>>;
-// type EmptyRecord_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<EmptyRecord, EmptyRecord>>;
-// type Never_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<never, EmptyRecord>>;
-// type EmptyClass_Extends_EmptyRecord = Assert.True<Inheritance.IsExtensionOf<EmptyClass, EmptyRecord>>;
+// type String_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<'foo', EmptyStruct>>;
+// type True_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<true, EmptyStruct>>;
+// type False_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<false, EmptyStruct>>;
+// type Number_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<42, EmptyStruct>>;
+// type BigInt_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<42n, EmptyStruct>>;
+// type Symbol_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<typeof symbol, EmptyStruct>>;
+// type EmptyFunction_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<() => {}, EmptyStruct>>;
+// type PopulatedFunction_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<() => { foo: 'bar', }, EmptyStruct>>;
+// type PopulatedArray_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<[1, 2, 3], EmptyStruct>>;
+// type EmptyArray_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<[], EmptyStruct>>;
+// type PopulatedObject_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar', }, EmptyStruct>>;
+// type EmptyStruct_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<EmptyStruct, EmptyStruct>>;
+// type Never_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<never, EmptyStruct>>;
+// type EmptyClass_Extends_EmptyStruct = Assert.True<Inheritance.IsExtensionOf<EmptyClass, EmptyStruct>>;
 
 // // Does not extend object
 // type String_Extends_Object = Assert.False<Inheritance.IsExtensionOf<'foo', object>>;
@@ -188,7 +189,7 @@ export type Any = {};
 // type PopulatedArray_Extends_Object = Assert.True<Inheritance.IsExtensionOf<[1, 2, 3], object>>;
 // type EmptyArray_Extends_Object = Assert.True<Inheritance.IsExtensionOf<[], object>>;
 // type PopulatedObject_Extends_Object = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar', }, object>>;
-// type EmptyRecord_Extends_Object = Assert.True<Inheritance.IsExtensionOf<EmptyRecord, object>>;
+// type EmptyStruct_Extends_Object = Assert.True<Inheritance.IsExtensionOf<EmptyStruct, object>>;
 // type Never_Extends_Object = Assert.True<Inheritance.IsExtensionOf<never, object>>;
 // type EmptyClass_Extends_Object = Assert.True<Inheritance.IsExtensionOf<EmptyClass, object>>;
 
@@ -209,7 +210,7 @@ export type Any = {};
 // type EmptyClass_Extends_Empty = Assert.False<Inheritance.IsExtensionOf<EmptyClass, Empty>>;
 
 // // Does Extend Empty
-// type EmptyRecord_Extends_Empty = Assert.True<Inheritance.IsExtensionOf<EmptyRecord, Empty>>;
+// type EmptyStruct_Extends_Empty = Assert.True<Inheritance.IsExtensionOf<EmptyStruct, Empty>>;
 // type Never_Extends_Empty = Assert.True<Inheritance.IsExtensionOf<never, Empty>>;
 
 // // Does not extend Any
@@ -229,9 +230,9 @@ export type Any = {};
 
 // // Does extend Any
 // type PopulatedObject_Extends_Any = Assert.True<Inheritance.IsExtensionOf<{ foo: 'bar', }, Any>>;
-// type EmptyRecord_Extends_Any = Assert.True<Inheritance.IsExtensionOf<EmptyRecord, Any>>;
+// type EmptyStruct_Extends_Any = Assert.True<Inheritance.IsExtensionOf<EmptyStruct, Any>>;
 // type Never_Extends_Any = Assert.True<Inheritance.IsExtensionOf<never, Any>>;
 
 // export type IsEmpty<T> = Inheritance.IsEqual<T, Empty>;
 
-// export type IsRecord<T> = Inheritance.IsEqual<T, Any>;
+// export type IsStruct<T> = Inheritance.IsEqual<T, Any>;

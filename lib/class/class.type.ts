@@ -1,9 +1,9 @@
-import { type Inspect, type Record } from "..";
+import { type Inspect, type Struct } from "..";
 
 /**
  * An empty class declaration.
  *
- * **Not** to be used as a replacement for {@link Record.Empty}.
+ * **Not** to be used as a replacement for {@link Struct.Empty}.
  *
  * Equivalent to the constructable:
  * ```typescript
@@ -25,13 +25,13 @@ export type StaticBase = Inspect<typeof Empty>;
  *
  * This should be `"prototype"`.
  */
-export type StaticBaseKeys = Record.KeysOf<StaticBase>;
+export type StaticBaseKeys = Struct.KeysOf<StaticBase>;
 
 /**
  * All the static values of a class.
  *
  * Sourced from {@link StaticBase}.
  *
- * This should be `{}` i.e. {@link Record.Empty}.
+ * This should be `{}` i.e. {@link Struct.Empty}.
  */
-export type StaticBaseValues = Record.ValuesOf<StaticBase>;
+export type StaticBaseValues = Struct.ValuesOf<StaticBase>;
