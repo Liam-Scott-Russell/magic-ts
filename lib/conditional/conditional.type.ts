@@ -13,7 +13,7 @@ export type If<
   Condition extends Boolean.Any,
   OnTrue,
   OnFalse
-> = Inheritance.IsEqual<Condition, Boolean.True, OnTrue, OnFalse>;
+> = Inheritance.IsExtensionOf<Condition, Boolean.True, OnTrue, OnFalse>;
 
 export type Or<A extends Boolean.Any, B extends Boolean.Any> = If<
   A,
@@ -28,7 +28,7 @@ export type And<
   OnFalse = Boolean.False
 > = If<A, If<B, OnTrue, OnFalse>, OnFalse>;
 
-export type Not<A extends Boolean.Any> = Inheritance.IsEqual<
+export type Not<A extends Boolean.Any> = Inheritance.IsExtensionOf<
   A,
   Boolean.True,
   Boolean.False,

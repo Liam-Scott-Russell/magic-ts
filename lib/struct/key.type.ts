@@ -18,122 +18,256 @@ export type KeysAllowed = keyof any;
 /**
  * The keys of a struct.
  *
- * Essentially a alias for `keyof T`, but with a type guard to {@link Struct.Any}.
+ * Essentially a alias for `keyof T`, but with a type guard to {@link TStruct.Any}.
  *
  * @param T - The struct to get the keys of.
  */
-export type KeysOf<T extends Struct.Any> = keyof T;
+export type KeysOf<TStruct extends Struct.Any> = keyof TStruct;
 
-export type KeyExists<
-  T extends Struct.Any,
-  K extends KeysAllowed,
+/**
+ * Checks if a key is allowed to index a struct.
+ *
+ * **Note:** Unfortunately, this is not a type guard, meaning you can't do this:
+ * ```typescript
+ * // 2536: Type 'K' cannot be used to index type 'T'
+ * type MapIfKey<T extends Struct.Any, K extends Struct.KeysAllowed> = Struct.IsKeyOf<T, K, T[K], never>
+ * ```.
+ *
+ * Use {@link TStruct.Get} instead.
+ * ```typescript
+ * type MapIfKey<T extends Struct.Any, K extends Struct.KeysAllowed> = Struct.Get<T, K>
+ * ```
+ *
+ * @template TStruct - The struct to check the keys of.
+ * @template Key - The key to check.
+ * @returns Returns {@link Boolean.True} if {@link Key} is a valid key of {@link TStruct}.
+ */
+export type IsKeyOf<
+  TStruct extends Struct.Any,
+  Key extends KeysAllowed,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-> = K extends KeysOf<T> ? OnTrue : OnFalse;
+> = Inheritance.IsExtensionOf<Key, Struct.KeysOf<TStruct>, OnTrue, OnFalse>;
 
 /**
- * Return the keys of {@link T} that map to a value of type {@link U}.
+ * Return the keys of {@link TStruct} that map to a value of type {@link Value}.
  *
- * @template T - The struct to get the keys of.
- * @template U - The type to filter the keys by.
+ * This is not a strict check, i.e. any value that extends {@link Value} will be return.
+ *
+ * @template TStruct - The struct to get the keys of.
+ * @template Value - The type to filter the keys by.
  */
-export type KeysThatMapToField<T extends Struct.Any, U> = {
-  [K in KeysOf<T>]: Inheritance.IsEqual<T[K], U, K, never>;
-}[KeysOf<T>];
+export type KeysThatMapToValue<TStruct extends Struct.Any, Value> = {
+  [Key in Struct.KeysOf<TStruct>]: Inheritance.IsExtensionOf<
+    Struct.Get<TStruct, Key>,
+    Value,
+    Key,
+    never
+  >;
+}[Struct.KeysOf<TStruct>];
 
 /**
- * Given a {@link T}, a {@link U}, and a union of {@link KeysAllowed} {@link Keys}, return the keys that
- * are present in {@link T} and are present in {@link U}, and that have the same type.
+ * Return the keys of {@link TStruct} that map to a value of type {@link Value}.
  *
- * I.e. Where T[K] === U[K] (for valid `K`).
+ * This is a strict version of {@link KeysThatMapToValue}, i.e. only values that exactly equal {@link Value} will be returned.
+ *
+ * @template TStruct - The struct to get the keys of.
+ * @template Value - The type to filter the keys by.
+ */
+export type KeysThatMapToValueStrict<TStruct extends Struct.Any, Value> = {
+  [Key in Struct.KeysOf<TStruct>]: Inheritance.IsEqual<
+    Struct.Get<TStruct, Key>,
+    Value,
+    Key,
+    never
+  >;
+}[Struct.KeysOf<TStruct>];
+
+/**
+ * Given a {@link TStruct1}, a {@link TStruct2}, and a union of {@link KeysAllowed} {@link Keys}, return the keys that are present in {@link TStruct1} and are present in {@link TStruct2}, and that have the same type.
+ *
+ * **Note:** This is a strict check, i.e. Where T[K] === U[K] (for valid `K`).
  *
  * Used to make "strict" versions of various key selectors.
  *
- * @template T - The first struct to get the keys of.
- * @template U - The second struct to get the keys of.
+ * @template TStruct1 - The first struct to get the keys of.
+ * @template TStruct2 - The second struct to get the keys of.
  * @template Keys - The keys to filter.
+ * @example
+ * ```typescript
+ * // A complex matching struct
+ * type A = {
+ *   a: string;
+ *   b: number;
+ *   c: boolean;
+ *   d: {
+ *     e: string;
+ *     f: number;
+ *   }
+ * }
+ *
+ * type B = {
+ *   a: string;
+ *   b: number;
+ *   c: boolean;
+ *   d: {
+ *     e: string;
+ *     f: number;
+ *   }
+ * }
+ *
+ * type Expected = "a" | "b" | "c" | "d";
+ * type KeyUnion = "a" | "b" | "c" | "d";
+ * type Actual = Struct.KeysFilterToSameType<A, B, KeyUnion>;
+ * type Flipped = Struct.KeysFilterToSameType<B, A, KeyUnion>;
+ * type AssertActual = Assert.IsTrue<Inheritance.IsEqual<Expected, Actual>>
+ * type AssertFlipped = Assert.IsTrue<Inheritance.IsEqual<Expected, Flipped>>
+ * ```
+ * @example
+ * ```typescript
+ * // A complex extending struct
+ * type A = {
+ *   a: string;
+ *   b: number;
+ *   c: boolean;
+ *   d: {
+ *     e: string;
+ *     f: number;
+ *   }
+ * }
+ *
+ * type B = {
+ *   a: string;
+ *   b: number;
+ *   c: boolean;
+ *   d: {
+ *     f: number;
+ *   }
+ * }
+ *
+ * type A_Does_Extend_B = Assert.IsTrue<Inheritance.IsExtensionOf<A, B>>
+ * type B_Doesnt_Extend_A = Assert.IsFalse<Inheritance.IsExtensionOf<B, A>>
+ *
+ * type Expected = "a" | "b" | "c";
+ * type KeyUnion = "a" | "b" | "c" | "d";
+ * type Actual = Struct.KeysFilterToSameType<A, B, KeyUnion>;
+ * type Flipped = Struct.KeysFilterToSameType<B, A, KeyUnion>;
+ *
+ * type AssertActual = Assert.IsTrue<Inheritance.IsEqual<Expected, Actual>>
+ * type AssertFlipped = Assert.IsTrue<Inheritance.IsEqual<Expected, Flipped>>
+ * ```
+ * @example
+ * ```typescript
+ * // an empty type
+ * type A = {
+ *   a: string;
+ * }
+ *
+ * type B = {}
+ *
+ * type Expected = never
+ * type KeyUnion = "a"
+ * type Actual = Struct.KeysFilterToSameType<A, B, KeyUnion>;
+ * type Flipped = Struct.KeysFilterToSameType<B, A, KeyUnion>;
+ * type AssertActual = Assert.IsTrue<Inheritance.IsEqual<Expected, Actual>>
+ * type AssertFlipped = Assert.IsTrue<Inheritance.IsEqual<Expected, Flipped>>
+ * ```
  */
 export type KeysFilterToSameType<
-  T extends Struct.Any,
-  U extends Struct.Any,
-  Keys extends KeysOf<T> | KeysOf<U>
+  TStruct1 extends Struct.Any,
+  TStruct2 extends Struct.Any,
+  Keys extends Struct.KeysUnion<TStruct1, TStruct2> = Struct.KeysUnion<
+    TStruct1,
+    TStruct2
+  >
 > = {
-  [K in Keys]: K extends keyof T
-    ? K extends keyof U
-      ? Inheritance.IsEqual<T[K], U[K], K, never>
-      : never
-    : never;
+  [Key in Keys]: Inheritance.IsEqual<
+    Struct.Get<TStruct1, Key>,
+    Struct.Get<TStruct2, Key>,
+    Key,
+    never
+  >;
 }[Keys];
 
 /**
- * The keys that are present either in {@link T} or {@link U}.
+ * The keys that are present either in {@link TStruct} or {@link U}.
  *
  * Does not check that the types are the same, see {@link KeysUnionStrict} for that.
  *
- * @template T - The first struct to get the keys of.
+ * @template TStruct - The first struct to get the keys of.
  * @template U - The second struct to get the keys of.
  */
-export type KeysUnion<T extends Struct.Any, U extends Struct.Any> =
-  | KeysOf<T>
-  | KeysOf<U>;
+export type KeysUnion<TStruct extends Struct.Any, U extends Struct.Any> =
+  | Struct.KeysOf<TStruct>
+  | Struct.KeysOf<U>;
 
 /**
- * The keys that are present in both {@link T} and {@link U}, where the types are the same.
+ * The keys that are present in both {@link TStruct} and {@link U}, where the types are the same.
  *
  * The strict version of {@link KeysUnion}.
  *
- * @template T - The first struct to get the keys of.
+ * @template TStruct - The first struct to get the keys of.
  * @template U - The second struct to get the keys of.
  */
 export type KeysUnionStrict<
-  T extends Struct.Any,
+  TStruct extends Struct.Any,
   U extends Struct.Any
-> = KeysFilterToSameType<T, U, KeysUnion<T, U>>;
+> = Struct.KeysFilterToSameType<TStruct, U, Struct.KeysUnion<TStruct, U>>;
 
 /**
- * The keys that are present in both {@link T} and {@link U}.
+ * The keys that are present in both {@link TStruct1} and {@link TStruct2}.
  *
  * Does not check that the types are the same, see {@link KeysIntersectionStrict} for that.
  *
- * @template T - The first struct to get the keys of.
- * @template U - The second struct to get the keys of.
+ * // TODO: needs porting
+ *
+ * @template TStruct1 - The first struct to get the keys of.
+ * @template TStruct2 - The second struct to get the keys of.
  */
-export type KeysIntersection<T extends Struct.Any, U extends Struct.Any> = {
-  [K in KeysUnion<T, U>]: K extends keyof T
-    ? K extends keyof U
-      ? K
+export type KeysIntersection<
+  TStruct1 extends Struct.Any,
+  TStruct2 extends Struct.Any
+> = {
+  [Key in KeysUnion<TStruct1, TStruct2>]: Key extends keyof TStruct1
+    ? Key extends keyof TStruct2
+      ? Key
       : never
     : never;
-}[KeysUnion<T, U>];
+}[Struct.KeysUnion<TStruct1, TStruct2>];
 
 /**
- * The keys that are present in {@link T} but not in {@link U}, where the types are the same.
+ * The keys that are present in {@link TStruct1} but not in {@link TStruct2}, where the types are the same.
  *
  * The strict version of {@link KeysIntersection}.
  *
- * @template T - The first struct to get the keys of.
- * @template U - The second struct to get the keys of.
+ * @template TStruct1 - The first struct to get the keys of.
+ * @template TStruct2 - The second struct to get the keys of.
  */
 export type KeysIntersectionStrict<
-  T extends Struct.Any,
-  U extends Struct.Any
-> = KeysFilterToSameType<T, U, KeysIntersection<T, U>>;
+  TStruct1 extends Struct.Any,
+  TStruct2 extends Struct.Any
+> = Struct.KeysFilterToSameType<
+  TStruct1,
+  TStruct2,
+  Struct.KeysIntersection<TStruct1, TStruct2>
+>;
 
 /**
- * The keys that are present in {@link T} but not in {@link U}.
+ * The keys that are present in {@link TStruct} but not in {@link U}.
  *
  * Does not check that the types are the same, see {@link KeysDifferenceStrict} for that.
  *
- * @template T - The first struct to get the keys of.
+ * @template TStruct - The first struct to get the keys of.
  * @template U - The second struct to get the keys of.
  */
-export type KeysDifference<T extends Struct.Any, U extends Struct.Any> = {
-  [K in KeysUnion<T, U>]: Conditional.If<
-    Conditional.And<KeyExists<T, K>, Conditional.Not<KeyExists<U, K>>>,
+export type KeysDifference<TStruct extends Struct.Any, U extends Struct.Any> = {
+  [K in KeysUnion<TStruct, U>]: Conditional.And<
+    IsKeyOf<TStruct, K>,
+    Conditional.Not<IsKeyOf<U, K>>,
     K,
     never
   >;
-}[KeysUnion<T, U>];
+}[KeysUnion<TStruct, U>];
 
 /**
  * The keys that are present in {@link T} but not in {@link U}, where the types are the same.

@@ -5,15 +5,11 @@
     "declaration": true,
     "baseUrl": ".",
     "paths": {
-      "magic-ts": [
-        "./lib"
-      ]
+      "magic-ts": ["./lib"]
     },
     "outDir": "./dist"
   },
-  "files": [
-    "lib/index.ts"
-  ],
+  "files": ["lib/index.ts"],
   "plugins": [
     {
       "name": "typescript-eslint-language-service"

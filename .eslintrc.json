@@ -46,6 +46,7 @@
     "jsdoc/no-types": "error",
     "jsdoc/require-param-type": "off",
     "jsdoc/require-return-type": "off",
+    "jsdoc/require-returns-type": "off",
     "jsdoc/require-property-type": "off",
     "jsdoc/require-description-complete-sentence": "warn",
     "import/extensions": [

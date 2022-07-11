@@ -20,8 +20,8 @@ export type ValuesOf<T extends Struct.Any> = T[Struct.KeysOf<T>];
  * @template U - The second struct to get the values of.
  */
 export type ValuesUnion<T extends Struct.Any, U extends Struct.Any> =
-  | ValuesOf<T>
-  | ValuesOf<U>;
+  | Struct.ValuesOf<T>
+  | Struct.ValuesOf<U>;
 
 /**
  * Return an intersection of the types of the values of {@link T} and {@link U}.
@@ -47,3 +47,19 @@ export type IsLeafValue<T> = Conditional.And<
   Inheritance.IsExtensionOf<T, Struct.Any>,
   Conditional.Not<Inheritance.IsEqual<T, Struct.Empty>>
 >;
+
+/**
+ * Safely returns the value of {@link TStruct} indexed by the key {@link Key}.
+ *
+ * If {@link TStruct} does not have a key {@link Key}, returns {@link Default}.
+ *
+ * @template TStruct - The struct to get the value of.
+ * @template Key - The key to get the index by.
+ * @template Default - The default value to return if {@link TStruct} does not have a key {@link Key}. Defaults to `never`.
+ * @returns The value of {@link TStruct} indexed by {@link Key} (or {@link Default}).
+ */
+export type Get<
+  TStruct extends Struct.Any,
+  Key extends Struct.KeysAllowed,
+  Default = never
+> = Key extends keyof TStruct ? TStruct[Key] : Default;

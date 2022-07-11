@@ -1,17 +1,8 @@
 {
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "types": [
-      "node",
-      "jest"
-    ]
+    "types": ["node", "jest"]
   },
-  "include": [
-    "lib/**/*.ts",
-    "lib/**/*.doctest.ts",
-    "tests/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["lib/**/*.ts", "lib/**/*.doctest.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules"]
 }

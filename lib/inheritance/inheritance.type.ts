@@ -60,8 +60,12 @@ import { type Boolean, type Conditional } from "..";
  * type Extension_Extends_AorB = Assert.IsTrue<Inheritance.IsExtensionOf<Extension, AorB>>
  * ```
  */
-export type IsExtensionOf<ExtendedType, BaseType> =
-  ExtendedType extends BaseType ? Boolean.True : Boolean.False;
+export type IsExtensionOf<
+  ExtendedType,
+  BaseType,
+  OnTrue = Boolean.True,
+  OnFalse = Boolean.False
+> = ExtendedType extends BaseType ? OnTrue : OnFalse;
 
 /**
  * A strict version of {@link IsExtensionOf} that ensures that strictly either {@link Boolean.True} or {@link Boolean.False} are returned, but not both.
@@ -171,12 +175,12 @@ export type IsSubTypeOf<
   MaybeSuperType,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-  > = Conditional.And<
-    Conditional.Not<IsExtensionOf<MaybeSubType, MaybeSuperType>>,
-    IsExtensionOf<MaybeSuperType, MaybeSubType>,
-    OnTrue,
-    OnFalse
-  >;
+> = Conditional.And<
+  Conditional.Not<IsExtensionOf<MaybeSubType, MaybeSuperType>>,
+  IsExtensionOf<MaybeSuperType, MaybeSubType>,
+  OnTrue,
+  OnFalse
+>;
 
 /**
  * Returns {@link Boolean.True} if {@link MaybeSuperType} is a super type of {@link MaybeSubType}, otherwise returns {@link Boolean.False}.
@@ -198,12 +202,12 @@ export type IsSuperTypeOf<
   MaybeSubType,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-  > = Conditional.And<
-    Conditional.Not<IsExtensionOf<MaybeSuperType, MaybeSubType>>,
-    IsExtensionOf<MaybeSubType, MaybeSuperType>,
-    OnTrue,
-    OnFalse
-  >;
+> = Conditional.And<
+  Conditional.Not<IsExtensionOf<MaybeSuperType, MaybeSubType>>,
+  IsExtensionOf<MaybeSubType, MaybeSuperType>,
+  OnTrue,
+  OnFalse
+>;
 
 /**
  * Returns {@link OnTrue} if {@link T} exactly matches {@link U}, otherwise returns {@link OnFalse}.
@@ -224,6 +228,6 @@ export type IsSuperTypeOf<
  */
 export type IsEqual<T, U, OnTrue = Boolean.True, OnFalse = Boolean.False> = (<
   G
-  >() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
+>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
   ? OnTrue
   : OnFalse;

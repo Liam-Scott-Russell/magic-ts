@@ -157,7 +157,7 @@ export type Constructable<
   S extends Struct.Any,
   C extends ConstructorParametersBase,
   I extends Struct.Any
-  > = Constructor<C, I> & S;
+> = Constructor<C, I> & S;
 
 /**
  * A {@link Constructable} with default parameters, meaning it represents all possible constructables.
@@ -190,7 +190,7 @@ export type Base = Constructable<{ prototype: {} }, [], {}>;
 export type Constructor<
   C extends ConstructorParametersBase,
   I extends Struct.Any
-  > = abstract new (...parameters: C) => I;
+> = abstract new (...parameters: C) => I;
 
 /**
  * The constructor parameters of a {@link Constructable} type.
@@ -255,11 +255,11 @@ export type Constructor<
  */
 export type ConstructorParametersOf$<TConstructable extends Any> =
   TConstructable extends Constructable<infer _S, infer C, infer _I>
-  ? C
-  : Exception.Exception<
-    "ConstructorParametersOf: Could not determine the constructor parameters.",
-    TConstructable
-  >;
+    ? C
+    : Exception.Exception<
+        "ConstructorParametersOf: Could not determine the constructor parameters.",
+        TConstructable
+      >;
 
 /**
  * The instance type of a {@link Constructable} type.
@@ -268,11 +268,11 @@ export type ConstructorParametersOf$<TConstructable extends Any> =
  */
 export type InstanceStructOf$<TConstructable extends Any> =
   TConstructable extends Constructable<infer _S, infer _C, infer I>
-  ? I
-  : Exception.Exception<
-    "InstanceStructOf$: Could not determine the constructor parameters.",
-    TConstructable
-  >;
+    ? I
+    : Exception.Exception<
+        "InstanceStructOf$: Could not determine the constructor parameters.",
+        TConstructable
+      >;
 
 /**
  * The {@link Class.Constructor} function of a {@link Constructable} type.
@@ -295,11 +295,11 @@ export type StaticStructOf$<TConstructable extends Any> =
     infer _ConstructorParameters,
     infer _InstanceStruct
   >
-  ? Inspect<StaticStruct>
-  : Exception.Exception<
-    "StaticStructOf$: Could not determine the static struct.",
-    TConstructable
-  >;
+    ? Inspect<StaticStruct>
+    : Exception.Exception<
+        "StaticStructOf$: Could not determine the static struct.",
+        TConstructable
+      >;
 
 /**
  * The static properties of a {@link Constructable} type, excluding the ones from {@link Class.StaticBase}.
