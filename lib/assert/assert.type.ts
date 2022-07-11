@@ -1,9 +1,13 @@
-import { type Exception, type Boolean } from "..";
+import { type Inheritance , type Boolean } from "..";
 
-export type True<T extends Boolean.True> = T;
+export type IsTrue<
+  Test extends Boolean.True,
+  OnTrue = Boolean.True,
+  OnFalse = Boolean.False
+> = Inheritance.IsEqual<Test, Boolean.False, OnTrue, OnFalse>;
 
-export type False<T extends Boolean.False> = T;
-
-export type Assert$<T> = T extends Boolean.True
-  ? T
-  : Exception.Exception<"Truth assertion failed", T>;
+export type IsFalse<
+  Test extends Boolean.True,
+  OnTrue = Boolean.True,
+  OnFalse = Boolean.False
+> = Inheritance.IsEqual<Test, Boolean.True, OnTrue, OnFalse>;

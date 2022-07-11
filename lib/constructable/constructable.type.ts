@@ -62,7 +62,7 @@ export type ConstructorParametersBase = any[];
  *   ConstructorParameters,
  *   InstanceStruct
  * >;
- * type ExtendsConstructable = Assert.True<
+ * type ExtendsConstructable = Assert.IsTrue<
  *   Inheritance.IsExtensionOf<typeof MyTestClass, MatchingConstructable>
  * >;
  *
@@ -72,7 +72,7 @@ export type ConstructorParametersBase = any[];
  *   ConstructorParameters,
  *   InstanceStruct
  * >;
- * type StaticTypeMismatch = Assert.False<
+ * type StaticTypeMismatch = Assert.IsFalse<
  *   Inheritance.IsExtensionOf<
  *     typeof MyTestClass,
  *     ConstructableWithDifferentStaticType
@@ -81,7 +81,7 @@ export type ConstructorParametersBase = any[];
  *
  * // A constructable can extend the static type
  * type SubTypeOfStaticStruct = { staticMethod: () => string }
- * type IsSubTypeOfStaticStruct = Assert.True<
+ * type IsSubTypeOfStaticStruct = Assert.IsTrue<
  *   Inheritance.IsExtensionOf<StaticStruct, SubTypeOfStaticStruct>
  * >;
  * type ConstructableWithStaticSubType = Constructable.Constructable<
@@ -89,7 +89,7 @@ export type ConstructorParametersBase = any[];
  *   ConstructorParameters,
  *   InstanceStruct
  * >;
- * type ExtendsStaticSubTypeConstructable = Assert.True<
+ * type ExtendsStaticSubTypeConstructable = Assert.IsTrue<
  *   Inheritance.IsExtensionOf<
  *     typeof MyTestClass,
  *     ConstructableWithStaticSubType
@@ -98,7 +98,7 @@ export type ConstructorParametersBase = any[];
  *
  * // A constructable can extend the instance type
  * type SubTypeOfInstanceStruct = Omit<InstanceStruct, "name">;
- * type IsSubtypeOfInstanceStruct = Assert.True<
+ * type IsSubtypeOfInstanceStruct = Assert.IsTrue<
  *   Inheritance.IsExtensionOf<InstanceStruct, SubTypeOfInstanceStruct>
  * >;
  * type ConstructableWithInstanceSubType = Constructable.Constructable<
@@ -106,7 +106,7 @@ export type ConstructorParametersBase = any[];
  *   ConstructorParameters,
  *   SubTypeOfInstanceStruct
  * >;
- * type ExtendsInstanceSubTypeConstructable = Assert.True<
+ * type ExtendsInstanceSubTypeConstructable = Assert.IsTrue<
  *   Inheritance.IsExtensionOf<typeof MyTestClass, ConstructableWithInstanceSubType>
  * >
  *
@@ -115,7 +115,7 @@ export type ConstructorParametersBase = any[];
  *   ConstructorParameters,
  *   { not: "defined" }
  * >;
- * type InstanceTypeMismatch = Assert.False<
+ * type InstanceTypeMismatch = Assert.IsFalse<
  *   Inheritance.IsExtensionOf<
  *     typeof MyTestClass,
  *     ConstructableWithDifferentInstanceType
@@ -125,7 +125,7 @@ export type ConstructorParametersBase = any[];
  *
  * // A constructable can use arbitrary names for the constructor parameters
  * type RenamedConstructorParameters = [renamedName: string, stillAnUnusedFiled: number]
- * type _isParentOfConstructorParameters = Assert.True<
+ * type _isParentOfConstructorParameters = Assert.IsTrue<
  *   Inheritance.IsExtensionOf<ConstructorParameters, RenamedConstructorParameters>
  * >
  * type ConstructableWithRenamedConstructorParameters = Constructable.Constructable<
@@ -133,7 +133,7 @@ export type ConstructorParametersBase = any[];
  *   RenamedConstructorParameters,
  *   InstanceStruct
  * >
- * type ExtendsConstructableWithRenamedConstructorParameters = Assert.True<
+ * type ExtendsConstructableWithRenamedConstructorParameters = Assert.IsTrue<
  *   Inheritance.IsExtensionOf<
  *     typeof MyTestClass,
  *     ConstructableWithRenamedConstructorParameters
@@ -146,7 +146,7 @@ export type ConstructorParametersBase = any[];
  *   ["not", "defined"],
  *   InstanceStruct
  * >;
- * type ConstructorParametersTypeMismatch = Assert.False<
+ * type ConstructorParametersTypeMismatch = Assert.IsFalse<
  *   Inheritance.IsExtensionOf<
  *     typeof MyTestClass,
  *     ConstructableWithDifferentConstructorParametersType
@@ -158,7 +158,7 @@ export type Constructable<
   S extends Struct.Any,
   C extends ConstructorParametersBase,
   I extends Struct.Any
-> = Constructor<C, I> & S;
+  > = Constructor<C, I> & S;
 
 /**
  * A {@link Constructable} with default parameters, meaning it represents all possible constructables.
@@ -191,7 +191,7 @@ export type Base = Constructable<{ prototype: {} }, [], {}>;
 export type Constructor<
   C extends ConstructorParametersBase,
   I extends Struct.Any
-> = abstract new (...parameters: C) => I;
+  > = abstract new (...parameters: C) => I;
 
 /**
  * The constructor parameters of a {@link Constructable} type.
@@ -218,7 +218,7 @@ export type Constructor<
  *   }
  * }
  *
- * type CanGetMultipleConstructorParameters = Assert.True<
+ * type CanGetMultipleConstructorParameters = Assert.IsTrue<
  *   Inheritance.IsEqual<
  *     [name: string, _unusedField: number],
  *     ConstructorParametersOf$<typeof MyTestClass>
@@ -229,7 +229,7 @@ export type Constructor<
  * ```typescript
  * class EmptyClass { }
  *
- * type CanGetNoConstructorParameters = Assert.True<
+ * type CanGetNoConstructorParameters = Assert.IsTrue<
  *   Inheritance.IsEqual<
  *     [],
  *     ConstructorParametersOf$<typeof EmptyClass>
@@ -246,7 +246,7 @@ export type Constructor<
  *   ) { }
  * }
  *
- * type CanGetInferredPropertyConstructorParameters = Assert.True<
+ * type CanGetInferredPropertyConstructorParameters = Assert.IsTrue<
  *   Inheritance.IsEqual<
  *     [name: string, age: number, birthday: Date],
  *     ConstructorParametersOf$<typeof WithInferredProperties>
@@ -256,11 +256,11 @@ export type Constructor<
  */
 export type ConstructorParametersOf$<TConstructable extends Any> =
   TConstructable extends Constructable<infer _S, infer C, infer _I>
-    ? C
-    : Exception.Exception<
-        "ConstructorParametersOf: Could not determine the constructor parameters.",
-        TConstructable
-      >;
+  ? C
+  : Exception.Exception<
+    "ConstructorParametersOf: Could not determine the constructor parameters.",
+    TConstructable
+  >;
 
 /**
  * The instance type of a {@link Constructable} type.
@@ -269,11 +269,11 @@ export type ConstructorParametersOf$<TConstructable extends Any> =
  */
 export type InstanceStructOf$<TConstructable extends Any> =
   TConstructable extends Constructable<infer _S, infer _C, infer I>
-    ? I
-    : Exception.Exception<
-        "InstanceStructOf$: Could not determine the constructor parameters.",
-        TConstructable
-      >;
+  ? I
+  : Exception.Exception<
+    "InstanceStructOf$: Could not determine the constructor parameters.",
+    TConstructable
+  >;
 
 /**
  * The {@link Class.Constructor} function of a {@link Constructable} type.
@@ -296,11 +296,11 @@ export type StaticStructOf$<TConstructable extends Any> =
     infer _ConstructorParameters,
     infer _InstanceStruct
   >
-    ? Inspect<StaticStruct>
-    : Exception.Exception<
-        "StaticStructOf$: Could not determine the static struct.",
-        TConstructable
-      >;
+  ? Inspect<StaticStruct>
+  : Exception.Exception<
+    "StaticStructOf$: Could not determine the static struct.",
+    TConstructable
+  >;
 
 /**
  * The static properties of a {@link Constructable} type, excluding the ones from {@link Class.StaticBase}.
@@ -334,7 +334,7 @@ export type StaticStructOfStrict<TConstructable extends Any> = Omit<
 //   readonly name: string;
 // };
 
-// type CanGetInstanceStructWithMultipleMembers = Assert.True<
+// type CanGetInstanceStructWithMultipleMembers = Assert.IsTrue<
 //   Inheritance.IsEqual<
 //     MultipleMemberInstanceStruct,
 //     InstanceStructOf$<typeof MyTestClass>
@@ -343,7 +343,7 @@ export type StaticStructOfStrict<TConstructable extends Any> = Omit<
 
 // class EmptyClass {}
 
-// type CanGetNoInstanceStruct = Assert.True<
+// type CanGetNoInstanceStruct = Assert.IsTrue<
 //   Inheritance.IsEqual<{}, InstanceStructOf$<typeof EmptyClass>>
 // >;
 
@@ -368,7 +368,7 @@ export type StaticStructOfStrict<TConstructable extends Any> = Omit<
 // type t1_eq_inferred = Inheritance.IsEqual<t1, InferredPropertyInstanceStruct>;
 // type t2_eqt_inferred = Inheritance.IsEqual<t2, InferredPropertyInstanceStruct>;
 
-// type CanGetInferredPropertyInstanceStruct = Assert.True<
+// type CanGetInferredPropertyInstanceStruct = Assert.IsTrue<
 //   Inheritance.IsEqual<
 //     InferredPropertyInstanceStruct,
 //     InstanceStructOf$<typeof WithInferredProperties>

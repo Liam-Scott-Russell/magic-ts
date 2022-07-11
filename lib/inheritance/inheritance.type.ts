@@ -21,43 +21,43 @@ import { type Boolean, type Conditional } from "..";
  * type AandB = A & B;
  *
  * // A type is always an extension of itself
- * type A_Extends_A = Assert.True<Inheritance.IsExtensionOf<A, A>>;
- * type B_Extends_B = Assert.True<Inheritance.IsExtensionOf<B, B>>;
- * type Extension_Extends_Extension = Assert.True<Inheritance.IsExtensionOf<Extension, Extension>>;
- * type AorB_Extends_AorB = Assert.True<Inheritance.IsExtensionOf<AorB, AorB>>;
- * type AandB_Extends_AandB = Assert.True<Inheritance.IsExtensionOf<AandB, AandB>>;
+ * type A_Extends_A = Assert.IsTrue<Inheritance.IsExtensionOf<A, A>>;
+ * type B_Extends_B = Assert.IsTrue<Inheritance.IsExtensionOf<B, B>>;
+ * type Extension_Extends_Extension = Assert.IsTrue<Inheritance.IsExtensionOf<Extension, Extension>>;
+ * type AorB_Extends_AorB = Assert.IsTrue<Inheritance.IsExtensionOf<AorB, AorB>>;
+ * type AandB_Extends_AandB = Assert.IsTrue<Inheritance.IsExtensionOf<AandB, AandB>>;
  *
  * // Disjoint types are never an extension of each other
- * type A_Extends_B = Assert.False<Inheritance.IsExtensionOf<A, B>>
- * type B_Extends_A = Assert.False<Inheritance.IsExtensionOf<B, A>>
+ * type A_Extends_B = Assert.IsFalse<Inheritance.IsExtensionOf<A, B>>
+ * type B_Extends_A = Assert.IsFalse<Inheritance.IsExtensionOf<B, A>>
  *
  * // A larger type is always an extension of a smaller type
- * type Extension_Extends_A = Assert.True<Inheritance.IsExtensionOf<Extension, A>>
- * type Extension_Extends_B = Assert.True<Inheritance.IsExtensionOf<Extension, A>>
+ * type Extension_Extends_A = Assert.IsTrue<Inheritance.IsExtensionOf<Extension, A>>
+ * type Extension_Extends_B = Assert.IsTrue<Inheritance.IsExtensionOf<Extension, A>>
  *
  * // A smaller type is never an extension of a larger type
- * type A_Extends_Extension = Assert.False<Inheritance.IsExtensionOf<A, Extension>>
- * type B_Extends_Extension = Assert.False<Inheritance.IsExtensionOf<B, Extension>>
+ * type A_Extends_Extension = Assert.IsFalse<Inheritance.IsExtensionOf<A, Extension>>
+ * type B_Extends_Extension = Assert.IsFalse<Inheritance.IsExtensionOf<B, Extension>>
  *
  * // A union's members are always an extension of the union
- * type A_Extends_AorB = Assert.True<Inheritance.IsExtensionOf<A, AorB>>
- * type B_Extends_AorB = Assert.True<Inheritance.IsExtensionOf<B, AorB>>
+ * type A_Extends_AorB = Assert.IsTrue<Inheritance.IsExtensionOf<A, AorB>>
+ * type B_Extends_AorB = Assert.IsTrue<Inheritance.IsExtensionOf<B, AorB>>
  *
  * // A union is maybe an extension of its members (both True and False)
- * type AorB_Extends_A = Assert.True<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Boolean.Any>>
- * type AorB_Extends_B = Assert.True<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, B>, Boolean.Any>>
+ * type AorB_Extends_A = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Boolean.Any>>
+ * type AorB_Extends_B = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, B>, Boolean.Any>>
  *
  * // A union is never an extension of the intersection of its members
- * type AorB_Extends_Intersection = Assert.False<Inheritance.IsExtensionOf<AorB, AandB>>
+ * type AorB_Extends_Intersection = Assert.IsFalse<Inheritance.IsExtensionOf<AorB, AandB>>
  *
  * // An intersection of a union's members are always an extension of the union
- * type AandB_Extends_AorB = Assert.True<Inheritance.IsExtensionOf<AandB, AorB>>
+ * type AandB_Extends_AorB = Assert.IsTrue<Inheritance.IsExtensionOf<AandB, AorB>>
  *
  * // A union of smaller types is never an extension of a larger type
- * type AorB_Extends_Extension = Assert.False<Inheritance.IsExtensionOf<AorB, Extension>>
+ * type AorB_Extends_Extension = Assert.IsFalse<Inheritance.IsExtensionOf<AorB, Extension>>
  *
  * // A larger type is always an extension of a union of smaller types
- * type Extension_Extends_AorB = Assert.True<Inheritance.IsExtensionOf<Extension, AorB>>
+ * type Extension_Extends_AorB = Assert.IsTrue<Inheritance.IsExtensionOf<Extension, AorB>>
  * ```
  */
 export type IsExtensionOf<ExtendedType, BaseType> =
@@ -81,10 +81,10 @@ export type IsExtensionOf<ExtendedType, BaseType> =
  * type AorB = A | B;
  *
  * // The unstrict version returns Boolean.True | Boolean.False
- * type AorB_Extends_A = Assert.True<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Boolean.Any>>
+ * type AorB_Extends_A = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Boolean.Any>>
  *
  * // The strict version returns Boolean.False
- * type AorB_StrictlyExtends_A = Assert.False<Inheritance.IsExtensionOfStrict<AorB, A>>
+ * type AorB_StrictlyExtends_A = Assert.IsFalse<Inheritance.IsExtensionOfStrict<AorB, A>>
  *
  * ```
  *
@@ -127,43 +127,43 @@ export type IsExtensionOfStrict<ExtendedType, BaseType> = IsEqual<
  * type AandB = A & B;
  *
  * // A type is never a sub type of itself
- * type A_SubTypes_A = Assert.False<IsSubTypeOf<A, A>>;
- * type B_SubTypes_B = Assert.False<IsSubTypeOf<B, B>>;
- * type Extension_SubTypes_Extension = Assert.False<IsSubTypeOf<Extension, Extension>>;
- * type AorB_SubTypes_AorB = Assert.False<IsSubTypeOf<AorB, AorB>>;
- * type AandB_SubTypes_AandB = Assert.False<IsSubTypeOf<AandB, AandB>>;
+ * type A_SubTypes_A = Assert.IsFalse<IsSubTypeOf<A, A>>;
+ * type B_SubTypes_B = Assert.IsFalse<IsSubTypeOf<B, B>>;
+ * type Extension_SubTypes_Extension = Assert.IsFalse<IsSubTypeOf<Extension, Extension>>;
+ * type AorB_SubTypes_AorB = Assert.IsFalse<IsSubTypeOf<AorB, AorB>>;
+ * type AandB_SubTypes_AandB = Assert.IsFalse<IsSubTypeOf<AandB, AandB>>;
  *
  * // Disjoint types are never a sub type of each other
- * type A_SubTypes_B = Assert.False<IsSubTypeOf<A, B>>
- * type B_SubTypes_A = Assert.False<IsSubTypeOf<B, A>>
+ * type A_SubTypes_B = Assert.IsFalse<IsSubTypeOf<A, B>>
+ * type B_SubTypes_A = Assert.IsFalse<IsSubTypeOf<B, A>>
  *
  * // A larger type is never a sub type of a smaller type
- * type Extension_SubTypes_A = Assert.False<IsSubTypeOf<Extension, A>>
- * type Extension_SubTypes_B = Assert.False<IsSubTypeOf<Extension, A>>
+ * type Extension_SubTypes_A = Assert.IsFalse<IsSubTypeOf<Extension, A>>
+ * type Extension_SubTypes_B = Assert.IsFalse<IsSubTypeOf<Extension, A>>
  *
  * // A smaller type is always a sub type of a larger type
- * type A_SubTypes_Extension = Assert.True<IsSubTypeOf<A, Extension>>
- * type B_SubTypes_Extension = Assert.True<IsSubTypeOf<B, Extension>>
+ * type A_SubTypes_Extension = Assert.IsTrue<IsSubTypeOf<A, Extension>>
+ * type B_SubTypes_Extension = Assert.IsTrue<IsSubTypeOf<B, Extension>>
  *
  * // A union's members are always a subtype of the union
- * type A_SubTypes_AorB = Assert.True<IsSubTypeOf<A, AorB>>
- * type B_SubTypes_AorB = Assert.True<IsSubTypeOf<B, AorB>>
+ * type A_SubTypes_AorB = Assert.IsTrue<IsSubTypeOf<A, AorB>>
+ * type B_SubTypes_AorB = Assert.IsTrue<IsSubTypeOf<B, AorB>>
  *
  * // A union is never a sub type of its members
- * type AorB_SubTypes_A = Assert.False<IsSubTypeOf<AorB, A>>
- * type AorB_SubTypes_B = Assert.False<IsSubTypeOf<AorB, B>>
+ * type AorB_SubTypes_A = Assert.IsFalse<IsSubTypeOf<AorB, A>>
+ * type AorB_SubTypes_B = Assert.IsFalse<IsSubTypeOf<AorB, B>>
  *
  * // A union is always a sub type of the intersection of its members
- * type Extension_Subtypes_Intersection = Assert.True<IsSubTypeOf<AorB, AandB>>
+ * type Extension_Subtypes_Intersection = Assert.IsTrue<IsSubTypeOf<AorB, AandB>>
  *
  * // An intersection of a union's members are never a sub type of the union
- * type AandB_Subtypes_AorB = Assert.False<IsSubTypeOf<AandB, AorB>>
+ * type AandB_Subtypes_AorB = Assert.IsFalse<IsSubTypeOf<AandB, AorB>>
  *
  * // A union of smaller types is always a subtype of a larger type
- * type AorB_Subtypes_Extension = Assert.True<IsSubTypeOf<AorB, Extension>>
+ * type AorB_Subtypes_Extension = Assert.IsTrue<IsSubTypeOf<AorB, Extension>>
  *
  * // A larger type is never a subtype for a union of smaller types
- * type Extension_SubTypes_AorB = Assert.False<IsSubTypeOf<Extension, AorB>>
+ * type Extension_SubTypes_AorB = Assert.IsFalse<IsSubTypeOf<Extension, AorB>>
  * ```
  */
 export type IsSubTypeOf<
@@ -171,12 +171,12 @@ export type IsSubTypeOf<
   MaybeSuperType,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-> = Conditional.And<
-  Conditional.Not<IsExtensionOf<MaybeSubType, MaybeSuperType>>,
-  IsExtensionOf<MaybeSuperType, MaybeSubType>,
-  OnTrue,
-  OnFalse
->;
+  > = Conditional.And<
+    Conditional.Not<IsExtensionOf<MaybeSubType, MaybeSuperType>>,
+    IsExtensionOf<MaybeSuperType, MaybeSubType>,
+    OnTrue,
+    OnFalse
+  >;
 
 /**
  * Returns {@link Boolean.True} if {@link MaybeSuperType} is a super type of {@link MaybeSubType}, otherwise returns {@link Boolean.False}.
@@ -198,12 +198,12 @@ export type IsSuperTypeOf<
   MaybeSubType,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-> = Conditional.And<
-  Conditional.Not<IsExtensionOf<MaybeSuperType, MaybeSubType>>,
-  IsExtensionOf<MaybeSubType, MaybeSuperType>,
-  OnTrue,
-  OnFalse
->;
+  > = Conditional.And<
+    Conditional.Not<IsExtensionOf<MaybeSuperType, MaybeSubType>>,
+    IsExtensionOf<MaybeSubType, MaybeSuperType>,
+    OnTrue,
+    OnFalse
+  >;
 
 /**
  * Returns {@link OnTrue} if {@link T} exactly matches {@link U}, otherwise returns {@link OnFalse}.
@@ -224,6 +224,6 @@ export type IsSuperTypeOf<
  */
 export type IsEqual<T, U, OnTrue = Boolean.True, OnFalse = Boolean.False> = (<
   G
->() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
+  >() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
   ? OnTrue
   : OnFalse;
