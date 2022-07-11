@@ -212,10 +212,10 @@ export type IsSuperTypeOf<
  *
  * Specifying {@link OnTrue} and {@link OnFalse} is useful for mapping between types, and can replace the following common snippet.
  *
- * @example You don't need `If` and `Equals` if you're mapping between types:
+ * @example You don't need `If` and `IsEqual` if you're mapping between types:
  * ```typescript
- * type TypeGuard = If<Equals<T, U>, T, Exception<'T and U do not match'>>
- * type SimpleTypeGuard = Equals<T, U, T, Exception<'T and U do not match'>>
+ * type TypeGuard = If<IsEqual<T, U>, T, Exception<'T and U do not match'>>
+ * type SimpleTypeGuard = IsEqual<T, U, T, Exception<'T and U do not match'>>
  * ```
  * @template T The type to check.
  * @template U The type to check against.

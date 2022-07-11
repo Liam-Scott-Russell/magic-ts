@@ -7,8 +7,7 @@ import { type Inspect, type Exception, type Struct, type Class } from "..";
  *
  * Note that even if following the Receive-Object-Return-Object (RORO) pattern, the {@link Constructor} will be an array of length one.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ConstructorParametersBase = any[];
+export type ConstructorParametersBase = unknown[];
 
 /**
  * A constructible is a static struct {@link S} that has a {@link Constructor} which returns an instance struct {@link I}.
@@ -200,58 +199,58 @@ export type Constructor<
  *
  * @example
  * ```typescript
- * class MyTestClass {
- *   public readonly name: string;
+ * // class MyTestClass {
+ * //   public readonly name: string;
  *
- *   public hello(otherPerson: string) {
- *     return `hello ${otherPerson}`;
- *   }
+ * //   public hello(otherPerson: string) {
+ * //     return `hello ${otherPerson}`;
+ * //   }
  *
- *   public static readonly staticProperty: string = "staticProperty";
+ * //   public static readonly staticProperty: string = "staticProperty";
  *
- *   public static staticMethod(): string {
- *     return "staticMethod";
- *   }
+ * //   public static staticMethod(): string {
+ * //     return "staticMethod";
+ * //   }
  *
- *   public constructor(name: string, _unusedField: number) {
- *     this.name = name;
- *   }
- * }
+ * //   public constructor(name: string, _unusedField: number) {
+ * //     this.name = name;
+ * //   }
+ * // }
  *
- * type CanGetMultipleConstructorParameters = Assert.IsTrue<
- *   Inheritance.IsEqual<
- *     [name: string, _unusedField: number],
- *     ConstructorParametersOf$<typeof MyTestClass>
- *   >
- * >
+ * // type CanGetMultipleConstructorParameters = Assert.IsTrue<
+ * //   Inheritance.IsEqual<
+ * //     [name: string, _unusedField: number],
+ * //     ConstructorParametersOf$<typeof MyTestClass>
+ * //   >
+ * // >
  * ```
  * @example
  * ```typescript
- * class EmptyClass { }
+ * // class EmptyClass { }
  *
- * type CanGetNoConstructorParameters = Assert.IsTrue<
- *   Inheritance.IsEqual<
- *     [],
- *     ConstructorParametersOf$<typeof EmptyClass>
- *   >
- * >
+ * // type CanGetNoConstructorParameters = Assert.IsTrue<
+ * //   Inheritance.IsEqual<
+ * //     [],
+ * //     ConstructorParametersOf$<typeof EmptyClass>
+ * //   >
+ * // >
  * ```
  * @example
  * ```typescript
- * class WithInferredProperties {
- *   constructor(
- *     public readonly name: string,
- *     public readonly age: number,
- *     private readonly birthday: Date,
- *   ) { }
- * }
+ * // class WithInferredProperties {
+ * //   constructor(
+ * //     public readonly name: string,
+ * //     public readonly age: number,
+ * //     private readonly birthday: Date,
+ * //   ) { }
+ * // }
  *
- * type CanGetInferredPropertyConstructorParameters = Assert.IsTrue<
- *   Inheritance.IsEqual<
- *     [name: string, age: number, birthday: Date],
- *     ConstructorParametersOf$<typeof WithInferredProperties>
- *   >
- * >
+ * // type CanGetInferredPropertyConstructorParameters = Assert.IsTrue<
+ * //   Inheritance.IsEqual<
+ * //     [name: string, age: number, birthday: Date],
+ * //     ConstructorParametersOf$<typeof WithInferredProperties>
+ * //   >
+ * // >
  * ```
  */
 export type ConstructorParametersOf$<TConstructable extends Any> =
