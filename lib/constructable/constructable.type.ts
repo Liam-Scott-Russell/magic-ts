@@ -1,4 +1,10 @@
-import { type Inspect, type Exception, type Struct, type Class } from "..";
+import {
+  type Inspect,
+  type Exception,
+  type Struct,
+  type Class,
+  type Tuple,
+} from "..";
 
 /**
  * Any {@link Constructor}'s parameters must extend this.
@@ -188,10 +194,11 @@ export type Base = Constructable<{ prototype: {} }, [], {}>;
  * @template C The parameters used to create the instance type {@link I}.
  * @template I The type returned by this constructor.
  */
+// TODO: need an abstract version
 export type Constructor<
   C extends ConstructorParametersBase,
   I extends Struct.Any
-> = abstract new (...parameters: C) => I;
+> = new (...parameters: C) => I;
 
 /**
  * The constructor parameters of a {@link Constructable} type.
