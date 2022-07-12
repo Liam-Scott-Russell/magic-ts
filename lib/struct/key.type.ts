@@ -33,6 +33,7 @@ export type KeysOf<TStruct extends Struct.Any> = keyof TStruct;
  *
  * **NOTE** Unfortunately, this is not a type guard, so you must use {@link Struct.Get} to index {@link TStruct}.
  * @example
+ * {@ignoreExample}
  * ```typescript
  * // @ts-expect-error Error: "2536: Type 'K' cannot be used to index type 'T'".
  * Type MapIfKey<T extends Struct.Any, K extends Struct.KeysAllowed> = Struct.IsKeyOf<T, K, T[K], never>.
@@ -45,7 +46,7 @@ export type IsKeyOf<
   Key extends KeysAllowed,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-> = Inheritance.IsExtensionOf<Key, Struct.KeysOf<TStruct>, OnTrue, OnFalse>;
+  > = Inheritance.IsExtensionOf<Key, Struct.KeysOf<TStruct>, OnTrue, OnFalse>;
 
 /**
  * Return the keys of {@link TStruct} that map to a value of type {@link Value}.
@@ -92,8 +93,8 @@ export type KeysThatMapToValueStrict<TStruct extends Struct.Any, Value> = {
  * @template TStruct2 - The second struct to get the keys of.
  * @template Keys - The keys to filter.
  * @example
+ * {@exampleCaseName A complex matching struct should return the intersection}
  * ```typescript
- * // A complex matching struct
  * type A = {
  *   a: string;
  *   b: number;
@@ -122,8 +123,8 @@ export type KeysThatMapToValueStrict<TStruct extends Struct.Any, Value> = {
  * type AssertFlipped = Assert.IsTrue<Inheritance.IsEqual<Expected, Flipped>>
  * ```
  * @example
+ * {@exampleCaseName A complex extending struct should return the intersection}
  * ```typescript
- * // A complex extending struct
  * type A = {
  *   a: string;
  *   b: number;
@@ -155,8 +156,8 @@ export type KeysThatMapToValueStrict<TStruct extends Struct.Any, Value> = {
  * type AssertFlipped = Assert.IsTrue<Inheritance.IsEqual<Expected, Flipped>>
  * ```
  * @example
+ * {@exampleCaseName An empty struct should return `never`}
  * ```typescript
- * // an empty type
  * type A = {
  *   a: string;
  * }
@@ -178,14 +179,14 @@ export type KeysFilterToSameType<
     TStruct1,
     TStruct2
   >
-> = {
-  [Key in Keys]: Inheritance.IsEqual<
-    Struct.Get<TStruct1, Key>,
-    Struct.Get<TStruct2, Key>,
-    Key,
-    never
-  >;
-}[Keys];
+  > = {
+    [Key in Keys]: Inheritance.IsEqual<
+      Struct.Get<TStruct1, Key>,
+      Struct.Get<TStruct2, Key>,
+      Key,
+      never
+    >;
+  }[Keys];
 
 /**
  * The keys that are present either in {@link TStruct} or {@link U}.
@@ -210,7 +211,7 @@ export type KeysUnion<TStruct extends Struct.Any, U extends Struct.Any> =
 export type KeysUnionStrict<
   TStruct extends Struct.Any,
   U extends Struct.Any
-> = Struct.KeysFilterToSameType<TStruct, U, Struct.KeysUnion<TStruct, U>>;
+  > = Struct.KeysFilterToSameType<TStruct, U, Struct.KeysUnion<TStruct, U>>;
 
 /**
  * The keys that are present in both {@link TStruct1} and {@link TStruct2}.
@@ -225,13 +226,13 @@ export type KeysUnionStrict<
 export type KeysIntersection<
   TStruct1 extends Struct.Any,
   TStruct2 extends Struct.Any
-> = {
-  [Key in KeysUnion<TStruct1, TStruct2>]: Key extends keyof TStruct1
+  > = {
+    [Key in KeysUnion<TStruct1, TStruct2>]: Key extends keyof TStruct1
     ? Key extends keyof TStruct2
-      ? Key
-      : never
+    ? Key
+    : never
     : never;
-}[Struct.KeysUnion<TStruct1, TStruct2>];
+  }[Struct.KeysUnion<TStruct1, TStruct2>];
 
 /**
  * The keys that are present in {@link TStruct1} but not in {@link TStruct2}, where the types are the same.
@@ -244,11 +245,11 @@ export type KeysIntersection<
 export type KeysIntersectionStrict<
   TStruct1 extends Struct.Any,
   TStruct2 extends Struct.Any
-> = Struct.KeysFilterToSameType<
-  TStruct1,
-  TStruct2,
-  Struct.KeysIntersection<TStruct1, TStruct2>
->;
+  > = Struct.KeysFilterToSameType<
+    TStruct1,
+    TStruct2,
+    Struct.KeysIntersection<TStruct1, TStruct2>
+  >;
 
 /**
  * The keys that are present in {@link TStruct} but not in {@link U}.
