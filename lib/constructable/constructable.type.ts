@@ -8,7 +8,7 @@ import { type Inspect, type Exception, type Struct, type Class } from "..";
  * Note that even if following the Receive-Object-Return-Object (RORO) pattern, the {@link Constructor} will be an array of length one.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ConstructorParametersBase = any[];
+export type ConstructorParametersBase = Tuple.Any;
 
 /**
  * A constructible is a static struct {@link S} that has a {@link Constructor} which returns an instance struct {@link I}.
