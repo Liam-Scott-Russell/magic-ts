@@ -29,7 +29,7 @@
     "_eslint": "eslint",
     "lint": "prettier --check . && eslint .",
     "postlint": "echo 'Linted magic-ts!'",
-    "format": "prettier --write '**/*.{ts, md, json}' && eslint --fix .",
+    "format": "prettier --write . && eslint --fix .",
     "postformat": "echo 'Formatted magic-ts!'",
     "prebuild": "rm -rf ./dist npm run doctest:cleanup && npm run barrel && npm run format",
     "build": "tsc -p tsconfig.build.json",

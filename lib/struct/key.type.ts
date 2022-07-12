@@ -27,20 +27,18 @@ export type KeysOf<TStruct extends Struct.Any> = keyof TStruct;
 /**
  * Checks if a key is allowed to index a struct.
  *
- * **Note:** Unfortunately, this is not a type guard, meaning you can't do this:
- * ```typescript
- * // 2536: Type 'K' cannot be used to index type 'T'
- * type MapIfKey<T extends Struct.Any, K extends Struct.KeysAllowed> = Struct.IsKeyOf<T, K, T[K], never>
- * ```.
- *
- * Use {@link TStruct.Get} instead.
- * ```typescript
- * type MapIfKey<T extends Struct.Any, K extends Struct.KeysAllowed> = Struct.Get<T, K>
- * ```
- *
  * @template TStruct - The struct to check the keys of.
  * @template Key - The key to check.
  * @returns Returns {@link Boolean.True} if {@link Key} is a valid key of {@link TStruct}.
+ *
+ * **NOTE** Unfortunately, this is not a type guard, so you must use {@link Struct.Get} to index {@link TStruct}.
+ * @example
+ * ```typescript
+ * // @ts-expect-error Error: "2536: Type 'K' cannot be used to index type 'T'".
+ * Type MapIfKey<T extends Struct.Any, K extends Struct.KeysAllowed> = Struct.IsKeyOf<T, K, T[K], never>.
+ *
+ * Type MapIfKey<T extends Struct.Any, K extends Struct.KeysAllowed> = Struct.Get<T, K>
+ * ```
  */
 export type IsKeyOf<
   TStruct extends Struct.Any,
@@ -52,7 +50,7 @@ export type IsKeyOf<
 /**
  * Return the keys of {@link TStruct} that map to a value of type {@link Value}.
  *
- * This is not a strict check, i.e. any value that extends {@link Value} will be return.
+ * This is not a strict check, so any value that extends {@link Value} will be returned.
  *
  * @template TStruct - The struct to get the keys of.
  * @template Value - The type to filter the keys by.
@@ -69,7 +67,7 @@ export type KeysThatMapToValue<TStruct extends Struct.Any, Value> = {
 /**
  * Return the keys of {@link TStruct} that map to a value of type {@link Value}.
  *
- * This is a strict version of {@link KeysThatMapToValue}, i.e. only values that exactly equal {@link Value} will be returned.
+ * This is a strict version of {@link KeysThatMapToValue}, so only values that exactly equal {@link Value} will be returned.
  *
  * @template TStruct - The struct to get the keys of.
  * @template Value - The type to filter the keys by.
@@ -219,7 +217,7 @@ export type KeysUnionStrict<
  *
  * Does not check that the types are the same, see {@link KeysIntersectionStrict} for that.
  *
- * // TODO: needs porting
+ * // TODO: needs porting.
  *
  * @template TStruct1 - The first struct to get the keys of.
  * @template TStruct2 - The second struct to get the keys of.

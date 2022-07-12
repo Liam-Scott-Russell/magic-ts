@@ -17,11 +17,7 @@
     "sourceType": "module",
     "project": "tsconfig.eslint.json"
   },
-  "plugins": [
-    "canonical",
-    "unused-imports",
-    "eslint-plugin-jsdoc"
-  ],
+  "plugins": ["canonical", "unused-imports", "eslint-plugin-jsdoc"],
   "rules": {
     "func-style": [
       "error",
