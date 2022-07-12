@@ -218,11 +218,10 @@ export type KeysUnionStrict<
  *
  * Does not check that the types are the same, see {@link KeysIntersectionStrict} for that.
  *
- * // TODO: needs porting.
- *
  * @template TStruct1 - The first struct to get the keys of.
  * @template TStruct2 - The second struct to get the keys of.
  */
+// TODO: needs porting.
 export type KeysIntersection<
   TStruct1 extends Struct.Any,
   TStruct2 extends Struct.Any

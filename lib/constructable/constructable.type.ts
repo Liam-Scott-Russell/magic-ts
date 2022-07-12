@@ -295,8 +295,8 @@ export type ConstructorOf<TConstructor extends Any> = Constructor<
  *
  * This includes the ones from {@link Class.StaticBase}.
  *
- * TODO: Using Inspect here will strip off the constructor object.
  */
+// TODO: Using Inspect here will strip off the constructor object, but this is a hack
 export type StaticStructOf$<TConstructable extends Any> =
   TConstructable extends Constructable<
     infer StaticStruct,
