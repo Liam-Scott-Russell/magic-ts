@@ -1,4 +1,6 @@
 import {
+  type Contract,
+  type Inspect,
   type Boolean,
   type Inheritance,
   type Struct,
@@ -61,7 +63,12 @@ export type IsInterface<
   T,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-> = Inheritance.IsExtensionOf<T, InterfaceTypeDiscriminant, OnFalse, OnTrue>;
+> = Inheritance.IsExtensionOf<
+  T,
+  Contract.InterfaceTypeDiscriminant,
+  OnFalse,
+  OnTrue
+>;
 
 /**
  * Returns {@link OnTrue} if {@link T} is an `type`, otherwise returns {@link OnFalse} (if it is a `interface`).
@@ -80,4 +87,36 @@ export type IsType<
   T,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-> = Inheritance.IsExtensionOf<T, InterfaceTypeDiscriminant, OnTrue, OnFalse>;
+> = Inheritance.IsExtensionOf<
+  T,
+  Contract.InterfaceTypeDiscriminant,
+  OnTrue,
+  OnFalse
+>;
+
+/**
+ * Turns a {@link Contract.Type} into an {@link Contract.Interface}.
+ *
+ * You **cannot** achieve this by extending the {@link Contract.Interface} type, or assigning it to a type.
+ *
+ * @example
+ * ```typescript
+ * interface TestInterface {
+ *   a: number;
+ *   b: string;
+ *   c: boolean;
+ *   d: number;
+ * }
+ * type IsInterfaceTest = Assert.IsTrue<Contract.IsInterface<TestInterface>>;
+ *
+ * type AssignedType = TestInterface;
+ * type CannotSimplyAssignToType = Assert.IsFalse<Contract.IsType<AssignedType>>;
+ *
+ * type ExtendedType = TestInterface & {};
+ * type CannotSimplyExtendType = Assert.IsFalse<Contract.IsType<ExtendedType>>;
+ *
+ * type MappedToType = ToType<TestInterface>;
+ * type IsTypeTest = Assert.IsTrue<Contract.IsType<MappedToType>>;
+ * ```
+ */
+export type ToType<T extends Contract.Interface> = Inspect<T>;
