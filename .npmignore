@@ -4,8 +4,7 @@ tests/
 .tool-versions
 *.log
 *.json
-*.ts
-*ignore
+./*ignore
 *.md
 jest.config.ts
 scripts
