@@ -105,18 +105,64 @@ export type IsType<
  *   a: number;
  *   b: string;
  *   c: boolean;
- *   d: number;
  * }
  * type IsInterfaceTest = Assert.IsTrue<Contract.IsInterface<TestInterface>>;
  *
  * type AssignedType = TestInterface;
- * type CannotSimplyAssignToType = Assert.IsFalse<Contract.IsType<AssignedType>>;
+ * type DoesNotWorkWhenAssigningToType = Assert.IsFalse<Contract.IsType<AssignedType>>;
  *
- * type ExtendedType = TestInterface & {};
- * type CannotSimplyExtendType = Assert.IsFalse<Contract.IsType<ExtendedType>>;
+ * type EmptyExtendedType = TestInterface & {};
+ * type DoesNotWorkWhenExtendingWithEmptyType = Assert.IsFalse<Contract.IsType<EmptyExtendedType>>;
  *
- * type MappedToType = ToType<TestInterface>;
+ * // `a` is already a key in `TestInterface`, but we can "add" it again
+ * type ExtendedWithSameKeyType = TestInterface & { a: number; };
+ * type DoesNotWorkWhenExtendingWithSameKey = Assert.IsFalse<Contract.IsType<ExtendedWithSameKeyType>>;
+ *
+ * type ExtendedWithNewKeyType = TestInterface & { d: bigint; };
+ * type DoesNotWorkWhenExtendingWithNewKey = Assert.IsFalse<Contract.IsType<ExtendedWithNewKeyType>>;
+ *
+ * type MappedToType = Contract.ToType<TestInterface>;
  * type IsTypeTest = Assert.IsTrue<Contract.IsType<MappedToType>>;
  * ```
  */
 export type ToType<T extends Contract.Interface> = Inspect<T>;
+
+/**
+ * Converts {@link T} from a {@link Contract.Type} to a {@link Contract.Interface}.
+ *
+ * @template T - The {@link Contract.Type} to convert.
+ * @example
+ * ```typescript
+ * type TestType = {
+ *   a: number;
+ *   b: string;
+ *   c: boolean;
+ * };
+ *
+ * type IsTypeTest = Assert.IsTrue<Contract.IsType<TestType>>;
+ *
+ * type EmptyExtendedInterface = TestType & {};
+ * type DoesNotWorkWhenExtendingTypeWithoutKeys = Assert.IsFalse<
+ *   Contract.IsInterface<EmptyExtendedInterface>
+ * >;
+ *
+ * type ExtendedWithSameKeyInterface = TestType & {
+ *   a: number;
+ * };
+ * type DoesNotWorkWhenExtendingTypeWithSameKey = Assert.IsFalse<
+ *   Contract.IsInterface<ExtendedWithSameKeyInterface>
+ * >;
+ *
+ * type ExtendedWithNewKeyInterface = TestType & {
+ *   d: bigint;
+ * };
+ * type DoesNotWorkWhenExtendingTypeWithNewKey = Assert.IsFalse<
+ *   Contract.IsInterface<ExtendedWithNewKeyInterface>
+ * >;
+ *
+ * type IsInterfaceTest = Assert.IsTrue<
+ *   Contract.IsInterface<Contract.ToInterface<TestType>>
+ * >;
+ * ```
+ */
+export type ToInterface<T extends Contract.Type> = T & {};
