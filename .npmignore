@@ -8,3 +8,5 @@ tests/
 *ignore
 *.md
 jest.config.ts
+scripts
+.editorconfig
