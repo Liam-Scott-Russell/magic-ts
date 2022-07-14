@@ -1,6 +1,6 @@
 {
   "name": "magic-ts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Typescript types so good they're magic!",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
