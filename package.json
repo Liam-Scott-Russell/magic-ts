@@ -2,8 +2,8 @@
   "name": "magic-ts",
   "version": "0.0.2",
   "description": "Typescript types so good they're magic!",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Liam-Scott-Russell/magic-ts.git"
@@ -33,7 +33,7 @@
     "postformat": "echo 'Formatted magic-ts!'",
     "prebuild": "rm -rf ./dist npm run doctest:cleanup && npm run barrel && npm run format",
     "build": "tsc -p tsconfig.build.json",
-    "postbuild": "echo 'Built magic-ts!'",
+    "postbuild": "cp package.json dist && echo 'Built magic-ts!'",
     "predependency:check": "npm run prebuild",
     "dependency:check": "madge --circular --warning --extensions ts --ts-config ./tsconfig.build.json .",
     "postdependency:check": "echo 'Checked the dependencies of magic-ts!'",
