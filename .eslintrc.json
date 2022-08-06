@@ -51,6 +51,7 @@
         "runtime": "always",
         "type": "always"
       }
-    ]
+    ],
+    "@typescript-eslint/no-unnecessary-qualifier": "off"
   }
 }

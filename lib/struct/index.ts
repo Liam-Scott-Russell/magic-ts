@@ -5,4 +5,5 @@
 export * from "./base.type";
 export * from "./key.runtime";
 export * from "./key.type";
+export * from "./value.runtime";
 export * from "./value.type";

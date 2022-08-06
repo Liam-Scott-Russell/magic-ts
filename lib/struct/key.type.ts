@@ -16,7 +16,7 @@ import {
 export type KeysAllowed = keyof any;
 
 /**
- * The keys of a struct.
+ * The union of the keys of a struct.
  *
  * Essentially a alias for `keyof T`, but with a type guard to {@link TStruct.Any}.
  *
@@ -266,12 +266,3 @@ export type KeysDifference<TStruct extends Struct.Any, U extends Struct.Any> = {
     never
   >;
 }[KeysUnion<TStruct, U>];
-
-/**
- * The keys that are present in {@link T} but not in {@link U}, where the types are the same.
- *
- * The strict version of {@link KeysDifference}.
- *
- * @template T - The first struct to get the keys of.
- * @template U - The second struct to get the keys of.
- */

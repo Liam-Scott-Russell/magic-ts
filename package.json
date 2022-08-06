@@ -9,7 +9,7 @@
     "url": "git+https://github.com/Liam-Scott-Russell/magic-ts.git"
   },
   "author": "Liam Scott-Russell",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Liam-Scott-Russell/magic-ts/issues"
   },
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@jest/types": "^28.1.1",
-    "@tsconfig/node18-strictest-esm": "^1.0.0",
+    "@tsconfig/node18-strictest": "^1.0.0",
     "@types/jest": "^27.5.1",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "barrelsby": "^2.3.4",
