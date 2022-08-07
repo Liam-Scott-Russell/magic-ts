@@ -1,4 +1,4 @@
-import { type Tuple, type Boolean, type HKT } from "..";
+import { type Inheritance, type Tuple, type Boolean, type HKT } from "..";
 
 /**
  * Any tuple type.
@@ -22,11 +22,30 @@ type Tuple__Tail<T extends Tuple.Any, Default = never> = T extends [
   ? Tail
   : Default;
 
+/**
+ * Returns {@link OnTrue} if the tuple {@link T} has at least one element, otherwise returns {@link OnFalse}.
+ *
+ * @template T - The tuple to check.
+ * @template OnTrue - Return value if the {@link T} has at least one element. Defaults to {@link Boolean.True}.
+ * @template OnFalse - Return value if the {@link T} has no elements. Defaults to {@link Boolean.False}.
+ * @returns Either {@link OnTrue} or {@link OnFalse}.
+ * @example
+ * ```typescript
+ * type ShouldReturnFalseWhenGivenEmpty = Assert.IsFalse<Tuple.HasHead<[]>>;
+ * type ShouldReturnTrueWhenGivenOneElement = Assert.IsTrue<Tuple.HasHead<[1]>>;
+ * type ShouldReturnTrueWhenGivenMultipleElements = Assert.IsTrue<Tuple.HasHead<[1, 2, 3]>>;
+ * type ShouldReturnTrueWhenGivenMixedElements = Assert.IsTrue<Tuple.HasHead<[1, "2", { four: 4 }]>>;
+ * ```
+ */
 type Tuple__HasHead<
   T extends Tuple.Any,
   OnTrue = Boolean.True,
   OnFalse = Boolean.False
-> = T extends [infer _Head] ? OnTrue : OnFalse;
+> = T extends [infer _Head]
+  ? OnTrue
+  : T extends [infer _Head, ...infer _Tail]
+  ? OnTrue
+  : OnFalse;
 
 type Tuple__HasTail<
   T extends Tuple.Any,
@@ -41,11 +60,23 @@ type Tuple__Last<T extends Tuple.Any, Default = never> = T extends [
   ? Tuple__Last<Tail, Default>
   : Tuple.Head<T, Default>;
 
-type Tuple__Map1<
+type Tuple__Map<
   TOperation extends HKT.Operation1,
   T extends Tuple.Any
 > = T extends [infer Head, ...infer Tail]
-  ? [HKT.Apply1<TOperation, Head>, ...Tuple__Map1<TOperation, Tail>]
+  ? [HKT.Apply1<TOperation, Head>, ...Tuple__Map<TOperation, Tail>]
+  : readonly [];
+
+type Tuple__Filter<
+  TOperation extends HKT.Operation1,
+  T extends Tuple.Any
+> = T extends [infer Head, ...infer Tail]
+  ? Inheritance.IsEqual<
+      HKT.Apply1<TOperation, Head>,
+      Boolean.True,
+      [Head, ...Tuple__Filter<TOperation, Tail>],
+      [...Tuple__Filter<TOperation, Tail>]
+    >
   : readonly [];
 
 /**
@@ -152,23 +183,7 @@ type Tuple__Pair<T1 extends Tuple.Any, T2 extends Tuple.Any> = T1 extends [
     : []
   : [];
 
-export type Tuple__Concat<T1 extends Tuple.Any, T2 extends Tuple.Any> = [
-  ...T1,
-  ...T2
-];
-
-declare module "../hkt" {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-  export interface Free1<T1> {
-    "Tuple.FromAny": [T1];
-    "Tuple.HasHead": Tuple.HasHead<HKT.Constrain<Tuple.Any, T1>>;
-    "Tuple.HasTail": Tuple.HasTail<HKT.Constrain<Tuple.Any, T1>>;
-    "Tuple.Head": Tuple.Head<HKT.Constrain<Tuple.Any, T1>>;
-    "Tuple.Last": Tuple.Last<HKT.Constrain<Tuple.Any, T1>>;
-    "Tuple.Length": Tuple.Length<HKT.Constrain<Tuple.Any, T1>>;
-    "Tuple.Tail": Tuple.Tail<HKT.Constrain<Tuple.Any, T1>>;
-  }
-}
+type Tuple__Concat<T1 extends Tuple.Any, T2 extends Tuple.Any> = [...T1, ...T2];
 
 export type {
   Tuple__Any as Any,
@@ -178,7 +193,9 @@ export type {
   Tuple__HasHead as HasHead,
   Tuple__HasTail as HasTail,
   Tuple__Last as Last,
-  Tuple__Map1 as Map1,
+  Tuple__Map,
+  Tuple__Filter,
   Tuple__Zip as Zip,
   Tuple__Pair as Pair,
+  Tuple__Concat as Concat,
 };
