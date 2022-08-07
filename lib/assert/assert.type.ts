@@ -1,13 +1,13 @@
-import { type Inheritance, type Boolean } from "..";
+import { type Inheritance, type Conditional } from "..";
 
 export type IsTrue<
-  Test extends Boolean.True,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
-> = Inheritance.IsEqual<Test, Boolean.True, OnTrue, OnFalse>;
+  Test extends Conditional.True,
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
+> = Inheritance.IsEqual<Test, Conditional.True, OnTrue, OnFalse>;
 
 export type IsFalse<
-  Test extends Boolean.False,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
-> = Inheritance.IsEqual<Test, Boolean.False, OnTrue, OnFalse>;
+  Test extends Conditional.False,
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
+> = Inheritance.IsEqual<Test, Conditional.False, OnTrue, OnFalse>;

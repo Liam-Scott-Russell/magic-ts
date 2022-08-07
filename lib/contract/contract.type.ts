@@ -1,7 +1,7 @@
 import {
   type Contract,
   type Inspect,
-  type Boolean,
+  type Conditional,
   type Inheritance,
   type Struct,
 } from "..";
@@ -61,8 +61,8 @@ export type InterfaceTypeDiscriminant = {
  */
 export type IsInterface<
   T,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
 > = Inheritance.IsExtensionOf<
   T,
   Contract.InterfaceTypeDiscriminant,
@@ -85,8 +85,8 @@ export type IsInterface<
  */
 export type IsType<
   T,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
 > = Inheritance.IsExtensionOf<
   T,
   Contract.InterfaceTypeDiscriminant,

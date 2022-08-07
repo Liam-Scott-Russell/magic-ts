@@ -3,7 +3,6 @@
  */
 
 export * as Assert from "./assert";
-export * as Boolean from "./boolean";
 export * as Brand from "./brand";
 export * as Class from "./class";
 export * as Conditional from "./conditional";

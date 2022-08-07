@@ -1,14 +1,14 @@
-import { type Boolean, type Conditional } from "..";
+import { type Conditional } from "..";
 
 /**
  * .
- * Returns {@link Boolean.True} if {@link ExtendedType} extends {@link BaseType}, otherwise returns {@link Boolean.False}.
+ * Returns {@link Conditional.True} if {@link ExtendedType} extends {@link BaseType}, otherwise returns {@link Conditional.False}.
  *
  * This is a wrapper around Typescript's `ExtendedType extends BaseType ? True : false` statement.
  *
  * @template ExtendedType - Maybe the "child" type.
  * @template BaseType - Maybe the "base" type.
- * @returns - {@link Boolean.True} Or {@link Boolean.False}.
+ * @returns - {@link Conditional.True} Or {@link Conditional.False}.
  * @example
  *
  * ```typescript
@@ -44,8 +44,8 @@ import { type Boolean, type Conditional } from "..";
  * type B_Extends_AorB = Assert.IsTrue<Inheritance.IsExtensionOf<B, AorB>>
  *
  * // A union is maybe an extension of its members (both True and False)
- * type AorB_Extends_A = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Boolean.Any>>
- * type AorB_Extends_B = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, B>, Boolean.Any>>
+ * type AorB_Extends_A = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Conditional.Any>>
+ * type AorB_Extends_B = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, B>, Conditional.Any>>
  *
  * // A union is never an extension of the intersection of its members
  * type AorB_Extends_Intersection = Assert.IsFalse<Inheritance.IsExtensionOf<AorB, AandB>>
@@ -63,16 +63,16 @@ import { type Boolean, type Conditional } from "..";
 export type IsExtensionOf<
   ExtendedType,
   BaseType,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
 > = ExtendedType extends BaseType ? OnTrue : OnFalse;
 
 /**
- * A strict version of {@link IsExtensionOf} that ensures that strictly either {@link Boolean.True} or {@link Boolean.False} are returned, but not both.
+ * A strict version of {@link IsExtensionOf} that ensures that strictly either {@link Conditional.True} or {@link Conditional.False} are returned, but not both.
  *
  * This is important for when checking whether a union extends a particular member.
- * Typescript will attempt to keep the type as wide as possible, and return {@link Boolean.Any}.
- * This stricter version will return {@link Boolean.False} in all situations where {@link IsExtensionOf} would return {@link Boolean.Any}.
+ * Typescript will attempt to keep the type as wide as possible, and return {@link Conditional.Any}.
+ * This stricter version will return {@link Conditional.False} in all situations where {@link IsExtensionOf} would return {@link Conditional.Any}.
  *
  * @template ExtendedType - Maybe the larger type.
  * @template BaseType - Maybe the smaller type.
@@ -84,10 +84,10 @@ export type IsExtensionOf<
  * type B = { b: number };
  * type AorB = A | B;
  *
- * // The unstrict version returns Boolean.True | Boolean.False
- * type AorB_Extends_A = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Boolean.Any>>
+ * // The unstrict version returns Conditional.True | Conditional.False
+ * type AorB_Extends_A = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Conditional.Any>>
  *
- * // The strict version returns Boolean.False
+ * // The strict version returns Conditional.False
  * type AorB_StrictlyExtends_A = Assert.IsFalse<Inheritance.IsExtensionOfStrict<AorB, A>>
  *
  * ```
@@ -103,11 +103,11 @@ export type IsExtensionOf<
  */
 export type IsExtensionOfStrict<ExtendedType, BaseType> = IsEqual<
   IsExtensionOf<ExtendedType, BaseType>,
-  Boolean.True
+  Conditional.True
 >;
 
 /**
- * Returns {@link Boolean.True} if {@link MaybeSubType} is a sub type of {@link MaybeSuperType}, otherwise returns {@link Boolean.False}.
+ * Returns {@link Conditional.True} if {@link MaybeSubType} is a sub type of {@link MaybeSuperType}, otherwise returns {@link Conditional.False}.
  *
  * A "sub type" means that {@link MaybeSubType} does not extend {@link MaybeSuperType}, and {@link MaybeSuperType} does extend {@link MaybeSubType}.
  *
@@ -117,9 +117,9 @@ export type IsExtensionOfStrict<ExtendedType, BaseType> = IsEqual<
  *
  * @template MaybeSubType - Maybe the "sub" type.
  * @template MaybeSuperType - Maybe the "super" type.
- * @template OnTrue - Type to return if the expression is true. Defaults to {@link Boolean.True}.
- * @template OnFalse - Type to return if the expression is false. Defaults to {@link Boolean.False}.
- * @returns - Returns {@link Boolean.True} or {@link Boolean.False} by default, overridden by {@link OnTrue} or {@link OnFalse}.
+ * @template OnTrue - Type to return if the expression is true. Defaults to {@link Conditional.True}.
+ * @template OnFalse - Type to return if the expression is false. Defaults to {@link Conditional.False}.
+ * @returns - Returns {@link Conditional.True} or {@link Conditional.False} by default, overridden by {@link OnTrue} or {@link OnFalse}.
  * @example
  * ```typescript
  * import { Inheritance, Assert } from "magic-ts";
@@ -173,8 +173,8 @@ export type IsExtensionOfStrict<ExtendedType, BaseType> = IsEqual<
 export type IsSubTypeOf<
   MaybeSubType,
   MaybeSuperType,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
 > = Conditional.And<
   Conditional.Not<IsExtensionOf<MaybeSubType, MaybeSuperType>>,
   IsExtensionOf<MaybeSuperType, MaybeSubType>,
@@ -183,7 +183,7 @@ export type IsSubTypeOf<
 >;
 
 /**
- * Returns {@link Boolean.True} if {@link MaybeSuperType} is a super type of {@link MaybeSubType}, otherwise returns {@link Boolean.False}.
+ * Returns {@link Conditional.True} if {@link MaybeSuperType} is a super type of {@link MaybeSubType}, otherwise returns {@link Conditional.False}.
  *
  * A "super type" means that {@link MaybeSuperType} does extend {@link MaybeSubType}, and {@link MaybeSubType} does not extend {@link MaybeSuperType}.
  *
@@ -193,15 +193,15 @@ export type IsSubTypeOf<
  *
  * @template MaybeSuperType - Maybe the "super" type.
  * @template MaybeSubType - Maybe the "sub" type.
- * @template OnTrue - Type to return if the expression is true. Defaults to {@link Boolean.True}.
- * @template OnFalse - Type to return if the expression is false. Defaults to {@link Boolean.False}.
- * @returns - {@link Boolean.True} Or {@link Boolean.False}.
+ * @template OnTrue - Type to return if the expression is true. Defaults to {@link Conditional.True}.
+ * @template OnFalse - Type to return if the expression is false. Defaults to {@link Conditional.False}.
+ * @returns - {@link Conditional.True} Or {@link Conditional.False}.
  */
 export type IsSuperTypeOf<
   MaybeSuperType,
   MaybeSubType,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
 > = Conditional.And<
   Conditional.Not<IsExtensionOf<MaybeSuperType, MaybeSubType>>,
   IsExtensionOf<MaybeSubType, MaybeSuperType>,
@@ -223,11 +223,14 @@ export type IsSuperTypeOf<
  * ```
  * @template T The type to check.
  * @template U The type to check against.
- * @template OnTrue The type to return if {@link T} exactly matches {@link U}. Defaults to {@link Boolean.True}.
- * @template OnFalse The type to return if {@link T} does not exactly match {@link U}. Defaults to {@link Boolean.False}.
+ * @template OnTrue The type to return if {@link T} exactly matches {@link U}. Defaults to {@link Conditional.True}.
+ * @template OnFalse The type to return if {@link T} does not exactly match {@link U}. Defaults to {@link Conditional.False}.
  */
-export type IsEqual<T, U, OnTrue = Boolean.True, OnFalse = Boolean.False> = (<
-  G
->() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
+export type IsEqual<
+  T,
+  U,
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
+> = (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
   ? OnTrue
   : OnFalse;

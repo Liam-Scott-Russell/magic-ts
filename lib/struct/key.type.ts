@@ -1,9 +1,4 @@
-import {
-  type Struct,
-  type Boolean,
-  type Conditional,
-  type Inheritance,
-} from "..";
+import { type Struct, type Conditional, type Inheritance } from "..";
 
 /**
  * The possible types that are allowed to index a struct.
@@ -29,7 +24,7 @@ export type KeysOf<TStruct extends Struct.Any> = keyof TStruct;
  *
  * @template TStruct - The struct to check the keys of.
  * @template Key - The key to check.
- * @returns Returns {@link Boolean.True} if {@link Key} is a valid key of {@link TStruct}.
+ * @returns Returns {@link Conditional.True} if {@link Key} is a valid key of {@link TStruct}.
  *
  * **NOTE** Unfortunately, this is not a type guard, so you must use {@link Struct.Get} to index {@link TStruct}.
  * @example
@@ -44,8 +39,8 @@ export type KeysOf<TStruct extends Struct.Any> = keyof TStruct;
 export type IsKeyOf<
   TStruct extends Struct.Any,
   Key extends KeysAllowed,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
 > = Inheritance.IsExtensionOf<Key, Struct.KeysOf<TStruct>, OnTrue, OnFalse>;
 
 /**

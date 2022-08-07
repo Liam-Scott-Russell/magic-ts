@@ -1,4 +1,4 @@
-import { type Inheritance, type Tuple, type Boolean, type HKT } from "..";
+import { type Inheritance, type Tuple, type Conditional, type HKT } from "..";
 
 /**
  * Any tuple type.
@@ -26,8 +26,8 @@ type Tuple__Tail<T extends Tuple.Any, Default = never> = T extends [
  * Returns {@link OnTrue} if the tuple {@link T} has at least one element, otherwise returns {@link OnFalse}.
  *
  * @template T - The tuple to check.
- * @template OnTrue - Return value if the {@link T} has at least one element. Defaults to {@link Boolean.True}.
- * @template OnFalse - Return value if the {@link T} has no elements. Defaults to {@link Boolean.False}.
+ * @template OnTrue - Return value if the {@link T} has at least one element. Defaults to {@link Conditional.True}.
+ * @template OnFalse - Return value if the {@link T} has no elements. Defaults to {@link Conditional.False}.
  * @returns Either {@link OnTrue} or {@link OnFalse}.
  * @example
  * ```typescript
@@ -39,8 +39,8 @@ type Tuple__Tail<T extends Tuple.Any, Default = never> = T extends [
  */
 type Tuple__HasHead<
   T extends Tuple.Any,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
 > = T extends [infer _Head]
   ? OnTrue
   : T extends [infer _Head, ...infer _Tail]
@@ -49,8 +49,8 @@ type Tuple__HasHead<
 
 type Tuple__HasTail<
   T extends Tuple.Any,
-  OnTrue = Boolean.True,
-  OnFalse = Boolean.False
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
 > = T extends [infer _Head, ...infer _Tail] ? OnTrue : OnFalse;
 
 type Tuple__Last<T extends Tuple.Any, Default = never> = T extends [
@@ -73,7 +73,7 @@ type Tuple__Filter<
 > = T extends [infer Head, ...infer Tail]
   ? Inheritance.IsEqual<
       HKT.Apply1<TOperation, Head>,
-      Boolean.True,
+      Conditional.True,
       [Head, ...Tuple__Filter<TOperation, Tail>],
       [...Tuple__Filter<TOperation, Tail>]
     >
