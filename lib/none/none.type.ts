@@ -1,4 +1,4 @@
-import { type Brand, type Exception, type Inheritance } from "..";
+import { type Brand, type Inheritance } from "..";
 
 /**
  * A different "nullable" object, as an alternative to `null`, `unknown`, `undefined`, or `never`.
@@ -13,38 +13,39 @@ export type None = Brand.Brand<{}, "None">;
 export type NilTypes = never | null | undefined;
 
 /**
- * Transforms {@link T} into {@link None} if {@link T} == `null`, otherwise @throws {@link Exception.Exception}.
+ * Transforms {@link T} into {@link None} if {@link T} == `null`, otherwise returns {@link Default}.
  */
-export type FromNull$<T> = Inheritance.IsEqual<
+export type FromNull<T, Default = never> = Inheritance.IsEqual<
   T,
   null,
   None,
-  Exception.Exception<"T does not equal `null`", T>
+  Default
 >;
 
 /**
- * Transforms {@link T} into {@link None} if {@link T} == `undefined`, otherwise @throws {@link Exception.Exception}.
+ * Transforms {@link T} into {@link None} if {@link T} == `undefined`, otherwise returns {@link Default}.
  */
-export type FromUndefined$<T> = Inheritance.IsEqual<
+export type FromUndefined<T, Default = never> = Inheritance.IsEqual<
   T,
   undefined,
   None,
-  Exception.Exception<"T does not equal `undefined`", T>
+  Default
 >;
 
 /**
- * Transforms {@link T} into {@link None} if {@link T} == `never`, otherwise @throws {@link Exception.Exception}.
+ * Transforms {@link T} into {@link None} if {@link T} == `never`, otherwise returns {@link Default}.
  */
-export type FromNever$<T> = Inheritance.IsEqual<
+export type FromNever<T, Default> = Inheritance.IsEqual<
   T,
   never,
   None,
-  Exception.Exception<"T does not equal `never`", T>
+  Default
 >;
 
-export type FromNever<T> = Inheritance.IsEqual<T, never, None, T>;
-
-export type FromNilType<T extends NilTypes> = Inheritance.IsEqual<
+export type FromNilType<
+  T extends NilTypes,
+  Default = never
+> = Inheritance.IsEqual<
   T,
   null,
   None,
@@ -52,24 +53,6 @@ export type FromNilType<T extends NilTypes> = Inheritance.IsEqual<
     T,
     undefined,
     None,
-    Inheritance.IsEqual<
-      T,
-      never,
-      None,
-      Exception.Exception<"T does not equal `null`, `undefined`, or `never`", T>
-    >
+    Inheritance.IsEqual<T, never, None, Default>
   >
->;
-
-export type GetOrDefault<T, Default extends T> = Inheritance.IsEqual<
-  T,
-  None,
-  Default,
-  T
->;
-export type GetOrDefaultW<T, Default> = Inheritance.IsEqual<
-  T,
-  None,
-  Default,
-  T
 >;

@@ -9,7 +9,6 @@ export * as Class from "./class";
 export * as Conditional from "./conditional";
 export * as Constructable from "./constructable";
 export * as Contract from "./contract";
-export * as Exception from "./exception";
 export * as HKT from "./hkt";
 export * as Inheritance from "./inheritance";
 // Inspect is a top level export

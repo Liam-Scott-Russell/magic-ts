@@ -1,4 +1,4 @@
-import { type Exception, type Struct } from "..";
+import { type Struct } from "..";
 
 /**
  * Uniquely marks a type {@link T} using {@link Name} so that is distinct from other types {@link T}.
@@ -35,11 +35,6 @@ export type Brand<
 
 export type Unbrand<
   T extends Struct.Any,
-  Key extends string = "__brand"
-> = T extends Brand<infer U, infer _Name, Key> ? U : T;
-export type UnBrand$<
-  T extends Struct.Any,
-  Key extends string = "__brand"
-> = T extends Brand<infer U, infer _Name, Key>
-  ? U
-  : Exception.Exception<`Type was not branded with Key ${Key}`, T>;
+  Key extends string = "__brand",
+  Default = never
+> = T extends Brand<infer U, infer _Name, Key> ? U : Default;

@@ -1,10 +1,4 @@
-import {
-  type Inspect,
-  type Exception,
-  type Struct,
-  type Class,
-  type Tuple,
-} from "..";
+import { type Inspect, type Struct, type Class, type Tuple } from "..";
 
 /**
  * Any {@link Constructor}'s parameters must extend this.
@@ -261,33 +255,34 @@ export type Constructor<
  * // >
  * ```
  */
-export type ConstructorParametersOf$<TConstructable extends Any> =
-  TConstructable extends Constructable<infer _S, infer C, infer _I>
-    ? C
-    : Exception.Exception<
-        "ConstructorParametersOf: Could not determine the constructor parameters.",
-        TConstructable
-      >;
+export type ConstructorParametersOf<
+  TConstructable extends Any,
+  Default = never
+> = TConstructable extends Constructable<infer _S, infer C, infer _I>
+  ? C
+  : Default;
 
 /**
  * The instance type of a {@link Constructable} type.
  *
  * Very similar to the {@link InstanceType} builtin.
  */
-export type InstanceStructOf$<TConstructable extends Any> =
-  TConstructable extends Constructable<infer _S, infer _C, infer I>
-    ? I
-    : Exception.Exception<
-        "InstanceStructOf$: Could not determine the constructor parameters.",
-        TConstructable
-      >;
+export type InstanceStructOf<
+  TConstructable extends Any,
+  Default = never
+> = TConstructable extends Constructable<infer _S, infer _C, infer I>
+  ? I
+  : Default;
 
 /**
  * The {@link Class.Constructor} function of a {@link Constructable} type.
  */
-export type ConstructorOf<TConstructor extends Any> = Constructor<
-  ConstructorParametersOf$<TConstructor>,
-  InstanceStructOf$<TConstructor>
+export type ConstructorOf<
+  TConstructor extends Any,
+  Default = never
+> = Constructor<
+  ConstructorParametersOf<TConstructor, Default>,
+  InstanceStructOf<TConstructor, Default>
 >;
 
 /**
@@ -297,25 +292,24 @@ export type ConstructorOf<TConstructor extends Any> = Constructor<
  *
  */
 // TODO: Using Inspect here will strip off the constructor object, but this is a hack
-export type StaticStructOf$<TConstructable extends Any> =
-  TConstructable extends Constructable<
-    infer StaticStruct,
-    infer _ConstructorParameters,
-    infer _InstanceStruct
-  >
-    ? Inspect<StaticStruct>
-    : Exception.Exception<
-        "StaticStructOf$: Could not determine the static struct.",
-        TConstructable
-      >;
+export type StaticStructOf<
+  TConstructable extends Any,
+  Default = never
+> = TConstructable extends Constructable<
+  infer StaticStruct,
+  infer _ConstructorParameters,
+  infer _InstanceStruct
+>
+  ? Inspect<StaticStruct>
+  : Default;
 
 /**
  * The static properties of a {@link Constructable} type, excluding the ones from {@link Class.StaticBase}.
  */
-export type StaticStructOfStrict<TConstructable extends Any> = Omit<
-  StaticStructOf$<TConstructable>,
-  Class.StaticBaseKeys
->;
+export type StaticStructOfStrict<
+  TConstructable extends Any,
+  Default = never
+> = Omit<StaticStructOf<TConstructable, Default>, Class.StaticBaseKeys>;
 
 // TODO: EXAMPLE
 // class MyTestClass {
