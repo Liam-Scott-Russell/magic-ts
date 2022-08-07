@@ -1,6 +1,5 @@
 import {
   type Contract,
-  type Exception,
   type Inheritance,
   type Struct as MStruct,
   type Json,
@@ -9,7 +8,6 @@ import {
 export type Primitive = boolean | number | string | null;
 
 export type List = Json.Value[];
-export type List$ = Json.Value$[];
 
 /**
  * A JSON object.
@@ -25,7 +23,7 @@ export type Struct<T = Contract.Type> = {
     String,
     Inheritance.IsExtensionOf<
       T[Key],
-      Json.Value$<T[Key]>,
+      Json.Value<T[Key]>,
       MStruct.Get<T, Key>,
       never
     >,
@@ -33,41 +31,10 @@ export type Struct<T = Contract.Type> = {
   >;
 };
 
-/**
- * A JSON object.
- *
- * Unlike {@link Json.Struct}, this type throws an {@link Exception.Exception} when a value is not JSON compatible.
- * This means that this type can be used as `type TypeName<TGeneric extends Struct$<TGeneric>>` to guarantee that `TGeneric` is a JSON object.
- *
- * @template T - Optionally, a type to convert to JSON.
- */
-export type Struct$<T = Contract.Type> = {
-  [Key in keyof T]: Inheritance.IsExtensionOf<
-    Key,
-    String,
-    Inheritance.IsExtensionOf<
-      T[Key],
-      Json.Value$<T[Key]>,
-      MStruct.Get<T, Key>,
-      Exception.Exception<
-        "Value is not compatible with JSON",
-        { [K in Key]: T[Key] }
-      >
-    >,
-    Exception.Exception<"Key is not a string", Key>
-  >;
-};
-
 export type Value<T = Contract.Type> =
   | Array<Value<T>>
   | Json.Primitive
   | Json.Struct<T>
-  | null;
-
-export type Value$<T = Contract.Type> =
-  | Array<Value$<T>>
-  | Json.Primitive
-  | Json.Struct$<T>
   | null;
 
 // TESTING

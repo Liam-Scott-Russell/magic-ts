@@ -218,8 +218,8 @@ export type IsSuperTypeOf<
  *
  * @example You don't need `If` and `IsEqual` if you're mapping between types:
  * ```typescript
- * type TypeGuard = If<IsEqual<T, U>, T, Exception<'T and U do not match'>>
- * type SimpleTypeGuard = IsEqual<T, U, T, Exception<'T and U do not match'>>
+ * type TypeGuard = If<IsEqual<T, U>, T, "ERROR">
+ * type SimpleTypeGuard = IsEqual<T, U, T, "ERROR">
  * ```
  * @template T The type to check.
  * @template U The type to check against.
