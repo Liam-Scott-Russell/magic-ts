@@ -1,0 +1,82 @@
+* magic-ts
+
+Typescript types so good they're magic!
+
+** Conventions
+*** Naming
+**** Predicate Type Functions
+A predicate type function is a type that takes at least three generics, where the final two generic types are called ~OnTrue~ and ~OnFalse~.
+~OnTrue~ will always default to ~Conditional.True~, and ~OnFalse~ will always default to ~Conditional.False~, meaning that they are not required.
+A predicate type function will always return ~Conditional.True~ or ~Conditional.False~ (i.e. ~Conditional.Any~).
+
+An example of this is the ~Inheritance.IsExtensionOf~ predicate type function, which takes two parameters ~ExtendedType~, ~BaseType~ and returns whether ~ExtendedType extends BaseType~:
+#+begin_src typescript
+export type IsExtensionOf<
+  ExtendedType,
+  BaseType,
+  OnTrue = Conditional.True,
+  OnFalse = Conditional.False
+> = ExtendedType extends BaseType ? OnTrue : OnFalse;
+
+// Not necessary to provide values for OnTrue and OnFalse
+type WithDefaults = IsExtensionOf<1, number>; // Conditional.True
+
+//Not necessary to provide values for OnFalse when providing a value for OnTrue
+type WithDefaultOnTrue = IsExtensionOf<1, number, 2>; // 2
+
+//Can provide any value for OnTrue and OnFalse
+type ProvidingValues = IsExtensionOf<
+  "magic-ts",
+  string,
+  "yes",
+  { result: "no" }
+>; // "yes"
+
+// Can nest predicate calls inside each other
+type Nested = IsExtensionOf<
+  1,
+  number,
+  IsExtensionOf<
+    1,
+    string,
+    "is a number, and a string",
+    "is a number, not a string"
+  >,
+  "not a number, not a string"
+>; // "is a number, not a string"
+#+end_src
+**** Getter Type Functions
+A getter type function is a type that always takes at least two generic, where the final generic type is called ~Default~.
+~Default~ will always default to ~never~, meaning that it is not required.
+A getter function will "get" some value, and if it cannot (for a variety of reasons), then it will return ~Default~.
+
+#+begin_src typescript
+type Tuple__Head<T extends Tuple.Any, Default = never> = T extends [
+  infer Head,
+  ...infer _Tail
+]
+  ? Head
+  : Default;
+
+type Head = Tuple__Head<[1, 2, 3]>; // 1
+// an empty tuple has no head
+type HeadDefault = Tuple__Head<[], "SomeDefaultValue">; // "SomeDefaultValue"
+
+export type Struct__Get<
+  TStruct extends Struct.Any,
+  Key extends Struct.KeysAllowed,
+  Default = never
+> = Key extends keyof TStruct ? TStruct[Key] : Default;
+
+type Value = Struct__Get<
+    { a: "aValue", b: "bValue" },
+    "a"
+>; // "aValue"
+
+type ValueDefault = Struct__Get<
+    { a: "aValue", b: "bValue" },
+    "c",
+    "SomeDefaultValue"
+>; // "SomeDefaultValue"
+
+#+end_src
