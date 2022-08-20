@@ -7,8 +7,7 @@ import { type Inspect, type Struct, type Class, type Tuple } from "..";
  *
  * Note that even if following the Receive-Object-Return-Object (RORO) pattern, the {@link Constructor} will be an array of length one.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ConstructorParametersBase = Tuple.Any;
+export type Class__ConstructorParametersBase = Tuple.Any;
 
 /**
  * A constructible is a static struct {@link S} that has a {@link Constructor} which returns an instance struct {@link I}.
@@ -154,11 +153,11 @@ export type ConstructorParametersBase = Tuple.Any;
  * >;
  * ```
  */
-export type Constructable<
+export type Class__Constructable<
   S extends Struct.Any,
-  C extends ConstructorParametersBase,
+  C extends Class.ConstructorParametersBase,
   I extends Struct.Any
-> = Constructor<C, I> & S;
+> = Class.Constructor<C, I> & S;
 
 /**
  * A {@link Constructable} with default parameters, meaning it represents all possible constructables.
@@ -169,30 +168,42 @@ export type Constructable<
  *
  * Can't use {@link Struct.Any} because it yields type errors.
  */
-export type Any = Constructable<{}, ConstructorParametersBase, {}>;
+export type Class__AnyConstructable = Class.Constructable<
+  {},
+  Class.ConstructorParametersBase,
+  {}
+>;
 
 /**
  * A {@link Constructable} with an empty static struct, no constructor parameters, and an empty instance type.
  */
-export type Empty = Constructable<Struct.Empty, [], Struct.Empty>;
+export type Class__EmptyConstructable = Class.Constructable<
+  Struct.Empty,
+  [],
+  Struct.Empty
+>;
 
 /**
  * The base constructable, representing an empty class.
  *
  */
-export type Base = Constructable<{ prototype: {} }, [], {}>;
+export type Class__BaseConstructable = Class.Constructable<
+  { prototype: {} },
+  [],
+  {}
+>;
 
 /**
- * A constructor is a function that takes a parameter array {@link C} and returns an instance type {@link I}.
+ * A constructor is a function that takes a parameter array {@link ConstructorParameters} and returns an instance type {@link Instance}.
  *
- * @template C The parameters used to create the instance type {@link I}.
- * @template I The type returned by this constructor.
+ * @template ConstructorParameters The parameters used to create the instance type {@link Instance}.
+ * @template Instance The type returned by this constructor.
  */
 // TODO: need an abstract version
-export type Constructor<
-  C extends ConstructorParametersBase,
-  I extends Struct.Any
-> = new (...parameters: C) => I;
+export type Class__Constructor<
+  ConstructorParameters extends Class.ConstructorParametersBase,
+  Instance extends Struct.Any
+> = new (...parameters: ConstructorParameters) => Instance;
 
 /**
  * The constructor parameters of a {@link Constructable} type.
@@ -255,10 +266,10 @@ export type Constructor<
  * // >
  * ```
  */
-export type ConstructorParametersOf<
-  TConstructable extends Any,
+type Class__GetConstructorParameters<
+  TConstructable extends Class.AnyConstructable,
   Default = never
-> = TConstructable extends Constructable<infer _S, infer C, infer _I>
+> = TConstructable extends Class.Constructable<infer _S, infer C, infer _I>
   ? C
   : Default;
 
@@ -267,22 +278,22 @@ export type ConstructorParametersOf<
  *
  * Very similar to the {@link InstanceType} builtin.
  */
-export type InstanceStructOf<
-  TConstructable extends Any,
+export type Class__GetInstance<
+  TConstructable extends Class.AnyConstructable,
   Default = never
-> = TConstructable extends Constructable<infer _S, infer _C, infer I>
+> = TConstructable extends Class.Constructable<infer _S, infer _C, infer I>
   ? I
   : Default;
 
 /**
  * The {@link Class.Constructor} function of a {@link Constructable} type.
  */
-export type ConstructorOf<
-  TConstructor extends Any,
+export type Class__GetConstructor<
+  TConstructor extends Class.AnyConstructable,
   Default = never
-> = Constructor<
-  ConstructorParametersOf<TConstructor, Default>,
-  InstanceStructOf<TConstructor, Default>
+> = Class.Constructor<
+  Class.GetConstructorParameters<TConstructor, Default>,
+  Class.GetInstance<TConstructor, Default>
 >;
 
 /**
@@ -292,10 +303,10 @@ export type ConstructorOf<
  *
  */
 // TODO: Using Inspect here will strip off the constructor object, but this is a hack
-export type StaticStructOf<
-  TConstructable extends Any,
+export type Class__GetStatic<
+  TConstructable extends Class.AnyConstructable,
   Default = never
-> = TConstructable extends Constructable<
+> = TConstructable extends Class.Constructable<
   infer StaticStruct,
   infer _ConstructorParameters,
   infer _InstanceStruct
@@ -306,10 +317,10 @@ export type StaticStructOf<
 /**
  * The static properties of a {@link Constructable} type, excluding the ones from {@link Class.StaticBase}.
  */
-export type StaticStructOfStrict<
-  TConstructable extends Any,
+export type Class__GetStaticStrict<
+  TConstructable extends Class.AnyConstructable,
   Default = never
-> = Omit<StaticStructOf<TConstructable, Default>, Class.StaticBaseKeys>;
+> = Omit<Class.GetStatic<TConstructable, Default>, Class.StaticBaseKeys>;
 
 // TODO: EXAMPLE
 // class MyTestClass {
@@ -375,3 +386,17 @@ export type StaticStructOfStrict<
 //     InstanceStructOf$<typeof WithInferredProperties>
 //   >
 // >;
+
+export type {
+  Class__GetConstructorParameters as GetConstructorParameters,
+  Class__AnyConstructable as AnyConstructable,
+  Class__Constructable as Constructable,
+  Class__Constructor as Constructor,
+  Class__BaseConstructable as BaseConstructable,
+  Class__ConstructorParametersBase as ConstructorParametersBase,
+  Class__EmptyConstructable as EmptyConstructable,
+  Class__GetConstructor as GetConstructor,
+  Class__GetInstance as GetInstance,
+  Class__GetStatic as GetStatic,
+  Class__GetStaticStrict as GetStaticStrict,
+};

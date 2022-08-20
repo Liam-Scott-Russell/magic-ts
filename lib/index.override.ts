@@ -6,7 +6,6 @@ export * as Assert from "./assert";
 export * as Brand from "./brand";
 export * as Class from "./class";
 export * as Conditional from "./conditional";
-export * as Constructable from "./constructable";
 export * as Contract from "./contract";
 export * as HKT from "./hkt";
 export * as Inheritance from "./inheritance";
