@@ -19,7 +19,7 @@ type Json__Struct<T = Contract.Type> = {
     Inheritance.IsExtensionOf<
       T[Key],
       Json.Value<T[Key]>,
-      Struct.Get<T, Key>,
+      Struct.GetValue<T, Key>,
       never
     >,
     never

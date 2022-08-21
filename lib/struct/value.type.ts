@@ -9,7 +9,7 @@ import { type Conditional, type Inheritance, type Struct } from "..";
  *
  * @template T - The struct to get the properties of.
  */
-export type ValuesOf<T extends Struct.Any> = T[Struct.KeysOf<T>];
+type Struct__ValuesOf<T extends Struct.Any> = T[Struct.KeysOf<T>];
 
 /**
  * Return a union of the types of the values of {@link T} and {@link U}.
@@ -19,7 +19,7 @@ export type ValuesOf<T extends Struct.Any> = T[Struct.KeysOf<T>];
  * @template T - The first struct to get the values of.
  * @template U - The second struct to get the values of.
  */
-export type ValuesUnion<T extends Struct.Any, U extends Struct.Any> =
+type Struct__ValuesUnion<T extends Struct.Any, U extends Struct.Any> =
   | Struct.ValuesOf<T>
   | Struct.ValuesOf<U>;
 
@@ -31,7 +31,7 @@ export type ValuesUnion<T extends Struct.Any, U extends Struct.Any> =
  * @template T - The first struct to get the values of.
  * @template U - The second struct to get the values of.
  */
-export type ValuesIntersection<
+type Struct__ValuesIntersection<
   T extends Struct.Any,
   U extends Struct.Any
 > = T[Struct.KeysIntersectionStrict<T, U>];
@@ -43,7 +43,7 @@ export type ValuesIntersection<
  *
  * Additionally, a leaf value is defined as not being a {@link Empty} struct.
  */
-export type IsLeafValue<T> = Conditional.And<
+type Struct__IsLeafValue<T> = Conditional.And<
   Inheritance.IsExtensionOf<T, Struct.Any>,
   Conditional.Not<Inheritance.IsEqual<T, Struct.Empty>>
 >;
@@ -58,8 +58,16 @@ export type IsLeafValue<T> = Conditional.And<
  * @template Default - The default value to return if {@link TStruct} does not have a key {@link Key}. Defaults to `never`.
  * @returns The value of {@link TStruct} indexed by {@link Key} (or {@link Default}).
  */
-export type Get<
+type Struct__GetValue<
   TStruct extends Struct.Any,
   Key extends Struct.KeysAllowed,
   Default = never
 > = Key extends keyof TStruct ? TStruct[Key] : Default;
+
+export type {
+  Struct__ValuesOf as ValuesOf,
+  Struct__ValuesUnion as ValuesUnion,
+  Struct__ValuesIntersection as ValuesIntersection,
+  Struct__IsLeafValue as IsLeafValue,
+  Struct__GetValue as GetValue,
+};

@@ -7,7 +7,7 @@ import { type Struct } from "..";
  *
  * Note that you cannot reliably extend this type (except with `{}`).
  */
-export type Empty = Record<Struct.KeysAllowed, never>;
+type Struct__Empty = Record<Struct.KeysAllowed, never>;
 
 /**
  * Represents any unknown struct.
@@ -136,9 +136,9 @@ export type Empty = Record<Struct.KeysAllowed, never>;
  * // type Never_Extends_Any                     = Assert.IsTrue<Inheritance.IsExtensionOf<never                 , Any>>;
  * ```
  */
-export type Any = {};
+type Struct__Any = {};
 
-// export type Any = Struct<string, unknown>;
+// type Any = Struct<string, unknown>;
 
 // /**
 //  * @example
@@ -233,6 +233,9 @@ export type Any = {};
 // type EmptyStruct_Extends_Any = Assert.IsTrue<Inheritance.IsExtensionOf<EmptyStruct, Any>>;
 // type Never_Extends_Any = Assert.IsTrue<Inheritance.IsExtensionOf<never, Any>>;
 
-// export type IsEmpty<T> = Inheritance.IsEqual<T, Empty>;
+// type IsEmpty<T> = Inheritance.IsEqual<T, Empty>;
 
-// export type IsStruct<T> = Inheritance.IsEqual<T, Any>;
+// type IsStruct<T> = Inheritance.IsEqual<T, Any>;
+
+export type { Struct__Any as Any,
+Struct__Empty as Empty };
