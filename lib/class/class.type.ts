@@ -1,4 +1,4 @@
-import { type Inspect, type Struct } from "..";
+import { type Class, type Inspect, type Struct } from "..";
 
 /**
  * An empty class declaration.
@@ -11,12 +11,12 @@ import { type Inspect, type Struct } from "..";
  * ```.
  */
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export abstract class Empty {}
+abstract class Class__Empty {}
 
 /**
  *
  */
-export type StaticBase = Inspect<typeof Empty>;
+type Class__StaticBase = Inspect<typeof Class.Empty>;
 
 /**
  * All the static keys of a class.
@@ -25,7 +25,7 @@ export type StaticBase = Inspect<typeof Empty>;
  *
  * This should be `"prototype"`.
  */
-export type StaticBaseKeys = Struct.KeysOf<StaticBase>;
+type Class__StaticBaseKeys = Struct.KeysOf<Class.StaticBase>;
 
 /**
  * All the static values of a class.
@@ -34,4 +34,11 @@ export type StaticBaseKeys = Struct.KeysOf<StaticBase>;
  *
  * This should be `{}` i.e. {@link Struct.Empty}.
  */
-export type StaticBaseValues = Struct.ValuesOf<StaticBase>;
+type Class__StaticBaseValues = Struct.ValuesOf<Class.StaticBase>;
+
+export {
+  Class__Empty as Empty,
+  type Class__StaticBase as StaticBase,
+  type Class__StaticBaseKeys as StaticBaseKeys,
+  type Class__StaticBaseValues as StaticBaseValues,
+};
