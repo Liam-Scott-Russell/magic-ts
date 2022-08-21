@@ -1,13 +1,18 @@
 import { type Inheritance, type Conditional } from "..";
 
-export type IsTrue<
+type Assert__IsTrue<
   Test extends Conditional.True,
   OnTrue = Conditional.True,
   OnFalse = Conditional.False
-> = Inheritance.IsEqual<Test, Conditional.True, OnTrue, OnFalse>;
+  > = Inheritance.IsEqual<Test, Conditional.True, OnTrue, OnFalse>;
 
-export type IsFalse<
+type Assert__IsFalse<
   Test extends Conditional.False,
   OnTrue = Conditional.True,
   OnFalse = Conditional.False
-> = Inheritance.IsEqual<Test, Conditional.False, OnTrue, OnFalse>;
+  > = Inheritance.IsEqual<Test, Conditional.False, OnTrue, OnFalse>;
+
+export {
+  Assert__IsTrue as IsTrue,
+  Assert__IsFalse as IsFalse
+}
