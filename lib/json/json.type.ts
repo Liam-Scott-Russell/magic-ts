@@ -1,13 +1,8 @@
-import {
-  type Contract,
-  type Inheritance,
-  type Struct as MStruct,
-  type Json,
-} from "..";
+import { type Contract, type Inheritance, type Struct, type Json } from "..";
 
-export type Primitive = boolean | number | string | null;
+type Json__Primitive = boolean | number | string | null;
 
-export type List = Json.Value[];
+type Json__List = Json.Value[];
 
 /**
  * A JSON object.
@@ -17,25 +12,32 @@ export type List = Json.Value[];
  *
  * @template T - Optionally, a type to convert to JSON.
  */
-export type Struct<T = Contract.Type> = {
+type Json__Struct<T = Contract.Type> = {
   [Key in keyof T]: Inheritance.IsExtensionOf<
     Key,
     String,
     Inheritance.IsExtensionOf<
       T[Key],
       Json.Value<T[Key]>,
-      MStruct.Get<T, Key>,
+      Struct.Get<T, Key>,
       never
     >,
     never
   >;
 };
 
-export type Value<T = Contract.Type> =
-  | Array<Value<T>>
+type Json__Value<T = Contract.Type> =
+  | Array<Json.Value<T>>
   | Json.Primitive
   | Json.Struct<T>
   | null;
+
+export type {
+  Json__Primitive as Primitive,
+  Json__List as List,
+  Json__Struct as Struct,
+  Json__Value as Value,
+};
 
 // TESTING
 // type TUser = {
