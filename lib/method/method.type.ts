@@ -1,15 +1,15 @@
-import { type Tuple } from "..";
+import { type Method, type Tuple } from "..";
 
 /**
  * The base for any methods argument array.
  */
-export type ArgumentsBase = Tuple.Any;
+type Method__ArgumentsBase = Tuple.Any;
 
 /**
  * The base for any methods argument array.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ReturnTypeBase = any;
+type Method__ReturnTypeBase = any;
 
 /**
  * .
@@ -18,9 +18,9 @@ export type ReturnTypeBase = any;
  * @template Arguments - The type of the arguments that the method accepts.
  * @template ReturnType - The type of the return value of the method.
  */
-export type Method<
-  Arguments extends ArgumentsBase,
-  ReturnType extends ReturnTypeBase
+type Method__Method<
+  Arguments extends Method.ArgumentsBase,
+  ReturnType extends Method.ReturnTypeBase
 > = (...args: Arguments) => ReturnType;
 
 /**
@@ -29,10 +29,10 @@ export type Method<
  * @template Arguments - The type of the arguments that the method accepts. Defaults to {@link ArgumentsBase}.
  * @template ReturnType - The type of the return value of the method. Defaults to {@link ReturnTypeBase}.
  */
-export type Any<
-  Arguments extends ArgumentsBase = ArgumentsBase,
-  ReturnType extends ReturnTypeBase = ReturnTypeBase
-> = Method<Arguments, ReturnType>;
+type Method__Any<
+  Arguments extends Method.ArgumentsBase = Method.ArgumentsBase,
+  ReturnType extends Method.ReturnTypeBase = Method.ReturnTypeBase
+> = Method.Method<Arguments, ReturnType>;
 
 /**
  * Get the type of the arguments of a {@link Method} as a {@link Tuple.Any}.
@@ -42,12 +42,10 @@ export type Any<
  * @template Method - The method to get the arguments type of.
  * @returns - The type of the arguments.
  */
-export type ArgumentsOf<TMethod extends Any> = TMethod extends Method<
-  infer Arguments,
-  infer _ReturnType
->
-  ? Arguments
-  : never;
+type Method__ArgumentsOf<TMethod extends Method.Any> =
+  TMethod extends Method.Method<infer Arguments, infer _ReturnType>
+    ? Arguments
+    : never;
 
 /**
  * Get the return type of a {@link Method} as a {@link Tuple.Any}.
@@ -57,9 +55,16 @@ export type ArgumentsOf<TMethod extends Any> = TMethod extends Method<
  * @template Method - The method to get the return type of.
  * @returns - The return type.
  */
-export type ReturnTypeOf<TMethod extends Any> = TMethod extends Method<
-  infer _Arguments,
-  infer ReturnType
->
-  ? ReturnType
-  : never;
+type Method__ReturnTypeOf<TMethod extends Method.Any> =
+  TMethod extends Method.Method<infer _Arguments, infer ReturnType>
+    ? ReturnType
+    : never;
+
+export type {
+  Method__ArgumentsBase as ArgumentsBase,
+  Method__ReturnTypeBase as ReturnTypeBase,
+  Method__Method as Method,
+  Method__Any as Any,
+  Method__ArgumentsOf as ArgumentsOf,
+  Method__ReturnTypeOf as ReturnTypeOf,
+};
