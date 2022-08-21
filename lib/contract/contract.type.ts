@@ -1,3 +1,6 @@
+/**
+ * WARNING: EXPERIMENTAL!!!
+ */
 import {
   type Contract,
   type Inspect,
@@ -7,9 +10,11 @@ import {
 } from "..";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-interface
-export interface Interface {}
+interface Contract__Interface {}
 
-export type Type = {};
+type Contract__Type = {};
+
+type Contract__Any = Contract.Interface | Contract.Type;
 
 /**
  * An `interface` cannot extend this type, but a `type` can.
@@ -42,7 +47,7 @@ export type Type = {};
  * type TypeCanExtend = Assert.IsTrue<Inheritance.IsExtensionOf<{ inline: true, isType: true }, CannotExtend>>
  * ```
  */
-export type InterfaceTypeDiscriminant = {
+type Contract__InterfaceTypeDiscriminant = {
   [key: Struct.KeysAllowed]: unknown;
 };
 
@@ -59,7 +64,7 @@ export type InterfaceTypeDiscriminant = {
  * type InterfaceIsNotType = Assert.IsFalse<Contract.IsType<Contract.Interface>>;
  * ```
  */
-export type IsInterface<
+type Contract__IsInterface<
   T,
   OnTrue = Conditional.True,
   OnFalse = Conditional.False
@@ -83,7 +88,7 @@ export type IsInterface<
  * type TypeIsNotInterface = Assert.IsFalse<Contract.IsInterface<Contract.Type>>;
  * ```
  */
-export type IsType<
+type Contract__IsType<
   T,
   OnTrue = Conditional.True,
   OnFalse = Conditional.False
@@ -125,7 +130,7 @@ export type IsType<
  * type IsTypeTest = Assert.IsTrue<Contract.IsType<MappedToType>>;
  * ```
  */
-export type ToType<T extends Contract.Interface> = Inspect<T>;
+type Constract__ToType<T extends Contract.Interface> = Inspect<T>;
 
 /**
  * Converts {@link T} from a {@link Contract.Type} to a {@link Contract.Interface}.
@@ -165,4 +170,15 @@ export type ToType<T extends Contract.Interface> = Inspect<T>;
  * >;
  * ```
  */
-export type ToInterface<T extends Contract.Type> = T & {};
+type Contract__ToInterface<T extends Contract.Type> = T & {};
+
+export type {
+  Contract__Type as Type,
+  Contract__Interface as Interface,
+  Contract__Any as Any,
+  Contract__InterfaceTypeDiscriminant as InterfaceTypeDiscriminant,
+  Contract__IsType as IsType,
+  Contract__IsInterface as IsInterface,
+  Contract__ToInterface as ToInterface,
+  Constract__ToType as ToType,
+};
