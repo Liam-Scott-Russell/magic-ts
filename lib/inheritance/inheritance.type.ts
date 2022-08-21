@@ -1,4 +1,4 @@
-import { type Conditional } from "..";
+import { type Inheritance, type Conditional } from "..";
 
 /**
  * .
@@ -60,51 +60,12 @@ import { type Conditional } from "..";
  * type Extension_Extends_AorB = Assert.IsTrue<Inheritance.IsExtensionOf<Extension, AorB>>
  * ```
  */
-export type IsExtensionOf<
+type Inheritance__IsExtensionOf<
   ExtendedType,
   BaseType,
   OnTrue = Conditional.True,
   OnFalse = Conditional.False
 > = ExtendedType extends BaseType ? OnTrue : OnFalse;
-
-/**
- * A strict version of {@link IsExtensionOf} that ensures that strictly either {@link Conditional.True} or {@link Conditional.False} are returned, but not both.
- *
- * This is important for when checking whether a union extends a particular member.
- * Typescript will attempt to keep the type as wide as possible, and return {@link Conditional.Any}.
- * This stricter version will return {@link Conditional.False} in all situations where {@link IsExtensionOf} would return {@link Conditional.Any}.
- *
- * @template ExtendedType - Maybe the larger type.
- * @template BaseType - Maybe the smaller type.
- * @example
- * ```typescript
- * import { Assert, Inheritance } from "magic-ts";
- *
- * type A = { a: string };
- * type B = { b: number };
- * type AorB = A | B;
- *
- * // The unstrict version returns Conditional.True | Conditional.False
- * type AorB_Extends_A = Assert.IsTrue<Inheritance.IsEqual<Inheritance.IsExtensionOf<AorB, A>, Conditional.Any>>
- *
- * // The strict version returns Conditional.False
- * type AorB_StrictlyExtends_A = Assert.IsFalse<Inheritance.IsExtensionOfStrict<AorB, A>>
- *
- * ```
- *
- * ## An equivalent function
- *
- * ```typescript
- * function IsExtensionOfString(ExtendedType: any, BaseType: any): Boolean {
- *     const unstrict = ExtendedType extends BaseType ? true : false;
- *     return unstrict === true;
- * }
- * ```
- */
-export type IsExtensionOfStrict<ExtendedType, BaseType> = IsEqual<
-  IsExtensionOf<ExtendedType, BaseType>,
-  Conditional.True
->;
 
 /**
  * Returns {@link Conditional.True} if {@link MaybeSubType} is a sub type of {@link MaybeSuperType}, otherwise returns {@link Conditional.False}.
@@ -170,14 +131,14 @@ export type IsExtensionOfStrict<ExtendedType, BaseType> = IsEqual<
  * type Extension_SubTypes_AorB = Assert.IsFalse<IsSubTypeOf<Extension, AorB>>
  * ```
  */
-export type IsSubTypeOf<
+type Inheritance__IsSubTypeOf<
   MaybeSubType,
   MaybeSuperType,
   OnTrue = Conditional.True,
   OnFalse = Conditional.False
 > = Conditional.And<
-  Conditional.Not<IsExtensionOf<MaybeSubType, MaybeSuperType>>,
-  IsExtensionOf<MaybeSuperType, MaybeSubType>,
+  Conditional.Not<Inheritance.IsExtensionOf<MaybeSubType, MaybeSuperType>>,
+  Inheritance.IsExtensionOf<MaybeSuperType, MaybeSubType>,
   OnTrue,
   OnFalse
 >;
@@ -197,14 +158,14 @@ export type IsSubTypeOf<
  * @template OnFalse - Type to return if the expression is false. Defaults to {@link Conditional.False}.
  * @returns - {@link Conditional.True} Or {@link Conditional.False}.
  */
-export type IsSuperTypeOf<
+type Inheritance__IsSuperTypeOf<
   MaybeSuperType,
   MaybeSubType,
   OnTrue = Conditional.True,
   OnFalse = Conditional.False
 > = Conditional.And<
-  Conditional.Not<IsExtensionOf<MaybeSuperType, MaybeSubType>>,
-  IsExtensionOf<MaybeSubType, MaybeSuperType>,
+  Conditional.Not<Inheritance.IsExtensionOf<MaybeSuperType, MaybeSubType>>,
+  Inheritance.IsExtensionOf<MaybeSubType, MaybeSuperType>,
   OnTrue,
   OnFalse
 >;
@@ -226,7 +187,7 @@ export type IsSuperTypeOf<
  * @template OnTrue The type to return if {@link T} exactly matches {@link U}. Defaults to {@link Conditional.True}.
  * @template OnFalse The type to return if {@link T} does not exactly match {@link U}. Defaults to {@link Conditional.False}.
  */
-export type IsEqual<
+type Inheritance__IsEqual<
   T,
   U,
   OnTrue = Conditional.True,
@@ -234,3 +195,10 @@ export type IsEqual<
 > = (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2
   ? OnTrue
   : OnFalse;
+
+export type {
+  Inheritance__IsExtensionOf as IsExtensionOf,
+  Inheritance__IsSubTypeOf as IsSubTypeOf,
+  Inheritance__IsSuperTypeOf as IsSuperTypeOf,
+  Inheritance__IsEqual as IsEqual,
+};
