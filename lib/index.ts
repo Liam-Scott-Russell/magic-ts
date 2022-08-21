@@ -13,6 +13,5 @@ export * as Inheritance from "./inheritance";
 export { type Inspect } from "./inspect/inspect.type";
 export * as Json from "./json";
 export * as Method from "./method";
-export * as None from "./none";
 export * as Struct from "./struct";
 export * as Tuple from "./tuple";
