@@ -9,6 +9,13 @@ import {
   type Struct,
 } from "..";
 
+/**
+ * Ensure that {@link T} extends {@link Constraint}, otherwise return {@link Default}.
+ */
+type Contract__Constrain<Constraint, T, Default = never> = T extends Constraint
+  ? T
+  : Default;
+
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-interface
 interface Contract__Interface {}
 
@@ -173,6 +180,7 @@ type Constract__ToType<T extends Contract.Interface> = Inspect<T>;
 type Contract__ToInterface<T extends Contract.Type> = T & {};
 
 export type {
+  Contract__Constrain as Constrain,
   Contract__Type as Type,
   Contract__Interface as Interface,
   Contract__Any as Any,
