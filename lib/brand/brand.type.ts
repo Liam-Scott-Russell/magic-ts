@@ -1,4 +1,4 @@
-import { type Struct } from "..";
+import { type Brand, type Struct } from "..";
 
 /**
  * Uniquely marks a type {@link T} using {@link Name} so that is distinct from other types {@link T}.
@@ -25,7 +25,7 @@ import { type Struct } from "..";
  * // }
  * type CustomBrandedType = Inspect<Brand<MyType, `CustomBrandedType`, `__CustomKey`>>;
  */
-export type Brand<
+type Brand__Brand<
   T extends Struct.Any,
   Name extends string,
   Key extends string = "__brand"
@@ -33,8 +33,11 @@ export type Brand<
   [K in Key]: Name;
 };
 
-export type Unbrand<
+type Brand__Unbrand<
   T extends Struct.Any,
   Key extends string = "__brand",
   Default = never
-> = T extends Brand<infer U, infer _Name, Key> ? U : Default;
+> = T extends Brand.Brand<infer U, infer _Name, Key> ? U : Default;
+
+export type { Brand__Brand as Brand,
+Brand__Unbrand as Unbrand };
