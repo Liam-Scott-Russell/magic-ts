@@ -318,6 +318,9 @@ type Class__GetStaticStrict<
   Default = never
 > = Omit<Class.GetStatic<TConstructable, Default>, Class.StaticBaseKeys>;
 
+type Class__AnyConstructableForInstance<TInstance extends Struct.Any> =
+  Class.Constructable<Struct.Any, Class.ConstructorParametersBase, TInstance>;
+
 // TODO: EXAMPLE
 // class MyTestClass {
 //   public readonly name: string;
@@ -395,4 +398,5 @@ export type {
   Class__GetInstance as GetInstance,
   Class__GetStatic as GetStatic,
   Class__GetStaticStrict as GetStaticStrict,
+  Class__AnyConstructableForInstance as AnyConstructableForInstance,
 };

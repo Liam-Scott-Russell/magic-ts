@@ -3,4 +3,5 @@
  */
 
 export * from "./class.type";
+export * from "./constructable.runtime";
 export * from "./constructable.type";
