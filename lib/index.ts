@@ -11,7 +11,6 @@ export * as HKT from "./hkt";
 export * as Inheritance from "./inheritance";
 // Inspect is a top level export
 export { type Inspect } from "./inspect/inspect.type";
-export * as Json from "./json";
 export * as Method from "./method";
 export * as Struct from "./struct";
 export * as Tuple from "./tuple";
