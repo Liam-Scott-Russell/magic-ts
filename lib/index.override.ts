@@ -7,6 +7,7 @@ export * as Brand from "./brand";
 export * as Class from "./class";
 export * as Conditional from "./conditional";
 export * as Contract from "./contract";
+export * as Distributivity from "./distributivity";
 export * as HKT from "./hkt";
 export * as Inheritance from "./inheritance";
 // Inspect is a top level export
