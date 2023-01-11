@@ -3,4 +3,5 @@
  *
  * @template T - The type to enable distributivity over.
  */
-export type Enable<T> = T extends never ? T : never;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Enable<T> = T extends any ? T : never;
